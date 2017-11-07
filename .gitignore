@@ -1,0 +1,7 @@
+*.bbl
+mrm_template.aux
+mrm_template.blg
+mrm_template.log
+mrm_template.out
+mrm_template.pdf
+mrm_template.synctex.gz

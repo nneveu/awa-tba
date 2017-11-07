@@ -1,0 +1,33 @@
+\coordinate (y) at (0,3.8);
+\coordinate (x) at (3.8,0);
+\draw[<->] (y) node[above] {$f_2$} -- (0,0) --  (x) node[right]
+{$f_1$};
+
+\path
+  coordinate (start) at (0.5,3.5)
+  coordinate (c1) at +(1.5,0.2)
+  coordinate (c2) at +(2.5,0.4)
+  coordinate (top) at (3.3,0.3);
+
+\draw [thick, blue!40!white] (start) .. controls (c1) and (c2) .. (top);
+(start) .. controls (c1) and (c2) .. (top) -- (3.3,0.0);
+%\draw [fill, color=blue, draw opacity=0, fill opacity=0.2] (0,0) -- (0.0, 3.5) --
+%(start) .. controls (c1) and (c2) .. (top) -- (3.3,0.0);
+
+
+\draw[fill, color=orange, draw opacity=0, fill opacity=0.2] (0,0) -- (0, 3.5) --
+(start) -- (0.5,2.5) -- (0.85, 2.5) -- (0.85, 1.2) -- (1.5, 1.2) -- (1.5, 0.3) -- (top) -- (3.3, 0.0);
+\draw[dashed, thick] (start) rectangle (0,0);
+\draw[dashed, thick] (top) rectangle (0,0);
+\draw[dashed, thick] (0.85,2.5) rectangle (0,0);
+\draw[dashed, thick] (1.5,1.2) rectangle (0,0);
+
+\filldraw [red!60!white]
+(start) circle (2pt) node[right, black] {$x_0$}
+(0.85,2.5) circle (2pt) node[right, black] {$x_1$}
+(1.5,1.2) circle (2pt) node[right, black] {$x_2$}
+(top) circle (2pt) node[right, black] {$x_3$};
+
+\filldraw [black!60!white]
+(0,0) circle (2pt) node[below, black] {$p_o$};
+
