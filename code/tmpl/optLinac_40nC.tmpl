@@ -1,0 +1,337 @@
+OPTION, PSDUMPFREQ = 300000000;	//How often 6d info is dumped to .h5
+OPTION, STATDUMPFREQ = 10;	//How often beam stats dumped to .stat.  
+OPTION, AUTOPHASE=4;		//Always leave this on, unless doing a phase scan
+OPTION, REPARTFREQ=5;
+OPTION, VERSION=10900; 
+
+Title, string="AWA TBA Drive Beamline";
+
+//------------------------------------------------------------------------
+//					Global Parameters
+REAL field_maps              = 2.0;     //Either 2D or 3D field maps
+REAL rf_freq         	     = 1300.0;  //RF frequency. (MHz)
+REAL n_particles             = 1.0e4;   //Number of particles in simulation.
+REAL beam_bunch_charge       = 40e-9;   //Charge of bunch. (C)
+REAL beam_current            = rf_freq*beam_bunch_charge*1e6; 
+
+//Initial energy Calc
+REAL Edes    = 1.4e-9;
+REAL gamma   = (Edes+EMASS)/EMASS;
+REAL beta    = sqrt(1-(1/gamma^2));
+REAL P0      = gamma*beta*EMASS;
+
+value , {Edes, P0}; 					
+
+// ---- OPTIMIZER SECTION -------
+dv0: DVAR, VARIABLE="IBF", LOWERBOUND="400", UPPERBOUND="500";
+dv1: DVAR, VARIABLE="IM", LOWERBOUND="170", UPPERBOUND="260";
+dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND="-30.0", UPPERBOUND="0.0";
+dv3: DVAR, VARIABLE="FWHM", LOWERBOUND="1.5", UPPERBOUND="10.0";
+ 
+//Quad values
+dv4: DVAR, VARIABLE="KQ1", LOWERBOUND="-8.0", UPPERBOUND="8.0"; 
+dv5: DVAR, VARIABLE="KQ2", LOWERBOUND="-8.0", UPPERBOUND="8.0";
+dv6: DVAR, VARIABLE="KQ3", LOWERBOUND="-8.0", UPPERBOUND="8.0";
+dv7: DVAR, VARIABLE="KQ4", LOWERBOUND="-8.0", UPPERBOUND="8.0";
+dvars: DVARS=(dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7);
+
+rmss1:OBJECTIVE,EXPR="fabs(sameSDDSVariableAt("rms_s",16.5))"; 
+emitx1:OBJECTIVE,EXPR="fabs(sameSDDSVariableAt("emit_x",16.5))";
+
+rmss2:OBJECTIVE,EXPR="fabs(sameSDDSVariableAt("rms_s",18.5))";
+emitx2:OBJECTIVE,EXPR="fabs(sameSDDSVariableAt("emit_x",18.5))";
+objs: OBJECTIVES=(rmss1,emitx1, rmss2, emitx2);
+
+// c1: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("rms_x",16.5))<1.0e-1";
+// c2: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("rms_y",16.5))<1.0e-1";
+// c3: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("xpx",  16.5))<1.0e-1";
+// c4: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("ypy",  16.5))<1.0e-1";
+constrs: CONSTRAINTS = ();
+
+opt: OPTIMIZE, OBJECTIVES = objs, DVARS = dvars, CONSTRAINTS = constrs;
+
+
+//-------------------------------------------------------------------------------------
+// Gun
+//
+// Cavity/RF field.
+//
+// L:			physical element length (real in m). Length (of field map) (m).
+// VOLT:		field scaling factor (real). RF field magnitude (MV/m).
+// FMAPFN:		field file name (string)
+// ELEMEDGE:		physical start of the element on the floor (real in m)
+// TYPE:		specifies "STANDING" (default), "TRAVELLING" or "SINGLE GAP" structure
+// FREQ:		RF frequency of cavity (real in MHz). Resonance frequency.
+// LAG:			cavity phase (radians)
+//
+
+if (field_maps == 2.0){
+    REAL gun_l   = 0.2927; //Gun length
+    REAL gun_f   = 1300.0; //Gun frequency 
+}
+else if (field maps == 3.0){
+    REAL gun_l   = 0.23271;
+    REAL gun_f   = 1300.151204;
+}
+
+
+GUN:	RFCavity, L = gun_l, VOLT = 64.0, ELEMEDGE = 0.0, TYPE = "STANDING", 		
+	FMAPFN = "DriveGun_2D.T7",
+	FREQ = gun_f, LAG = (_GPHASE_*Pi)/180.0; 
+
+//-------------------------------------------------------------------------------------
+// Solenoids
+//
+// L:           Physcial element length (m)
+// ELEMEDGE:    Physcial start of element (m)
+// KS:          Solenoid strength (T/m)
+// FMAPFM:      Field file (string)
+
+
+// Buck Focusing Solenoid
+// 	Max value in BF file  = 0.162544398
+// 	I usually run this magnet at 90%-100%
+//
+REAL KBF = (_IBF_/550.0)*0.12017;
+
+BF:	Solenoid, L = 0.5, ELEMEDGE=0.0, KS = KBF, // old value: 0.162544398,
+	FMAPFN = "BF_550_2D.T7";
+
+// Matching Solenoid 
+// 	Max value in M file = 1.973966
+// 	Conversion from Current (I) to Scaling factor: 
+//	Scaling Factor = (I / Imax) * 1.973966 
+// 
+// 	Where Imax for the Matching solenoid = 440 [A]
+//
+
+REAL KM = (_IM_/440.0)*0.61126;
+		
+MS:	Solenoid, L = 0.5, ELEMEDGE=0.0, KS = KM,
+	FMAPFN = "M_440_2D.T7";
+
+//-------------------------------------------------------------------------------------
+// Linac 
+
+if (field_maps == 2.0){
+    REAL linac_l    = 1.20713;  // Length of linac cavity field map
+    REAL linac_f    = 1300.0;   // Frequency 
+}
+else if (field maps == 3.0){
+    REAL linac_l    = 1.2;
+    REAL linac_f    = 1300.0;
+}
+
+// NOTE:    The physical start of the linac cavity 1 is 0.855 m. 
+//	    However, the field map is longer than the actual cavity.  
+//          The measured length is 0.84 m. The field map is 1.207 m.
+//	    So dividing the difference, 0.367, by two, 0.1836  
+//          tells us that we must start (0.855-0.1836 =) at position 0.6714 m.
+//	    This method is used for all linacs. 
+
+REAL v1 = 25.0; 
+REAL v2 = 25.0; 
+REAL v3 = 24.0; 
+REAL v4 = 25.0; 
+REAL v5 = 24.5; 
+REAL v6 = 25.0; 
+
+REAL p1 = 0.0; 
+REAL p2 = 0.0; 
+REAL p3 = 0.0; 
+REAL p4 = 0.0; 
+REAL p5 = 0.0; 
+REAL p6 = 0.0;
+
+L1: 	RFCavity, L = linac_l, VOLT = v1, ELEMEDGE = 0.6714, TYPE = "STANDING",	
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = (p1* Pi) / 180.0;          
+
+L2: 	RFCavity, L = linac_l, VOLT = v2, ELEMEDGE = 3.3364, TYPE = "STANDING",
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = (p2* Pi) / 180.0;          
+          	
+L3: 	RFCavity, L = linac_l, VOLT = v3, ELEMEDGE = 4.8834, TYPE = "STANDING",	
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = (p3 * Pi) / 180.0;     
+            		
+L4: 	RFCavity, L = linac_l, VOLT = v4, ELEMEDGE = 6.9994, TYPE = "STANDING",	
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = (p4 * Pi) / 180.0;
+    
+L5: 	RFCavity, L = linac_l, VOLT = v5, ELEMEDGE = 8.3364, TYPE = "STANDING",		
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = (p5 * Pi) / 180.0; 
+		
+L6: 	RFCavity, L = linac_l, VOLT = v6, ELEMEDGE = 9.7484, TYPE = "STANDING",		
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = EVAL((p6*Pi)/180.0);
+
+//--------------------------------------------------------------------------------          
+//EEX dipole
+//
+// L: 		Effective Length of magnet (m). 
+// Gap: 	Gap size of magnet (m).
+// ANGLE:	when this option is set, all particles are bent 2 degrees
+// FMAPFN:	A file with coefficients for the fringe field (default is provided by OPAL)
+// ELEMEDGE: 	Start of physical magnet
+// DESIGNENERGY: Energy you want to bend
+
+EEXDIP:	RBend, 	ANGLE = 20.0 * (Pi / 180.0), FMAPFN = "1DPROFILE1-DEFAULT", 
+		ELEMEDGE= 14.315, DESIGNENERGY = 66.468E6, 
+		L = 0.2, GAP = 0.03;
+
+AWAKICK: RBend, ANGLE = 2.0 * (Pi / 180.0), FMAPFN = "hard_edge_map.txt",
+               ELEMEDGE = 16.5, E1 = 0, L = 1.0, GAP = 0.04, DESIGNENERGY = 65.0;
+
+IMPSEPT: RBend,ANGLE = 13.0 *(Pi / 180.0), FMAPFN = "1DPROFILE1-DEFAULT",
+               ELEMEDGE = 18.5, E1 = 2.0, L = 0.2, GAP = 0.025, DESIGNENERGY = 65.0;
+
+           
+//Drift Space 
+//DR1:    DRIFT, L = 10.0, ELEMEDGE = 14.5; 
+DR1:    DRIFT, L = 1.0, ELEMEDGE = 18.5; 
+
+//--------------------------------------------------------------------------------
+// Quads
+// L:	effective length (m)
+// K1:	quad strength (T/m). 
+// ELEMEDGE:	Start of quad (m). 
+
+Q1: QUADRUPOLE, L = 0.11, ELEMEDGE = 13.7855, K1 = _KQ1_; 
+Q2: QUADRUPOLE, L = 0.11, ELEMEDGE = 14.0365, K1 = _KQ2_;  
+Q3: QUADRUPOLE, L = 0.11, ELEMEDGE = 14.2845, K1 = _KQ3_; 
+Q4: QUADRUPOLE, L = 0.11, ELEMEDGE = 14.5385, K1 = _KQ4_; 
+
+
+//--------------------------------------------------------------------------------
+// YAG Screens
+
+YAG1:   Monitor, L=0.01, ELEMEDGE = 3.1, OUTFN = "DYAG1.h5"; 
+YAG2:   Monitor, L=0.01, ELEMEDGE = 6.377, OUTFN = "DYAG2.h5"; 
+YAG3:   Monitor, L=0.01, ELEMEDGE = 8.76, OUTFN = "DYAG3.h5"; 
+YAG4:   Monitor, L=0.01, ELEMEDGE = 11.477, OUTFN = "DYAG4.h5"; 
+YAG5:   Monitor, L=0.01, ELEMEDGE = 14.848, OUTFN = "DYAG5.h5"; 
+YAG6:   Monitor, L=0.01, ELEMEDGE = 15.808, OUTFN = "DYAG6.h5"; 
+CTR1:   Monitor, L=0.01, ELEMEDGE = 16.753, OUTFN = "CTR1.h5"; 
+
+//-------------------------------------------------------------------------------------
+// DEFINE BEAM LINE
+
+//Collimators to set beam pipe
+//GunColl: 	ECollimator, L=0.575, ELEMEDGE = 0.0, XSIZE = 0.025, YSIZE = 0.025; 
+//LinacColl: 	ECollimator, L=11.0, ELEMEDGE = 0.575, XSIZE = 0.05, YSIZE = 0.05; 
+//DriftColl: 	ECollimator, L=1.4, ELEMEDGE = 12.0, XSIZE = 0.025, YSIZE = 0.025; 
+//BendColl: 	ECollimator, L = 5.0, ELEMEDGE = 13.4, XSIZE = 0.1, YSIZE = 0.03; 
+
+
+// Components in chunks
+GS: 	Line = (GUN, BF, MS);
+LINACS: Line = (L1, L2, L3, L4, L5, L6); 
+QUADS:  Line = (Q1,Q2,Q3, Q4);
+TBA:   Line = (AWAKICK); //, IMPSEPT); 
+
+//Complete accelerator
+DRIVE: Line = (GS, LINACS, QUADS, TBA, DR1);
+
+
+//-------------------------------------------------------------------------------------
+// INITIAL DISTRIBUTION: FLATTOP
+//
+// SIGMAX/Y:  	RMS radius of transverse (m).
+// TRISE/FALL:	Rise time and fall time of longitudinal guassian (s).
+// TPULSEFWHM:	FWHM of longitudinal guassian (s).
+// CUTOFFLONG:		Longitudinal cuttoff in units of sigma.
+// NBIN:		Number of energy bins to use during emission.
+// DEBIN: 		Min energy band for a bin in KeV. Defines when to combine bins.
+// EMISSIONMODEL:	NOEQUIL emission mode simulates photoinjector. 
+// EMISSIONSTEPS: 	Number of steps during emission. 
+//			Emission time step is adjusted to fit this number.
+// EKIN:	Kinetic energy of electrons at emission (eV). Used for emission model.
+// ELASER:	Energy of laser (eV). Used for NONEQUIL mode.
+// W:		Photocathode work function (eV). Used for NONEQUIL mode.
+// FE:		Fermi energy of photocathode (eV). Used for NONEQUIL mode.
+// CATHTEMP:	Temperature of photocathode (K). Used for NONEQUIL mode.
+
+
+//NOTE: Transvers size of laser profile is equal to SIGMAX/Y
+//	TRISE/FALL = 1.6869*simgar 
+//	Sigmar     = FWHM / 2.35
+
+Dist: DISTRIBUTION, TYPE = FLATTOP,
+//Dist: DISTRIBUTION, DISTRIBUTION = FLATTOP,
+		SIGMAX = _SIGXY_,		// Radius of laser (m) 
+		SIGMAY = _SIGXY_, 		
+		TRISE = 1.0745e-12,	// (s)
+		TFALL = 1.0745e-12,	// See notes above for equation of TRISE 
+		TPULSEFWHM = _FWHM_e-12,	// FWHM length in time (s)
+		CUTOFFLONG = 4.0,
+		NBIN = 9,
+		DEBIN = 1, 
+		EMISSIONSTEPS = 100,
+		EMISSIONMODEL = NONEQUIL,
+		EKIN = 0.2,
+		ELASER = 5.0,
+		W = 3.2,
+		FE = 3.2,
+		CATHTEMP = 321.95,
+		EMITTED = True,
+		WRITETOFILE = False;
+                //ID1={0.0, 0.0, 1.0e-12,0,0,P0},
+                //ID2={0.0, 0.0, 1.0e-12,0,0,P0};
+	
+//NOTE: FWHM pulse width divided by emission steps gives the time step for the 
+//	emissions process. i.e 2e-12 / 100 gives a time step of 0.2e-13 (s) 
+//	during emission.This is the not the same as the time step used in rest of the file. 
+		   
+
+//-------------------------------------------------------------------------------------
+// Define Field solvers
+
+// The mesh sizes should be a factor of 2 for most efficient space charge (SC) calculation.
+
+FS_SC: Fieldsolver, FSTYPE = FFT, 
+       		    	MX = _MX_, MY = _MY_, MT = _MT_,
+		    		PARFFTX = true, 
+		    		PARFFTY = true, 
+		    		PARFFTT = false,
+		    		BCFFTX = open, 
+		    		BCFFTY = open, 
+		    		BCFFTT = open,
+		    		BBOXINCR = 1, 
+		    		GREENSF = INTEGRATED;
+
+//-------------------------------------------------------------------------------------
+// Beam Definition
+
+BEAM1: BEAM, PARTICLE = ELECTRON,
+	pc = P0, NPART = n_particles, BFREQ = rf_freq,
+      	BCURRENT = beam_current, CHARGE = -1;
+
+//-------------------------------------------------------------------------------------
+// Run beamline
+
+// Run to some specified distance.
+
+// LINE: The combination of elements defined earlier. 
+// BEAM: Beam defined earlier, tells what kind of particles and charge. 
+// MAXSTEPS: Sets a boundary on the number of simulation steps. This should be a large number. 
+// DT: time steps you want to use through out the beam line. 
+// ZSTOP: tells opal when to switch between time steps, and what Z location to run to. 
+
+TRACK, LINE = DRIVE, BEAM = BEAM1, MAXSTEPS = 1900000, DT = {1.0e-13, _DT_}, ZSTOP={0.3, 18.5};
+
+RUN, METHOD = "PARALLEL-T", BEAM = BEAM1, FIELDSOLVER = FS_SC, DISTRIBUTION = Dist;
+
+ENDTRACK;
+
+Stop;
+Quit;
+
+
+
+
+
+
+
+
