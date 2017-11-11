@@ -9,8 +9,8 @@
 #
 cd $SLURM_SUBMIT_DIR
 # 
-rm -f *_results.dat *.0 
-rm -f *.trace 
+rm -rf results *.0 
+mkdir results
 # 
 export FIELDMAPS=/lcrc/project/AWA-beam-dynamics/FieldFiles/DriveFiles
 export TEMPLATES=`pwd`/tmpl 
