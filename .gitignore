@@ -5,3 +5,7 @@ mrm_template.log
 mrm_template.out
 mrm_template.pdf
 mrm_template.synctex.gz
+*.h5
+timing.dat
+*.out
+*.error
