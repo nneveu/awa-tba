@@ -42,11 +42,11 @@ rmss2:OBJECTIVE,EXPR="fabs(sameSDDSVariableAt("rms_s",18.5))";
 emitx2:OBJECTIVE,EXPR="fabs(sameSDDSVariableAt("emit_x",18.5))";
 objs: OBJECTIVES=(rmss1,emitx1, rmss2, emitx2);
 
-// c1: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("rms_x",16.5))<1.0e-1";
-// c2: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("rms_y",16.5))<1.0e-1";
+c1: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("rms_x",16.5))<1.0e-1";
+c2: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("rms_y",16.5))<1.0e-1";
 // c3: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("xpx",  16.5))<1.0e-1";
 // c4: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("ypy",  16.5))<1.0e-1";
-constrs: CONSTRAINTS = ();
+constrs: CONSTRAINTS = (c1,c2);
 
 opt: OPTIMIZE, OBJECTIVES = objs, DVARS = dvars, CONSTRAINTS = constrs;
 
