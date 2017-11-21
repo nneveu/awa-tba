@@ -3,7 +3,7 @@
 #SBATCH -o opt1.%j.%N.out
 #SBATCH -e opt1.%j.%N.error
 #SBATCH --time=3:00:00
-#SBATCH --ntasks=2620
+#SBATCH --ntasks=5177
 #SBATCH --ntasks-per-node=64
 #SBATCH -p knlall
 #
@@ -44,5 +44,5 @@ mpirun $OPAL_EXE_PATH/opal --inputfile=$TEMPLATES/$FNBASE.tmpl \
 --num-coworkers=$NUMCOWORKERS \
 --num-masters=$NUMMASTERS \
 --num-ind-gen=$NUMINDGEN \
---dump-dat=$DUMPDAT \
---mutation-probability=$MUTATIONPROB tmpl/$FNBASE.tmpl
+--dump-freq=$DUMPDAT \
+--gene-mutation-probability=$MUTATIONPROB tmpl/$FNBASE.tmpl
