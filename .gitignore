@@ -10,3 +10,7 @@ timing.dat
 *.out
 *.error
 *.T7
+paper/paper.aux
+paper/paper.log
+paper/paper.pdf
+paper/paper.synctex.gz
