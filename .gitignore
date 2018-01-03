@@ -1,3 +1,4 @@
+*~
 *.bbl
 mrm_template.aux
 mrm_template.blg
@@ -9,3 +10,7 @@ mrm_template.synctex.gz
 timing.dat
 *.out
 *.error
+paper.aux
+paper.log
+paper.pdf
+paper.synctex.gz
