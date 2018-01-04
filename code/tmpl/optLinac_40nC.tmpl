@@ -3,6 +3,7 @@ OPTION, STATDUMPFREQ = 10;	//How often beam stats dumped to .stat.
 OPTION, AUTOPHASE=4;		//Always leave this on, unless doing a phase scan
 OPTION, REPARTFREQ=5;
 OPTION, VERSION=10900; 
+OPTION, ENABLEHDF5=FALSE;
 
 Title, string="AWA TBA Drive Beamline";
 
@@ -44,9 +45,9 @@ objs: OBJECTIVES=(rmss1,emitx1, rmss2, emitx2);
 
 c1: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("rms_x",16.5))<1.0e-1";
 c2: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("rms_y",16.5))<1.0e-1";
-// c3: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("xpx",  16.5))<1.0e-1";
-// c4: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("ypy",  16.5))<1.0e-1";
-constrs: CONSTRAINTS = (c1,c2);
+c3: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("xpx",  16.5))<1.0e-1";
+c4: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("ypy",  16.5))<1.0e-1";
+constrs: CONSTRAINTS = (c1,c2,c3,c4);
 
 opt: OPTIMIZE, OBJECTIVES = objs, DVARS = dvars, CONSTRAINTS = constrs;
 
@@ -267,7 +268,6 @@ Dist: DISTRIBUTION, TYPE = FLATTOP,
 		TPULSEFWHM = _FWHM_e-12,	// FWHM length in time (s)
 		CUTOFFLONG = 4.0,
 		NBIN = 9,
-		DEBIN = 1, 
 		EMISSIONSTEPS = 100,
 		EMISSIONMODEL = NONEQUIL,
 		EKIN = 0.2,

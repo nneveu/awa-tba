@@ -2,7 +2,7 @@
 #SBATCH --job-name=optLinac_40nC
 #SBATCH -o opt1.%j.%N.out
 #SBATCH -e opt1.%j.%N.error
-#SBATCH --time=3:00:00
+#SBATCH --time=23:59:00
 #SBATCH --ntasks=5177
 #SBATCH --ntasks-per-node=64
 #SBATCH -p knlall
