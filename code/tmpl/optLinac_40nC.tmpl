@@ -215,7 +215,6 @@ DRIVE: Line = (GS, LINACS, QUADS, TBA, DR1);
 // TPULSEFWHM:	FWHM of longitudinal guassian (s).
 // CUTOFFLONG:		Longitudinal cuttoff in units of sigma.
 // NBIN:		Number of energy bins to use during emission.
-// DEBIN: 		Min energy band for a bin in KeV. Defines when to combine bins.
 // EMISSIONMODEL:	NOEQUIL emission mode simulates photoinjector. 
 // EMISSIONSTEPS: 	Number of steps during emission. 
 //			Emission time step is adjusted to fit this number.
@@ -236,7 +235,7 @@ Dist: DISTRIBUTION, TYPE = FLATTOP,
 		SIGMAY = _SIGXY_, 		
 		TRISE = 1.0745e-12,	// (s)
 		TFALL = 1.0745e-12,	// See notes above for equation of TRISE 
-		TPULSEFWHM = _FWHM_,	// FWHM length in time (s)
+		TPULSEFWHM = _FWHM_ * 1e-12,	// FWHM length in time (s)
 		CUTOFFLONG = 4.0,
 		NBIN = 9,
 		EMISSIONSTEPS = 100,
@@ -296,7 +295,6 @@ RUN, METHOD = "PARALLEL-T", BEAM = BEAM1, FIELDSOLVER = FS_SC, DISTRIBUTION = Di
 
 ENDTRACK;
 
-Stop;
 Quit;
 
 
