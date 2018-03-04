@@ -3,6 +3,7 @@ OPTION, STATDUMPFREQ = 10;	//How often beam stats dumped to .stat.
 OPTION, AUTOPHASE=4;		//Always leave this on, unless doing a phase scan
 OPTION, REPARTFREQ=5;
 OPTION, VERSION=10900; 
+OPTION, ENABLEHDF5=FALSE;
 
 Title, string="AWA TBA Drive Beamline";
 
@@ -21,35 +22,6 @@ REAL beta    = sqrt(1-(1/gamma^2));
 REAL P0      = gamma*beta*EMASS;
 
 value , {Edes, P0}; 					
-
-// ---- OPTIMIZER SECTION -------
-dv0: DVAR, VARIABLE="IBF", LOWERBOUND="400", UPPERBOUND="500";
-dv1: DVAR, VARIABLE="IM", LOWERBOUND="170", UPPERBOUND="260";
-dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND="-30.0", UPPERBOUND="0.0";
-dv3: DVAR, VARIABLE="FWHM", LOWERBOUND="1.5", UPPERBOUND="10.0";
- 
-//Quad values
-dv4: DVAR, VARIABLE="KQ1", LOWERBOUND="-8.0", UPPERBOUND="8.0"; 
-dv5: DVAR, VARIABLE="KQ2", LOWERBOUND="-8.0", UPPERBOUND="8.0";
-dv6: DVAR, VARIABLE="KQ3", LOWERBOUND="-8.0", UPPERBOUND="8.0";
-dv7: DVAR, VARIABLE="KQ4", LOWERBOUND="-8.0", UPPERBOUND="8.0";
-dvars: DVARS=(dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7);
-
-rmss1:OBJECTIVE,EXPR="fabs(sameSDDSVariableAt("rms_s",16.5))"; 
-emitx1:OBJECTIVE,EXPR="fabs(sameSDDSVariableAt("emit_x",16.5))";
-
-rmss2:OBJECTIVE,EXPR="fabs(sameSDDSVariableAt("rms_s",18.5))";
-emitx2:OBJECTIVE,EXPR="fabs(sameSDDSVariableAt("emit_x",18.5))";
-objs: OBJECTIVES=(rmss1,emitx1, rmss2, emitx2);
-
-// c1: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("rms_x",16.5))<1.0e-1";
-// c2: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("rms_y",16.5))<1.0e-1";
-// c3: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("xpx",  16.5))<1.0e-1";
-// c4: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt("ypy",  16.5))<1.0e-1";
-constrs: CONSTRAINTS = ();
-
-opt: OPTIMIZE, OBJECTIVES = objs, DVARS = dvars, CONSTRAINTS = constrs;
-
 
 //-------------------------------------------------------------------------------------
 // Gun
@@ -243,7 +215,6 @@ DRIVE: Line = (GS, LINACS, QUADS, TBA, DR1);
 // TPULSEFWHM:	FWHM of longitudinal guassian (s).
 // CUTOFFLONG:		Longitudinal cuttoff in units of sigma.
 // NBIN:		Number of energy bins to use during emission.
-// DEBIN: 		Min energy band for a bin in KeV. Defines when to combine bins.
 // EMISSIONMODEL:	NOEQUIL emission mode simulates photoinjector. 
 // EMISSIONSTEPS: 	Number of steps during emission. 
 //			Emission time step is adjusted to fit this number.
@@ -264,10 +235,9 @@ Dist: DISTRIBUTION, TYPE = FLATTOP,
 		SIGMAY = _SIGXY_, 		
 		TRISE = 1.0745e-12,	// (s)
 		TFALL = 1.0745e-12,	// See notes above for equation of TRISE 
-		TPULSEFWHM = _FWHM_e-12,	// FWHM length in time (s)
+		TPULSEFWHM = _FWHM_ * 1e-12,	// FWHM length in time (s)
 		CUTOFFLONG = 4.0,
 		NBIN = 9,
-		DEBIN = 1, 
 		EMISSIONSTEPS = 100,
 		EMISSIONMODEL = NONEQUIL,
 		EKIN = 0.2,
@@ -325,7 +295,6 @@ RUN, METHOD = "PARALLEL-T", BEAM = BEAM1, FIELDSOLVER = FS_SC, DISTRIBUTION = Di
 
 ENDTRACK;
 
-Stop;
 Quit;
 
 

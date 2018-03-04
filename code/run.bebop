@@ -2,47 +2,17 @@
 #SBATCH --job-name=optLinac_40nC
 #SBATCH -o opt1.%j.%N.out
 #SBATCH -e opt1.%j.%N.error
-#SBATCH --time=3:00:00
-#SBATCH --ntasks=2620
+#SBATCH --time=23:59:00
+#SBATCH --ntasks=5177
 #SBATCH --ntasks-per-node=64
 #SBATCH -p knlall
 #
 cd $SLURM_SUBMIT_DIR
 # 
-rm -rf results *.0 
-mkdir results
+rm -rf results *.0 tmp *_0
 # 
-export FIELDMAPS=/lcrc/project/AWA-beam-dynamics/FieldFiles/DriveFiles
-export TEMPLATES=`pwd`/tmpl 
-export SIMTMPDIR=`pwd`/tmp 
-export FNBASE=optLinac_40nC
-
-rm -rf $SIMTMPDIR && mkdir $SIMTMPDIR 
-# 
-# optimiser setup
+mkdir results tmp
 #
-export SIMTMPDIR=$PWD/tmp
+ln -sf /lcrc/project/AWA-beam-dynamics/FieldFiles/DriveFiles fieldmaps
 #
-export MAXGENERATIONS=500
-#
-export INITIALPOPULATION=647
-export NUMINDGEN=327
-export INDEPENDENTGENS=200
-export NUMCOWORKERS=8
-export NUMMASTERS=1
-export DUMPDAT=1
-export SOLSYNCH=1
-export MUTATIONPROB=0.5
-#
-#
-#
-mpirun $OPAL_EXE_PATH/opal --inputfile=$TEMPLATES/$FNBASE.tmpl \
---outdir=$PWD/results \
---outfile=$FNBASE.dat \
---maxGenerations=$MAXGENERATIONS \
---initialPopulation=$INITIALPOPULATION \
---num-coworkers=$NUMCOWORKERS \
---num-masters=$NUMMASTERS \
---num-ind-gen=$NUMINDGEN \
---dump-dat=$DUMPDAT \
---mutation-probability=$MUTATIONPROB tmpl/$FNBASE.tmpl
+mpirun $OPAL_EXE_PATH/opal optLinac_40nC.in --info 2
