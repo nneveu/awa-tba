@@ -10,9 +10,10 @@ mrm_template.synctex.gz
 timing.dat
 *.out
 *.error
-paper.aux
-paper.log
-paper.pdf
-paper.synctex.gz
 tmp
 results
+*.T7
+paper/paper.aux
+paper/paper.log
+paper/paper.pdf
+paper/paper.synctex.gz
