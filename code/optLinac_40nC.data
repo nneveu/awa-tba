@@ -12,7 +12,7 @@ SIGXY     0.009   #
 IBF       500     # Range 400-500 
 IM        250     # Range 100-440
 GPHASE    -20.0   # Range -30-0.0
-FWHM      1.5 # Range 1.5e-12 - 10e-12
+FWHM      1.5     # Range 1.5e-12 - 10e-12
 #
 KQ1 1.7   # Range -8.0-8.0 T/m
 KQ2 -3.3  # Same for all 4 quads
