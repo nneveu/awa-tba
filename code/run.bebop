@@ -1,5 +1,5 @@
 #!/bin/bash -l 
-#SBATCH --job-name=optLinac_40nC
+#SBATCH --job-name=awa40nC
 #SBATCH -o opt1.%j.%N.out
 #SBATCH -e opt1.%j.%N.error
 #SBATCH --time=23:59:00

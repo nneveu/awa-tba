@@ -1,7 +1,4 @@
 # general of opal
-rm -rf results
-rm -rf tmp
-mkdir tmp results
 export TIME=00:30:00
 export QUEUE=knlall
 export TEMPLATES=`pwd`/tmpl/
