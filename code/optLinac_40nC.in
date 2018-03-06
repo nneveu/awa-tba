@@ -14,17 +14,16 @@ dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
 dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
 dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
 
+rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.5))"; 
+emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.5))";
 
-rmss1:  OBJECTIVE,EXPR="fabs(sameSDDSVariableAt('rms_s',16.5))"; 
-emitx1: OBJECTIVE,EXPR="fabs(sameSDDSVariableAt('emit_x',16.5))";
+rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.5))";
+emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.5))";
 
-rmss2:  OBJECTIVE,EXPR="fabs(sameSDDSVariableAt('rms_s',18.5))";
-emitx2: OBJECTIVE,EXPR="fabs(sameSDDSVariableAt('emit_x',18.5))";
-
-c1: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt('rms_x',16.5))<1.0e-1";
-c2: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt('rms_y',16.5))<1.0e-1";
-// c3: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt('xpx',  16.5))<1.0e-1";
-// c4: CONSTRAINT, EXPR="fabs(sameSDDSVariableAt('ypy',  16.5))<1.0e-1";
+c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',16.5))<1.0e-1";
+c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5))<1.0e-1";
+// c3: CONSTRAINT, EXPR="fabs(statVariableAt('xpx',  16.5))<1.0e-1";
+// c4: CONSTRAINT, EXPR="fabs(statVariableAt('ypy',  16.5))<1.0e-1";
 
 OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl", 
 	  OUTPUT="optLinac_40nC",
@@ -32,14 +31,17 @@ OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl",
 	  OBJECTIVES = {rmss1, emitx1, rmss2, emitx2}, 
 	  DVARS = {dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7}, 
 	  CONSTRAINTS = {c1, c2},
-	  INITIALPOPULATION=648, 
-	  MAXGENERATIONS=200, 
+//	  INITIALPOPULATION=648, 
+//	  MAXGENERATIONS=200, 
+	  INITIALPOPULATION=80,
+	  MAXGENERATIONS=100,
 	  NUM_MASTERS=1, 
 	  NUM_COWORKERS=8, 
 	  SIMTMPDIR="tmp", 
 	  TEMPLATEDIR="tmpl", 
 	  FIELDMAPDIR="fieldmaps",
-	  NUM_IND_GEN=324,
+//	  NUM_IND_GEN=324,
+	  NUM_IND_GEN=80,
 	  GENE_MUTATION_PROBABILITY=0.5,
 	  MUTATION_PROBABILITY=0.5,
 	  RECOMBINATION_PROBABILITY=0.5;

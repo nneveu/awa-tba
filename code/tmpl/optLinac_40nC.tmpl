@@ -289,7 +289,7 @@ BEAM1: BEAM, PARTICLE = ELECTRON,
 // DT: time steps you want to use through out the beam line. 
 // ZSTOP: tells opal when to switch between time steps, and what Z location to run to. 
 
-TRACK, LINE = DRIVE, BEAM = BEAM1, MAXSTEPS = 1900000, DT = {1.0e-13, _DT_}, ZSTOP={0.3, 18.5};
+TRACK, LINE = DRIVE, BEAM = BEAM1, MAXSTEPS = 1900000, DT = {1.0e-13, _DT_, 2.0e-12, _DT_, 2.0e-12}, ZSTOP={0.3, 13.6, 14.6, 16.5, 18.5};
 
 RUN, METHOD = "PARALLEL-T", BEAM = BEAM1, FIELDSOLVER = FS_SC, DISTRIBUTION = Dist;
 

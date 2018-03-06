@@ -2,10 +2,16 @@
 #SBATCH --job-name=awa40nC
 #SBATCH -o opt1.%j.%N.out
 #SBATCH -e opt1.%j.%N.error
-#SBATCH --time=23:59:00
-#SBATCH --ntasks=5177
+#####SBATCH --time=23:59:00
+#####SBATCH --ntasks=5177
+#SBATCH --time=3:00:00
+#SBATCH --ntasks=512
 #SBATCH --ntasks-per-node=64
 #SBATCH -p knlall
+#SBATCH -C knl,quad,cache 
+#
+export I_MPI_SLURM_EXT=0 
+export I_MPI_FABRICS=shm:tmi 
 #
 cd $SLURM_SUBMIT_DIR
 # 
@@ -15,4 +21,4 @@ mkdir results tmp
 #
 ln -sf /lcrc/project/AWA-beam-dynamics/FieldFiles/DriveFiles fieldmaps
 #
-mpirun $OPAL_EXE_PATH/opal optLinac_40nC.in --info 2
+mpirun -n $SLURM_NTASKS $OPAL_EXE_PATH/opal optLinac_40nC.in --info 2
