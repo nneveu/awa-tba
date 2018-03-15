@@ -68,7 +68,7 @@ From Table~\ref{tbl:bench_rms_error} we deduce that we achieved satisfactory
   additional 100 evaluations for the initial population) function evaluations.
 
 
-\subsection{Ferrario Matching Point}
+\subsection{Ferrario Matching Point}\label{ferrario}
 
 As a verification and proof of concept we reproduce the Ferrario
   matching point discovered by Ferrario \textit{et~al.}~\cite{fcpr:00},
@@ -425,12 +425,89 @@ Both trackers agree within acceptable limits \cite{chao:99}.
   
   
   
-\subsection{AWA}
-Next we apply the optimization framework to an ongoing project in accelerator physics.
-The model is taken from the Argonne Wakefield Accelerator facility, which 
-houses two rf photoinjector beam lines. We consider the high charge beam line
-that consists of an rf photocathode gun, two solenoids, six linear accelerating cavities, 
-and 
+\subsection{AWA Photoinjector Optimization}
+Next we apply the optimization framework to the high charge beam line at the AWA, 
+which consists of an rf photocathode gun, two solenoids, six linear accelerating cavities, 
+followed by four quadrupoles. This beam line has served as the injector for Two Beam 
+Acceleration (TBA) experiments in the past [XX], and will be used in the future for 
+similar experiments. One of the main constraints on prior experimental 
+results was the beam size and emittance as the beam passed through small aperture 
+wakefield structures. In an attempt to maximize charge transmission in future experiments
+we optimize several parameters in the gun and quadrupole leading into the 
+TBA section of the beam line.
+
+Compared to the Ferrario experiment in Section \ref{ferrario}, 
+this problem is larger by a factor of two in both design variables and objectives.
+The problem is also less predictable, meaning there is not a clear idea
+before hand where the pareto front will fall. This work is also meaningful in that
+it will guide future operations at the AWA.
+
+The design variables include both solenoid current, IBF and IM,
+the gun phase, GPHASE, and the laser full width half maximum in 
+the longitudinal direction. The definition of the design variables 
+was included in the OPAL input file:
+\vspace{0.2cm}
+{\footnotesize \begin{verbatim}
+// Gun variables
+dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=350.0, UPPERBOUND=500.0;
+dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
+dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-30.0, UPPERBOUND=0.0;
+dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
+
+// Quad variables
+dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+
+	\end{verbatim}}
+\vspace{0.2cm}
+ 
+ \vspace{0.2cm}
+ {\footnotesize \begin{verbatim}
+rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.45))";
+rmsx1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',16.45))";
+emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.45))";
+ 
+rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.45))";
+rmsx2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',18.45))";
+emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.45))";
+ 
+de1:    OBJECTIVE,EXPR="fabs(statVariableAt('dE',16.45))";
+ 
+	\end{verbatim}}
+\vspace{0.2cm}
+
+All simulations for this experiment were carried out on Bebop a
+high performance computing (HPC)
+cluster provided by the Laboratory Computing Resource Center (LCRC)
+at Argonne National Laboratory (ANL). We used Intel Knights Landing 
+(KNL) processors at 1.3 GHz with 128 GB of memory per node, 
+and 64 cores per node. There are 352 compute nodes available on 
+Bebop, with a total of 22528 cores. 
+This allows for very large optimization jobs, like the AWA case.
+
+OPAL-T was used as the forward solver, and a study on time step and 
+number of particles was done to reduce the time to simulation while 
+maintaining the physics of interest. We choose ten thousand particles 
+in combination with adjusting the time step near sensitive elements (i.e. quadurpoles). 
+The resulting simulations are low fidelity, but closely approximate 
+the mid fidelity simulations for metrics of interest, as shown in Fig. \ref{tstep}.
+\begin{figure}\ref{tstep}
+	\centering
+	%\includegraphics[width=0.8\linewidth]{Report/}
+	\caption{Comparison of different fidelity models.}
+	\label{tstep}
+\end{figure}
+
+As in Section \ref{ferrario}, 
+we also have to define several beam line parameters that 
+are not included in the optimization design variables above.
+These 
+
+
+
+
 
 \subsubsection{AWA Optimization Results}
 
