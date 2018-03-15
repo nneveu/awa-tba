@@ -1,54 +1,67 @@
-\node (ML) [draw, text centered,
-    text width=12.8em, fill=red!60, fill opacity=0.1, minimum height=2em,
-    rounded corners, very thick, draw=red!60, text opacity=1.0]
-    {\textsc{Optimizer}};
+\begin{pgfonlayer}{background}
+	\path (-5,4.0)+(0,0) node (a) {};
+	\path (0,0)+(5,-4) node (c) {};
+	
+	\path[fill=white!20,rounded corners, draw=black!50, dashed]
+	(a) rectangle (c);           
+	\path (-4,3.5)+(-0,0) node (a) {OPAL};
+	
+\end{pgfonlayer}
 
 
-\path (ML.north)+(-1.38,0.8) node (optimizer) [draw, text centered,
-    text width=5em, fill=brown, fill opacity=0.1, minimum height=2em,
-    rounded corners, very thick, draw=brown, text opacity=1.0]
-    {\textsc{Pilot}};
+	\node (ML) [draw, text centered,
+	text width=12.8em, fill=red!60, fill opacity=0.1, minimum height=2em,
+	rounded corners, very thick, draw=red!60, text opacity=1.0]
+	{\textsc{Optimizer}};
+	
+	
+	\path (ML.north)+(-1.38,0.8) node (optimizer) [draw, text centered,
+	text width=5em, fill=brown, fill opacity=0.1, minimum height=2em,
+	rounded corners, very thick, draw=brown, text opacity=1.0]
+	{\textsc{Pilot}};
+	
+	
+	\path[<->, very thick] (optimizer.east)+(.0,-0.2) edge [bend left] (ML.north);
+	
+	\path (optimizer)+(-2.5,.8) node (input) [draw, text
+	width=2em, fill=olive!60, fill opacity=0.1, minimum height=2em,
+	text opacity=1.0] {\tiny{-\\ -\\ input}};
+	\path (optimizer)+(-2.5,-.4) node (obj) [draw, text
+	width=2em, fill=olive!60, fill opacity=0.1, minimum height=2em,
+	text opacity=1.0] {\tiny{-\\ -\\ obj}};
+	\path (optimizer)+(-2.5,-1.6) node (constr) [draw, text
+	width=2em, fill=olive!60, fill opacity=0.1, minimum height=2em,
+	text opacity=1.0] {\tiny{-\\ -\\ constr}};
+	\path [<-, very thick] (optimizer.west)+(.0,0.2) edge (input.east);
+	\path [<-, very thick] (optimizer.west) edge (obj.east);
+	\path [<-, very thick] (optimizer.west)+(.0,-0.2) edge (constr.east);
+	
+	\path (optimizer)+(2.0,0.8) node (sims) [draw, text
+	width=2em, fill=orange!60, fill opacity=0.1, minimum height=2em,
+	text opacity=1.0] {\tiny{-\\ -\\ sims}};
+	
+	
+	\path (sims.east)+(1.8,0.6) node (opal) [draw, text centered,
+	text width=6em, fill=orange, fill opacity=0.1, minimum height=2em,
+	rounded corners, very thick, draw=orange, text opacity=1.0]
+	{\textsc{Simulation}};
+	
+	
+	\path[<->, very thick] (optimizer.east) edge [bend right] (sims.south);
+	\path[<->, very thick] (sims.east) edge [bend left] (opal.west);
+	
+	\path (ML.south)+(-1.30,-1.8) node (convex) [draw, text centered,
+	text width=5em, fill=blue!60, fill opacity=0.1, minimum height=2em,
+	rounded corners, thick, draw=blue!60, text opacity=1.0]
+	{\footnotesize{Convex Optimization Algorithms}};
+	
+	\path (ML.south)+(1.30,-1.8) node (heuristic) [draw, text centered, text
+	width=5em, fill=blue!60, fill opacity=0.1, minimum height=4em,
+	rounded corners, thick, draw=blue!60, text opacity=1.0]
+	{\footnotesize{Heuristic Algorithms}};
+	
+	\path[<->, very thick] (convex.north)+(+0.8,0.0) edge [bend right] (ML.south);
+	\path[<->, very thick] (heuristic.north)+(-0.8,0.0) edge [bend left] (ML.south);
+	
 
-
-\path[<->, very thick] (optimizer.east)+(.0,-0.2) edge [bend left] (ML.north);
-
-\path (optimizer)+(-2.5,.8) node (input) [draw, text
-    width=2em, fill=olive!60, fill opacity=0.1, minimum height=2em,
-    text opacity=1.0] {\tiny{-\\ -\\ input}};
-\path (optimizer)+(-2.5,-.4) node (obj) [draw, text
-    width=2em, fill=olive!60, fill opacity=0.1, minimum height=2em,
-    text opacity=1.0] {\tiny{-\\ -\\ obj}};
-\path (optimizer)+(-2.5,-1.6) node (constr) [draw, text
-    width=2em, fill=olive!60, fill opacity=0.1, minimum height=2em,
-    text opacity=1.0] {\tiny{-\\ -\\ constr}};
-\path [<-, very thick] (optimizer.west)+(.0,0.2) edge (input.east);
-\path [<-, very thick] (optimizer.west) edge (obj.east);
-\path [<-, very thick] (optimizer.west)+(.0,-0.2) edge (constr.east);
-
-\path (optimizer)+(2.0,0.8) node (sims) [draw, text
-    width=2em, fill=orange!60, fill opacity=0.1, minimum height=2em,
-    text opacity=1.0] {\tiny{-\\ -\\ sims}};
-
-
-\path (sims.east)+(1.8,0.6) node (opal) [draw, text centered,
-    text width=6em, fill=orange, fill opacity=0.1, minimum height=2em,
-    rounded corners, very thick, draw=orange, text opacity=1.0]
-    {\textsc{Simulation}};
-
-
-\path[<->, very thick] (optimizer.east) edge [bend right] (sims.south);
-\path[<->, very thick] (sims.east) edge [bend left] (opal.west);
-
-\path (ML.south)+(-1.30,-1.8) node (convex) [draw, text centered,
-    text width=5em, fill=blue!60, fill opacity=0.1, minimum height=2em,
-    rounded corners, thick, draw=blue!60, text opacity=1.0]
-    {\footnotesize{Convex Optimization Algorithms}};
-
-\path (ML.south)+(1.30,-1.8) node (heuristic) [draw, text centered, text
-    width=5em, fill=blue!60, fill opacity=0.1, minimum height=4em,
-    rounded corners, thick, draw=blue!60, text opacity=1.0]
-    {\footnotesize{Heuristic Algorithms}};
-
-\path[<->, very thick] (convex.north)+(+0.8,0.0) edge [bend right] (ML.south);
-\path[<->, very thick] (heuristic.north)+(-0.8,0.0) edge [bend left] (ML.south);
 

@@ -58,10 +58,11 @@
 \author{N. Neveu\footnotemark[7]\ \footnotemark[8]
   \and Y. Ineichen\footnotemark[2]\ \footnotemark[3]\ \footnotemark[4]
   \and A. Adelmann\footnotemark[2]\ \footnotemark[6]
-  \and A. Kolano\footnotemark[2]\ \footnotemark[5]
+  \and P. Arbenz\footnotemark[4]
   \and C. Bekas\footnotemark[3]
   \and A. Curioni\footnotemark[3]
-  \and P. Arbenz\footnotemark[4]
+  \and A. Kolano\footnotemark[2]\ \footnotemark[5]
+  \and C. Kraus
 }
 
 \maketitle
@@ -132,6 +133,9 @@ Observe that multiple and conflicting optimality criteria call for a
 
 \begin{figure}[h!]
 \begin{center}\normalsize
+	
+	\pgfdeclarelayer{background}
+	\pgfsetlayers{background,main}
   \begin{tikzpicture}[text=black]%[scale=0.95, transform shape]
     \input{figures/opt-framework_code.tex}
   \end{tikzpicture}
