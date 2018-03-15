@@ -142,10 +142,10 @@ The custom \texttt{fromFile} functor allows us to access the values stored in
 
 \vspace{0.2cm}
 {\footnotesize \begin{verbatim}
-    rmsx:  OBJECTIVE, EXPR="fromFile("rms_x-err.dat", "var")";
-    emitx: OBJECTIVE, EXPR="fromFile("emit_x-err.dat", "var")";
-    match: OBJECTIVE, EXPR="fabs(fromFile("emit_x-peak.dat", "var") -
-                                 fromFile("rms_x-peak.dat", "var"))";
+    rmsx:  OBJECTIVE, EXPR="statVariableAt("rms_x-err.dat", "var")";
+    emitx: OBJECTIVE, EXPR="statVariableAt("emit_x-err.dat", "var")";
+    match: OBJECTIVE, EXPR="fabs(statVariableAt("emit_x-peak.dat", "var") -
+                                 statVariableAt("rms_x-peak.dat", "var"))";
 \end{verbatim}}
 \vspace{0.2cm}
 
@@ -268,7 +268,7 @@ As expected, increasing the number of slices while lowering the timestep
 \end{figure}
 
 
-\subsection{Optimization Results}
+\subsubsection{Optimization Results}
 
 Each of the $40$ points on the Pareto front, shown in
   Figure~\ref{fig:pareto_front_21}, represents an optimal solution, where
@@ -422,3 +422,16 @@ Both trackers agree within acceptable limits \cite{chao:99}.
 %In a next step a simple Python script would be applied to iteratively rerun
   %the optimizer with increasing space-charge resolution when the limits of the
   %design variables are narrow enough (iteratively diminishing search space).
+  
+  
+  
+\subsection{AWA}
+Next we apply the optimization framework to an ongoing project in accelerator physics.
+The model is taken from the Argonne Wakefield Accelerator facility, which 
+houses two rf photoinjector beam lines. We consider the high charge beam line
+that consists of an rf photocathode gun, two solenoids, six linear accelerating cavities, 
+and 
+
+\subsubsection{AWA Optimization Results}
+
+

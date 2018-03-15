@@ -55,7 +55,8 @@
 \title{A Parallel General Purpose Multi-Objective Optimization Framework,
   with Application To Beam Dynamics}
 
-\author{Y. Ineichen\footnotemark[2]\ \footnotemark[3]\ \footnotemark[4]
+\author{N. Neveu\footnotemark[7]\ \footnotemark[8]
+  \and Y. Ineichen\footnotemark[2]\ \footnotemark[3]\ \footnotemark[4]
   \and A. Adelmann\footnotemark[2]\ \footnotemark[6]
   \and A. Kolano\footnotemark[2]\ \footnotemark[5]
   \and C. Bekas\footnotemark[3]
@@ -70,6 +71,8 @@
 \footnotetext[3]{IBM Research -- Zurich, Switzerland}
 \footnotetext[4]{Department of Computer Science, ETH Zurich, Switzerland}
 \footnotetext[5]{University of Huddersfield, West Yorkshire, United Kingdom}
+\footnotetext[1]{Illinois Institute of Technology, Chicago, USA}
+\footnotetext[8]{Argonne National Laboratory, Lemont, USA}
 \footnotetext[6]{Corresponding author: \url{andreas.adelmann@psi.ch}}
 \renewcommand{\thefootnote}{\arabic{footnote}}
 
@@ -177,7 +180,7 @@ The next section introduces the notation of multi-objective optimization
   theory and describes the first implemented optimizer.
 In Section~\ref{sec:framework} we discuss the implementation of the framework.
 We introduce the employed forward-solver in Section~\ref{sec:forward-solver}.
-A validation and a proof of concept application of a beam dynamics problem is
+A validation and a proof of concept application in two beam dynamics problems is
   discussed in Section~\ref{sec:experiments}.
 
 
@@ -826,9 +829,8 @@ Finally, combining the presented multi-objective optimization framework with
 
 \section{ACKNOWLEDGMENT}
 
-The authors thank the \textsc{SwissFEL} team for contributing to the
-  formulation of optimization problems.
-
+The authors thank the \textsc{SwissFEL} and AWA teams for contributing to the
+  formulation of optimization problems. We gratefully acknowledge the computing resources provided on Bebop, a high-performance computing cluster operated by the Laboratory Computing Resource Center at Argonne National Laboratory.
 \appendix
 
 \section{Forward Solver Implementation}
