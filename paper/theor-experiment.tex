@@ -123,11 +123,11 @@ The first two objectives minimize the distance from the position of the current
   size (beam waist) and emittance (see Figure~\ref{fig:fer_match}).
 The third objective (\ref{eq:swissfel:p3}) adds a condition preferring
   solutions that have their emittance and rms peak locations at the same
-  $z$-coordinate.
-Equations (\ref{eq:swissfel:firstconstr}) and (\ref{eq:swissfel:lastconstr})
+  $s$-coordinate.
+Equations (\ref{eq:swissfel:firstconstr}) and (\ref{eq:swissfel:firstdvar})
   define constraints for initial conditions for the simulation: charge,
   gun voltage and laser spot size.
-Design variables given in (\ref{eq:swissfel:firstdvar}) to
+Design variables given in (\ref{eq:swissfel:seconddvar}) to
   (\ref{eq:swissfel:lastdvar}) correspond to field strengths of the
   first focusing magnet, its displacement, and the phase of the gun.
 
@@ -326,7 +326,6 @@ The difference of the larger emittance along the solenoids in case of 3D
   tracker that is not seen by the envelope-tracker is due to the different
   definition of the particle momenta (canonical vs.~mechanical).
 Both trackers agree within acceptable limits \cite{chao:99}.
-
 \begin{figure}
   \centering
   \includegraphics[width=0.8\linewidth]{Report/iff_plot_emrms_ettt}
@@ -422,8 +421,7 @@ Both trackers agree within acceptable limits \cite{chao:99}.
 %In a next step a simple Python script would be applied to iteratively rerun
   %the optimizer with increasing space-charge resolution when the limits of the
   %design variables are narrow enough (iteratively diminishing search space).
-  
-  
+   
   
 \subsection{AWA Photoinjector Optimization}
 Next we apply the optimization framework to the high charge beam line at the AWA, 
@@ -435,33 +433,44 @@ results was the beam size and emittance as the beam passed through small apertur
 wakefield structures. In an attempt to maximize charge transmission in future experiments
 we optimize several parameters in the gun and quadrupole leading into the 
 TBA section of the beam line.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\linewidth]{Report/awa-drawing}
+	\caption{High charge beam line layout at the AWA.}
+	\label{awa-pic}
+\end{figure}
+
 
 Compared to the Ferrario experiment in Section \ref{ferrario}, 
-this problem is larger by a factor of two in both design variables and objectives.
-The problem is also less predictable, meaning there is not a clear idea
-before hand where the pareto front will fall. This work is also meaningful in that
+we increase the number of design variables and objectives by a factor of two.
+The problem is also less predictable, due to the large number of design variables
+and nonlinear effects such as space charge, there is not a definite idea
+before hand where the Pareto front will fall. This work is also meaningful in that
 it will guide future operations at the AWA.
 
-The design variables include both solenoid current, IBF and IM,
-the gun phase, GPHASE, and the laser full width half maximum in 
-the longitudinal direction. The definition of the design variables 
-was included in the OPAL input file, 
-As in Section \ref{ferrario}, 
-we also have to define several beam line parameters that 
-are not included in the optimization design variables above.
-These are shown in Table \ref{awatable}. 
+We define the AWA optimization problem using objectives, and parameters given in 
+equations (\ref{eq:awa:p1}) to (\ref{eq:awa:lastdvar}). 
 
 \begin{align}
 \text{min}  \quad & \text{rms}_{x, s1}, \quad \text{rms}_{x, s2} \label{eq:awa:p1}\\
 & \text{rms}_{s, s1}, \quad \text{rms}_{s, s2} \label{eq:awa:p2}\\
 & \varepsilon_{x,s1}, \quad \varepsilon_{x,s2} \label{eq:awa:p3} \\
-\text{subject to} \quad & q = 200 \left[\text{pC}\right] \label{eq:awa:firstconstr}\\
-\quad & \text{Volt}_{\text{RF}} = 100 \left[\text{MV/m}\right] \label{eq:awa:lastconstr}\\
+\text{subject to} \quad & q = 40 \left[\text{nC}\right] \label{eq:awa:firstconstr}\\
+\quad & \text{Volt}_{\text{Gun}} = 64\left[\text{MV/m}\right] \label{eq:awa:lastconstr}\\
+\quad & \text{Volt}_{\text{Linac}} = 24-25\left[\text{MV/m}\right] \\
 \quad & \sigma_{L} \leq \sigma_x = \sigma_y \leq \sigma_{U} \label{eq:awa:firstdvar}\\
 \quad & \text{KS}_{L} \leq \text{KS}_{\text{RF}} \leq \text{KS}_{U} \label{eq:awa:seconddvar}\\
 \quad & \text{LAG}_{L} \leq \text{LAG}_{\text{RF}} \leq \text{LAG}_{U} \\
 \quad & \Delta z_{L\text{KS}} \leq \Delta z_{\text{KS}} \leq \Delta z_{U\text{KS}} \label{eq:awa:lastdvar}
 \end{align}
+
+The first four objectives minimize the transverse ($rms_x$) and longitudinal ($rms_s$) 
+beam sizes at to locations of interest in the beam line, [$s_1$,$s_2$]. 
+These are the longitudinal positions of 
+the entrance of the kicker and exit of the kicker. The beam size needs to be minimized
+here to prevent scraping and ensure transmission through the wakefield structures 
+following the kicker. The last two objectives (\ref{eq:awa:p3}) minimize the 
+transverse emittance, which favors less divergence in the beam.
 
 
 \vspace{0.2cm}
