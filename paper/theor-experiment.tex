@@ -42,7 +42,7 @@ The hypervolume of the reference solution ($0.6575$) for our benchmark was
   \label{fig:pisa_bench}
 \end{figure}
 
-\begin{table}[h!]
+\begin{table}%[h!]
 \begin{center}
   \caption{Convergence of benchmark problem with errors relative to
     hypervolume of sampled reference solution.}
@@ -193,7 +193,7 @@ All simulations were performed up to 12.5~m of the
   \textsc{SwissFEL} 250 MeV injector~\cite{pedr:10} beam line, with
   energies reaching  up to 120 MeV.
 
-\begin{figure}[h!]
+\begin{figure}%[h!]
   \centering
   \includegraphics[width=0.8\linewidth]{Report/dt_scan}
   \caption{Envelope-tracker with different number of slices and simulation
@@ -257,7 +257,7 @@ As expected, increasing the number of slices while lowering the timestep
   %\label{fig:pareto_front_1}
 %\end{figure}
 
-\begin{figure}[h!]
+\begin{figure}%[h!]
   \centering
     \includegraphics[width=0.8\linewidth]{Report/front_plot}
   \caption{Pareto front for the $1000$th generation with $40$ individuals
@@ -299,7 +299,7 @@ With the multi-objective optimization framework we attain the same working
   \end{center}
 \end{table}
 
-\begin{figure}[h!]
+\begin{figure}%[h!]
   \centering
   \includegraphics[width=0.8\linewidth]{Report/iff_plot_emrms}
   \caption{Beamsize and emittance of individual $3$.}
@@ -326,15 +326,15 @@ The difference of the larger emittance along the solenoids in case of 3D
   tracker that is not seen by the envelope-tracker is due to the different
   definition of the particle momenta (canonical vs.~mechanical).
 Both trackers agree within acceptable limits \cite{chao:99}.
+
 \begin{figure}
   \centering
-  \includegraphics[width=0.8\linewidth]{Report/iff_plot_emrms_ettt}
+  \includegraphics[width=0.9\linewidth]{Report/iff_plot_emrms_ettt}
   \caption{Comparison 3D-tracker versus envelope-tracker in case for rms$_{x}$
     and $\varepsilon_{x}$.}
   \label{fig:et-vs-tt}
 \end{figure}
 
-
 %\subsection{IW2: Inverse Problem}
 
 %In order to find cross correlations we try to solve the inverse problem
@@ -420,19 +420,22 @@ Both trackers agree within acceptable limits \cite{chao:99}.
   %\times 8 \times 8$) as a proof of concept.
 %In a next step a simple Python script would be applied to iteratively rerun
   %the optimizer with increasing space-charge resolution when the limits of the
-  %design variables are narrow enough (iteratively diminishing search space).
-   
-  
+  %design variables are narrow enough (iteratively diminishing search space). 
+%\vspace{-7em}
 \subsection{AWA Photoinjector Optimization}
 Next we apply the optimization framework to the high charge beam line at the AWA, 
 which consists of an rf photocathode gun, two solenoids, six linear accelerating cavities, 
-followed by four quadrupoles. This beam line has served as the injector for Two Beam 
-Acceleration (TBA) experiments in the past [XX], and will be used in the future for 
-similar experiments. One of the main constraints on prior experimental 
-results was the beam size and emittance as the beam passed through small aperture 
-wakefield structures. In an attempt to maximize charge transmission in future experiments
+followed by four quadrupoles and a stripline kicker, as shown in Fig. \ref{awa-pic}. 
+Portions of this beam line served as the injector for Two Beam 
+Acceleration (TBA) experiments in the past [X1], and will be used for 
+similar experiments in the future [X2]. Main constraints on prior experimental 
+results were the beam size and emittance as the beam passed through small aperture 
+wakefield structures located after the quadrupoles. 
+In an attempt to maximize charge transmission in upcoming experiments
 we optimize several parameters in the gun and quadrupole leading into the 
 TBA section of the beam line.
+%\vspace{-1em}
+
 \begin{figure}
 	\centering
 	\includegraphics[width=0.9\linewidth]{Report/awa-drawing}
@@ -440,106 +443,101 @@ TBA section of the beam line.
 	\label{awa-pic}
 \end{figure}
 
-
+\vspace{-1em}
 Compared to the Ferrario experiment in Section \ref{ferrario}, 
 we increase the number of design variables and objectives by a factor of two.
-The problem is also less predictable, due to the large number of design variables
+The problem is also less predictable, due to the increased number of design variables
 and nonlinear effects such as space charge, there is not a definite idea
 before hand where the Pareto front will fall. This work is also meaningful in that
 it will guide future operations at the AWA.
 
-We define the AWA optimization problem using objectives, and parameters given in 
-equations (\ref{eq:awa:p1}) to (\ref{eq:awa:lastdvar}). 
-
 \begin{align}
-\text{min}  \quad & \text{rms}_{x, s1}, \quad \text{rms}_{x, s2} \label{eq:awa:p1}\\
-& \text{rms}_{s, s1}, \quad \text{rms}_{s, s2} \label{eq:awa:p2}\\
-& \varepsilon_{x,s1}, \quad \varepsilon_{x,s2} \label{eq:awa:p3} \\
+\text{min}  \quad & \text{rms}_{x, s_1}, \quad \text{rms}_{x, s_2} \label{eq:awa:p1}\\
+& \text{rms}_{s, s_1}, \quad \text{rms}_{s, s_2} \label{eq:awa:p2}\\
+& \varepsilon_{x,s_1}, \quad \varepsilon_{x,s_2} \label{eq:awa:p3} \\
+& dE \label{eq:awa:p4} \\
 \text{subject to} \quad & q = 40 \left[\text{nC}\right] \label{eq:awa:firstconstr}\\
 \quad & \text{Volt}_{\text{Gun}} = 64\left[\text{MV/m}\right] \label{eq:awa:lastconstr}\\
 \quad & \text{Volt}_{\text{Linac}} = 24-25\left[\text{MV/m}\right] \\
-\quad & \sigma_{L} \leq \sigma_x = \sigma_y \leq \sigma_{U} \label{eq:awa:firstdvar}\\
-\quad & \text{KS}_{L} \leq \text{KS}_{\text{RF}} \leq \text{KS}_{U} \label{eq:awa:seconddvar}\\
-\quad & \text{LAG}_{L} \leq \text{LAG}_{\text{RF}} \leq \text{LAG}_{U} \\
-\quad & \Delta z_{L\text{KS}} \leq \Delta z_{\text{KS}} \leq \Delta z_{U\text{KS}} \label{eq:awa:lastdvar}
+\quad & \sigma_x = \sigma_y = 9 \left[\text{mm}\right] \label{eq:awa:firstdvar}\\
+\quad & \phi_{\text{linac}} =0 \label{eq:awa:lastdvar}
 \end{align}
 
 The first four objectives minimize the transverse ($rms_x$) and longitudinal ($rms_s$) 
-beam sizes at to locations of interest in the beam line, [$s_1$,$s_2$]. 
-These are the longitudinal positions of 
-the entrance of the kicker and exit of the kicker. The beam size needs to be minimized
+beam sizes at two locations of interest in the beam line ($s_1$,$s_2$). 
+These are the longitudinal positions at the entrance of the kicker and 
+$1[\text{m}]$ after the exit of the kicker. The beam size needs to be minimized
 here to prevent scraping and ensure transmission through the wakefield structures 
-following the kicker. The last two objectives (\ref{eq:awa:p3}) minimize the 
-transverse emittance, which favors less divergence in the beam.
+following the kicker. The next two objectives (\ref{eq:awa:p4}) minimize the 
+transverse emittance, which favors less divergence in the beam and reduces 
+emittance growth during transport. The last objective (\ref{eq:awa:p4}), 
+minimizes energy spread in the bunch at the entrance of the kicker, $s_1$.  
+This helps reduce emittance and beam size growth in the kicker.  
+Equations (\ref{eq:awa:firstconstr}) to
+(\ref{eq:awa:lastdvar}) define the charge, gun voltage, linac voltages, 
+laser radius and linac cavity phases. These are parameters in the simulation 
+that must be defined, but do not vary during the optimization.
 
+%\vspace{-1em}
+As introduced in Section \ref{ferrario}, we define the AWA optimization problem 
+objectives, and design variables in the OPAL input file as shown in
+the following code: %equations (\ref{eq:awa:p1}) to (\ref{eq:awa:lastdvar}). 
 
 \vspace{0.2cm}
 {\footnotesize \begin{verbatim}
-// Gun variables
-dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=350.0, UPPERBOUND=500.0;
-dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
-dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-30.0, UPPERBOUND=0.0;
-dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
-
-// Quad variables
-dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0;
-dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
-dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
-dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	// Gun variables
+	dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=350.0, UPPERBOUND=500.0;
+	dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
+	dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-30.0, UPPERBOUND=0.0;
+	dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
+	
+	// Quad variables
+	dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	
+	// Objectives
+	rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.45))";
+	rmsx1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',16.45))";
+	emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.45))";
+	de1:    OBJECTIVE,EXPR="fabs(statVariableAt('dE',16.45))";	
+	rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.45))";
+	rmsx2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',18.45))";
+	emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.45))";
 
 	\end{verbatim}}
 \vspace{0.2cm}
- 
- \vspace{0.2cm}
- {\footnotesize \begin{verbatim}
-rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.45))";
-rmsx1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',16.45))";
-emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.45))";
- 
-rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.45))";
-rmsx2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',18.45))";
-emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.45))";
- 
-de1:    OBJECTIVE,EXPR="fabs(statVariableAt('dE',16.45))";
- 
-	\end{verbatim}}
-\vspace{0.2cm}
+
+Design variables include the currents in two gun solenoids (IBF and IM), 
+the gun phase (GPHASE), the laser longitudinal full width half max (FWHM), 
+and four quadrupole strengths (KQ1-KQ2). The objectives include
+beam size, emittance, and energy spread as
+defined in Eqs. (\ref{eq:awa:p1}) to (\ref{eq:awa:p4}). 
+The s location at the entrance of the kicker is $s_1=16.45[\text{m}]$, 
+and the s location of interest after the kicker is $s_1=18.45[\text{m}]$. 
 
 All simulations for this experiment were carried out on Bebop a
 high performance computing (HPC)
 cluster provided by the Laboratory Computing Resource Center (LCRC)
 at Argonne National Laboratory (ANL). We used Intel Knights Landing 
-(KNL) processors at 1.3 GHz with 128 GB of memory per node, 
+(KNL) processors at 1.3 GHz with 128 GB of memory 
 and 64 cores per node. There are 352 compute nodes available on 
-Bebop, with a total of 22528 cores. 
+Bebop, with a total of 22,528 cores. 
 This allows for very large optimization jobs, like the AWA case.
 
-OPAL-T was used as the forward solver, and a study on time step and 
+OPAL was used as the forward solver, and a study on time step and 
 number of particles was done to reduce the time to simulation while 
 maintaining the physics of interest. All jobs were run and compared 
-on 8 cores to take advantage of the KNL, by running 8 jobs per node.
+on 8 cores each, which allowed 8 jobs per node on the KNL.
+The grid size was $16 \times 16 \times 32$, 
+and parallelized in the x and y directions.
 After comparing several options we choose ten thousand particles 
 in combination with adjusting the time step near sensitive elements 
-(i.e. quadurpoles, dipole). 
+(i.e. quadurpoles, kicker). 
 The resulting simulations are low fidelity, but closely approximate 
 the mid fidelity simulations for metrics of interest, as shown in 
 Fig. \ref{tstep}.
-
-\begin{table}[h!]
-	\begin{center}
-		\caption{Low and mid fidelity simulation parameters.}
-		\label{fidelity}
-		\begin{tabular}{l ccc}
-			\hline\noalign{\smallskip}
-			 & Number of particles & Time step (seconds) & Time to simulation (minutes)\\
-			\noalign{\smallskip}\hline\noalign{\smallskip}
-			low fidelity  			&  10,000   & $5 \times10^{-11}$  &  2.6 \\
-			mid fidelity 			&  100,000  & $1 \times 10^{-12}$ &  \\
-			adjusted low fidelity  	&  10,000   & $2 \times 10^{-12}$, $1 \times 10^{-11}$ & 1.5 \\
-			\noalign{\smallskip}\hline
-		\end{tabular}
-	\end{center}
-\end{table}
 
 \begin{figure}
 	\centering
@@ -548,6 +546,23 @@ Fig. \ref{tstep}.
 	\label{tstep}
 \end{figure}
 
+
+\begin{table}%[h!]
+	\begin{center}
+		\caption{Low and mid fidelity simulation parameters.}
+		\label{fidelity}
+
+		\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} C c D }
+			\hline\noalign{\smallskip}
+			& Number of particles & dT (seconds) & Time to simulation (minutes)\\
+			\noalign{\smallskip}\hline\noalign{\smallskip}
+			low fidelity  			&  10,000   & $5 \times10^{-11}$  &  2.6 \\
+			adjusted low fidelity  	&  10,000   & $2 \times 10^{-12}$, $1 \times 10^{-11}$ & 1.6 \\
+			mid fidelity 			&  100,000  & $1 \times 10^{-12}$ &  18\\
+			\noalign{\smallskip}\hline
+		\end{tabular*}
+	\end{center}
+\end{table}
 
 \subsubsection{AWA Optimization Results}
 
