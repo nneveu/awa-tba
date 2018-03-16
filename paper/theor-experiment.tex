@@ -445,7 +445,25 @@ it will guide future operations at the AWA.
 The design variables include both solenoid current, IBF and IM,
 the gun phase, GPHASE, and the laser full width half maximum in 
 the longitudinal direction. The definition of the design variables 
-was included in the OPAL input file:
+was included in the OPAL input file, 
+As in Section \ref{ferrario}, 
+we also have to define several beam line parameters that 
+are not included in the optimization design variables above.
+These are shown in Table \ref{awatable}. 
+
+\begin{align}
+\text{min}  \quad & \text{rms}_{x, s1}, \quad \text{rms}_{x, s2} \label{eq:awa:p1}\\
+& \text{rms}_{s, s1}, \quad \text{rms}_{s, s2} \label{eq:awa:p2}\\
+& \varepsilon_{x,s1}, \quad \varepsilon_{x,s2} \label{eq:awa:p3} \\
+\text{subject to} \quad & q = 200 \left[\text{pC}\right] \label{eq:awa:firstconstr}\\
+\quad & \text{Volt}_{\text{RF}} = 100 \left[\text{MV/m}\right] \label{eq:awa:lastconstr}\\
+\quad & \sigma_{L} \leq \sigma_x = \sigma_y \leq \sigma_{U} \label{eq:awa:firstdvar}\\
+\quad & \text{KS}_{L} \leq \text{KS}_{\text{RF}} \leq \text{KS}_{U} \label{eq:awa:seconddvar}\\
+\quad & \text{LAG}_{L} \leq \text{LAG}_{\text{RF}} \leq \text{LAG}_{U} \\
+\quad & \Delta z_{L\text{KS}} \leq \Delta z_{\text{KS}} \leq \Delta z_{U\text{KS}} \label{eq:awa:lastdvar}
+\end{align}
+
+
 \vspace{0.2cm}
 {\footnotesize \begin{verbatim}
 // Gun variables
@@ -489,24 +507,37 @@ This allows for very large optimization jobs, like the AWA case.
 
 OPAL-T was used as the forward solver, and a study on time step and 
 number of particles was done to reduce the time to simulation while 
-maintaining the physics of interest. We choose ten thousand particles 
-in combination with adjusting the time step near sensitive elements (i.e. quadurpoles). 
+maintaining the physics of interest. All jobs were run and compared 
+on 8 cores to take advantage of the KNL, by running 8 jobs per node.
+After comparing several options we choose ten thousand particles 
+in combination with adjusting the time step near sensitive elements 
+(i.e. quadurpoles, dipole). 
 The resulting simulations are low fidelity, but closely approximate 
-the mid fidelity simulations for metrics of interest, as shown in Fig. \ref{tstep}.
-\begin{figure}\ref{tstep}
+the mid fidelity simulations for metrics of interest, as shown in 
+Fig. \ref{tstep}.
+
+\begin{table}[h!]
+	\begin{center}
+		\caption{Low and mid fidelity simulation parameters.}
+		\label{fidelity}
+		\begin{tabular}{l ccc}
+			\hline\noalign{\smallskip}
+			 & Number of particles & Time step (seconds) & Time to simulation (minutes)\\
+			\noalign{\smallskip}\hline\noalign{\smallskip}
+			low fidelity  			&  10,000   & $5 \times10^{-11}$  &  2.6 \\
+			mid fidelity 			&  100,000  & $1 \times 10^{-12}$ &  \\
+			adjusted low fidelity  	&  10,000   & $2 \times 10^{-12}$, $1 \times 10^{-11}$ & 1.5 \\
+			\noalign{\smallskip}\hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+\begin{figure}
 	\centering
-	%\includegraphics[width=0.8\linewidth]{Report/}
+	\includegraphics[width=0.8\linewidth]{Report/timestep_comparison}
 	\caption{Comparison of different fidelity models.}
 	\label{tstep}
 \end{figure}
-
-As in Section \ref{ferrario}, 
-we also have to define several beam line parameters that 
-are not included in the optimization design variables above.
-These 
-
-
-
 
 
 \subsubsection{AWA Optimization Results}
