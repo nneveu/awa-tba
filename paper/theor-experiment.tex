@@ -422,7 +422,7 @@ Both trackers agree within acceptable limits \cite{chao:99}.
   %the optimizer with increasing space-charge resolution when the limits of the
   %design variables are narrow enough (iteratively diminishing search space). 
 %\vspace{-7em}
-\subsection{AWA Photoinjector Optimization}
+\subsection{AWA Photoinjector Optimization} \label{awaproblem}
 Next we apply the optimization framework to the high charge beam line at the AWA, 
 which consists of an rf photocathode gun, two solenoids, six linear accelerating cavities, 
 followed by four quadrupoles and a stripline kicker, as shown in Fig. \ref{awa-pic}. 
@@ -523,13 +523,14 @@ cluster provided by the Laboratory Computing Resource Center (LCRC)
 at Argonne National Laboratory (ANL). We used Intel Knights Landing 
 (KNL) processors at 1.3 GHz with 128 GB of memory 
 and 64 cores per node. There are 352 compute nodes available on 
-Bebop, with a total of 22,528 cores. 
-This allows for very large optimization jobs, like the AWA case.
-
-OPAL was used as the forward solver, and a study on time step and 
-number of particles was done to reduce the time to simulation while 
-maintaining the physics of interest. All jobs were run and compared 
+Bebop, with a total of 22,528 cores. All jobs were run and compared 
 on 8 cores each, which allowed 8 jobs per node on the KNL.
+This in combination with the amount of nodes available 
+allows for very large optimization jobs, like the AWA case.
+
+A study on time step and 
+number of particles was done to reduce the time to simulation while 
+maintaining the physics of interest. 
 The grid size was $16 \times 16 \times 32$, 
 and parallelized in the x and y directions.
 After comparing several options we choose ten thousand particles 
@@ -537,7 +538,10 @@ in combination with adjusting the time step near sensitive elements
 (i.e. quadurpoles, kicker). 
 The resulting simulations are low fidelity, but closely approximate 
 the mid fidelity simulations for metrics of interest, as shown in 
-Fig. \ref{tstep}.
+Fig. \ref{tstep}. For all models, the longitudinal parameters (rms$_s$ and energy) 
+are calculated correctly, but we see discrepancies in the transverse 
+rms$_x$ and $\epsilon_x$ in the low fidelity results. A summary of 
+the parameters used is listed in Table \ref{fidelity}. 
 
 \begin{figure}
 	\centering
@@ -551,7 +555,6 @@ Fig. \ref{tstep}.
 	\begin{center}
 		\caption{Low and mid fidelity simulation parameters.}
 		\label{fidelity}
-
 		\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} C c D }
 			\hline\noalign{\smallskip}
 			& Number of particles & dT (seconds) & Time to simulation (minutes)\\
@@ -565,5 +568,32 @@ Fig. \ref{tstep}.
 \end{table}
 
 \subsubsection{AWA Optimization Results}
+Given the parameters and variable boundaries in Section \ref{awaproblem}, 
+four 50 generation optimization experiments were done with varying GA parameters. 
+Similar to the time step scan, the goal was to determine which set of optimization
+parameters strongly influence the results, and whether there was a time to solution
+difference. (NOTE FOR EDIT: May need to take this out, or compare at 50 generations, none of these runs finished 100 gens)
+
+\vspace{0.2cm}
+{\footnotesize\begin{verbatim}
+OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl",
+	OUTPUT="optLinac_40nC",
+	OUTDIR="results",
+	OBJECTIVES = {rmss1, rmsx1, emitx1, de1, rmss2, rmsx2, emitx2},
+	DVARS = {dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7},
+	CONSTRAINTS = {c1, c2},
+	INITIALPOPULATION=656,
+	MAXGENERATIONS=200,
+	NUM_MASTERS=1,
+	NUM_COWORKERS=8,
+	SIMTMPDIR="tmp",
+	TEMPLATEDIR="tmpl",
+	FIELDMAPDIR="fieldmaps",
+	NUM_IND_GEN=328,
+	GENE_MUTATION_PROBABILITY=0.8,
+	MUTATION_PROBABILITY=0.8,
+	RECOMBINATION_PROBABILITY=0.2;
+QUIT;
+\end{verbatim}}
 
 
