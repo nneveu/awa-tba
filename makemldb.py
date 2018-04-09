@@ -15,26 +15,26 @@ The content of the file is
 
 #baseFN = 'rand_sample'
 #root   = "/lcrc/project/AWA-beam-dynamics/surrogatemodels/random_sample/surrogate_models_rand_sample_bounds2"
-
-baseFN = 'paper-run-1' #['ex-1', 'ex-2', 'ex-3', 'ex-4']
-root   = "/lcrc/project/AWA-beam-dynamics/Nicole/awa-tba/paper-run-1/results"
+path    = './databases/'
+baseFN  = ['ex-1', 'ex-2', 'ex-3', 'ex-4']
+#root   = "/lcrc/project/AWA-beam-dynamics/Nicole/awa-tba/paper-run-1/results"
 #root   = "./ex-4/results"
 
 #yNames = ['s','numParticles','rms_x','rms_y','rms_s','emit_x','emit_y','emit_s','energy','dE']
-dbw    = mldb.mldb()
+#dbw    = mldb.mldb()
 
 #Build from stat files
 #dbw.buildFromSDDS(baseFN, root, yNames)
 #dbw.printOverview()
 
 #Build from json files
-dbw.build(baseFN, root)
-dbw.printOverview()
+#dbw.build(baseFN, root)
+#dbw.printOverview()
 
 #Make bounded db
-#for ex in baseFN:
-#    pickle = ex+'.pk'
-#    mldb.buildBounded(pickle, ex)
-pickle = baseFN+'.pk'
-mldb.buildBounded(pickle, baseFN)
+for ex in baseFN:
+    pickle = path+ ex+'.pk'
+    mldb.buildBounded(pickle, ex)
+#pickle = baseFN+'.pk'
+#mldb.buildBounded(pickle, baseFN)
 
