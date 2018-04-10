@@ -569,10 +569,34 @@ the parameters used is listed in Table \ref{fidelity}.
 
 \subsubsection{AWA Optimization Results}
 Given the parameters and variable boundaries in Section \ref{awaproblem}, 
-four 50 generation optimization experiments were done with varying GA parameters. 
-Similar to the time step scan, the goal was to determine which set of optimization
+four optimization experiments were done with varying GA parameters, see Table \ref{extable}.
+From here on, we will reference each experiment as ex-1, ex-2, ex-3 and ex-4. 
+They were each allowed to run for twenty four hours. 
+Similar to the time step scan, the goal of this exercise was to determine which set of optimization
 parameters strongly influence the results, and whether there was a time to solution
-difference. (NOTE FOR EDIT: May need to take this out, or compare at 50 generations, none of these runs finished 100 gens)
+difference.
+
+\begin{table}%[h!]
+	\begin{center}
+		\caption{Input Parameters for initial twenty four hour AWA optimization experiments. 
+			The gene mutation probability was equal to the mutation probability (not shown) in all four experiments.}
+		\label{extable}
+		\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} C C D }
+			\hline\noalign{\smallskip}
+			& Gene Mutation Probability & Recombination Probibility & Number of completed generations \\
+			\noalign{\smallskip}\hline\noalign{\smallskip}
+			ex-1 &  0.1  & 0.9  &  96 \\
+			ex-2 &  0.3  & 0.7  &  81 \\
+			ex-3 &  0.8  & 0.2  &  53 \\
+			ex-4 &  0.01 & 0.09 &  95 \\
+			\noalign{\smallskip}\hline
+		\end{tabular*}
+	\end{center}
+\end{table}
+
+After collection of all data, the Pareto front of each data set was plotted.
+ 
+
 
 \vspace{0.2cm}
 {\footnotesize\begin{verbatim}
