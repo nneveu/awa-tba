@@ -20,9 +20,9 @@ for i, fn in enumerate(baseFN):
     nn  = root+fn+'.pk'
     dbr = mldb.mldb()
     dbr.load(nn)
-    dvars = dbr.getXNames()
-    ovals = dbr.getYNames()
-    gens  = dbr.getNumberOfSamples()
+    dvars  = dbr.getXNames()
+    onames = dbr.getYNames()
+    gens   = dbr.getNumberOfSamples()
     #dbr.printOverview()
 
     with open(nn, 'rb') as f: 
@@ -30,26 +30,63 @@ for i, fn in enumerate(baseFN):
 
     allx  = dbr[gens+1]['allDvarValues'] 
     ally  = dbr[gens+1]['allObjValues'] 
-    dvars = np.array(allx)
     emitx1  = np.array(ally[:,0])
     emitx2  = np.array(ally[:,1])
     rmss1   = np.array(ally[:,2])
     rmss2   = np.array(ally[:,3])
 
-    (px, py, pd) = pareto(rmss1, emitx1, dvars)
+    (px, py, pd) = pareto(rmss1, emitx1, allx)
     #(prmss2, pemitx2, pdvars) = pareto(rmss2, emitx2, dvars)
 
     print(np.shape(px), np.shape(py), np.shape(pd))
-#    xvals = []
-#    for y in prmss1: 
-#        p = np.where(prmss1==y)[0][0]
-#        xvals = np.append(xvals, dvars[p, :])
-#
-#    print(np.shape(xvals))
+    pardata = [go.Parcoords(
+                line = dict(color = 'blue'),
+                dimensions = list([
+                    dict(#range = [1.5,10],
+                         label = dvars[0], values = pd[:,0]),
+                    
+                    dict(#range = [-30,0],
+                         label = dvars[1], values = pd[:,1]),
+                    
+                    dict(#range = [200,500],
+                         #tickvals = [1.5,3,4.5],
+                         label = dvars[2], values = pd[:,2]),
 
-#    xvals = [] 
+                    dict(#range = [170,260],
+                         #tickvals = [1,2,4,5],
+                         label = dvars[3], values = pd[:,3]),
+                         #ticktext = ['text 1', 'text 2', 'text 3', 'text 4']),
+
+                    dict(#range = [1.5,10],
+                         label = dvars[4], values = pd[:,4]),
+                    
+                    dict(#range = [-30,0],
+                         label = dvars[5], values = pd[:,5]),
+                    
+                    dict(#range = [200,500],
+                         #tickvals = [1.5,3,4.5],
+                         label = dvars[6], values = pd[:,6]),
+
+                    dict(#range = [170,260],
+                         #tickvals = [1,2,4,5],
+                         label = dvars[7], values = pd[:,7]),
+                         #ticktext = ['text 1', 'text 2', 'text 3', 'text 4']),
+
+                    
+                    dict(#range = [-8.0, 8.0],
+                         label = onames[2], values = px),
+
+                    dict(#range = [-8.0,8.0],
+                         label = onames[0], values = py),
+
+#                    dict(#range = [-8.0,8.0],
+#                         label = onames[2], values = data[:,6]),
 #
-#
+#                    dict(#range = [-8.0, 8.0],
+#                         label = onames[3], values = data[:,7]),
+        
+                ]))]
+    plotly.offline.plot(pardata, filename = fn+'.html')
 #for gen in range(0,gens):
 #    nsims = dbr.getSampleSize(i=gen)
 #    print(nsims) #len(dbr[gen]['dvarValues'])
@@ -60,13 +97,6 @@ for i, fn in enumerate(baseFN):
 #        xvals.append(xsim)
 #print(np.shape(xvals))
 #
-#with open(baseFN+'.pk', 'rb') as f:
-#    dbr = pick.load(f, encoding='latin1')
-#
-#allx = dbr[gens+1]['allDvarValues']
-#ally = dbr[gens+1]['allObjValues']
-#
-#print(np.shape(allx), np.shape(ally))
 #        #print('Generation #: ', gen)
 #        #print('Num of individuals: ', np.size(ns))
 #        #print('first check:', np.size(ns), cols)
@@ -80,7 +110,6 @@ for i, fn in enumerate(baseFN):
 #        #print ( "Objectives: ", objs)
 #        #print ( "number of objectives", np.size(objs))
 #
-#        print('reader:', np.shape(dvarsall), np.shape(objsall))
 #        for i, simid in enumerate(ns):
 #            #Load add data in 1 generation into data array
 #            # The data array is N rows X M columns
@@ -104,61 +133,8 @@ for i, fn in enumerate(baseFN):
 #    count = count + np.size(ns)    
 #    count2 = count2 + len(data[:,0])
 #
-#pardata = [go.Parcoords(
-#                line = dict(color = 'blue'),
-#                dimensions = list([
-#                    dict(#range = [1.5,10],
-#                         label = dvars[0], values = data[:,0]),
-#                    
-#                    dict(#range = [-30,0],
-#                         label = dvars[1], values = data[:,1]),
-#                    
-#                    dict(#range = [200,500],
-#                         #tickvals = [1.5,3,4.5],
-#                         label = dvars[2], values = data[:,2]),
-#
-#                    dict(#range = [170,260],
-#                         #tickvals = [1,2,4,5],
-#                         label = dvars[3], values = data[:,3]),
-#                         #ticktext = ['text 1', 'text 2', 'text 3', 'text 4']),
-#
-#                    
-#                    dict(#range = [-8.0, 8.0],
-#                         label = dvars[4], values = data[:,4]),
-#
-#                    dict(#range = [-8.0,8.0],
-#                         label = dvars[5], values = data[:,5]),
-#
-#                    dict(#range = [-8.0,8.0],
-#                         label = dvars[6], values = data[:,6]),
-#
-#                    dict(#range = [-8.0, 8.0],
-#                         label = objs[0], values = data[:,7]),
-#        
-#                ]))]
-#
-##print(np.shape(data))
-#bounds = optjson.getBounds()
-##print(bounds)
-#print(count, count2)
+
 #print('less than 656:', diff)
 #print('goodpoints', goodpoints)
 #print('badpoints', badpoints)
-#plotly.offline.plot(pardata, filename = 'parcoord-dimensions.html')
-    #test = np.append(test, data, axis=0)
-#print(np.shape(test), np.size(ns))
-## 4a. Get only bounds of a specific design variable
-#bound = optjson.getBounds(dvars[2])
-#lower = bound[0]
-#upper = bound[1]
-#    
-#print ( "dvar: " + dvars[1] + "\n"
-#        " lower bound: " + str(lower) + "\n"
-#        " upper bound: " + str(upper))
-#
-#optjson.readGeneration(1)
-## 7. Get an individual
-##indiv = optjson.getIndividual(1)
-##print ('All data:\n',indiv )
-#
 
