@@ -568,18 +568,16 @@ the parameters used is listed in Table \ref{fidelity}.
 \end{table}
 
 \subsubsection{AWA Optimization Results}
-Given the parameters and variable boundaries in Section \ref{awaproblem}, 
-four optimization experiments were done with varying GA parameters, see Table \ref{extable}.
-From here on, we will reference each experiment as ex-1, ex-2, ex-3 and ex-4. 
-They were each allowed to run for twenty four hours. 
-Similar to the time step scan, the goal of this exercise was to determine which set of optimization
-parameters strongly influence the results, and whether there was a time to solution
-difference.
-
+While the optimization problem and goals are well defined (Section \ref{awaproblem}), 
+it is not clear what the best input parameters for the NSGA-II are.
+These parameters include gene mutation probability, mutation probability, 
+recombination probability, number of individuals (initial and independent), and number of generations. 
+Given the beam line and design variables given in Section \ref{awaproblem}, 
+four optimization experiments were done with varying NSGA-II parameters, see Table \ref{extable}. 
 \begin{table}%[h!]
 	\begin{center}
 		\caption{Input Parameters for initial twenty four hour AWA optimization experiments. 
-			The gene mutation probability was equal to the mutation probability (not shown) in all four experiments.}
+			The gene mutation probability was equal to the mutation probability (not shown) in all four experiments. The number of individuals}
 		\label{extable}
 		\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} C C D }
 			\hline\noalign{\smallskip}
@@ -592,7 +590,45 @@ difference.
 			\noalign{\smallskip}\hline
 		\end{tabular*}
 	\end{center}
-\end{table}
+\end{table} 
+From here on, we will reference each experiment as ex-1, ex-2, ex-3, and ex-4. 
+The initial number of individuals was fixed at 656, 
+and the number of independent individuals per generation was fixed at 328. 
+These numbers we in part based on the architecture of the KNL's. 
+Since each simulation takes 8 cores, and there are 64 cores per KNL node, 
+we wanted a large population size that would fit evenly on these resources. 
+We also reduced the number of objectives to the four most important for quicker evaluation of these tests.
+These objectives include: 
+$\epsilon_{x, s_1}\text{, } \epsilon_{x, s_2}\text{, } \text{rms}_{s, s_1}\text{, and }  \text{rms}_{s, s_2}$
+The optimization in the OPAL input file was defined as follows:
+\vspace{0.2cm}
+{\footnotesize \begin{verbatim}
+	dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=200.0, UPPERBOUND=500.0;
+	dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
+	dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-30.0, UPPERBOUND=0.0;
+	dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
+	
+	// Quad values
+	dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	
+	rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.5))";
+	emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.5))";
+	
+	rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.5))";
+	emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.5))";
+	\end{verbatim}}
+\vspace{0.2cm}
+
+
+They were each allowed to run for twenty four hours. 
+Similar to the time step scan, the goal of this exercise was to determine which set of optimization
+parameters strongly influence the results, and whether there was a time to solution
+difference.
+
+
 
 After collection of all data, the Pareto front of each data set was plotted.
  

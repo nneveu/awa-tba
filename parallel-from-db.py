@@ -52,22 +52,22 @@ for i, fn in enumerate(baseFN):
                          #tickvals = [1.5,3,4.5],
                          label = dvars[2], values = pd[:,2]),
 
-                    dict(#range = [170,260],
+                    dict(#range = [-8,8],
                          #tickvals = [1,2,4,5],
                          label = dvars[3], values = pd[:,3]),
                          #ticktext = ['text 1', 'text 2', 'text 3', 'text 4']),
 
-                    dict(#range = [1.5,10],
+                    dict(range = [-8,8],
                          label = dvars[4], values = pd[:,4]),
                     
-                    dict(#range = [-30,0],
+                    dict(range = [-8,8],
                          label = dvars[5], values = pd[:,5]),
                     
-                    dict(#range = [200,500],
+                    dict(range = [-8,8],
                          #tickvals = [1.5,3,4.5],
                          label = dvars[6], values = pd[:,6]),
 
-                    dict(#range = [170,260],
+                    dict(range = [-8,8],
                          #tickvals = [1,2,4,5],
                          label = dvars[7], values = pd[:,7]),
                          #ticktext = ['text 1', 'text 2', 'text 3', 'text 4']),
