@@ -5,35 +5,68 @@ import plotly.plotly as py
 import plotly.graph_objs as go
 from db import mldb
 import pickle as pick
+from visualize import scaleData
+from visualize import pareto
+import matplotlib.pyplot as plt
+import pandas as pd
 
-baseFN = './databases/ex-1-bounded' #paper-run-1-bounded'
-dbr    = mldb.mldb()
-dbr.load(baseFN+'.pk')
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif') 
 
-dvars = dbr.getXNames()
-ovals = dbr.getYNames()
-gens  = dbr.getNumberOfSamples()
+root = './databases/'
+baseFN = ['ex-1-bounded', 'ex-2-bounded','ex-3-bounded','ex-4-bounded']
 
-dbr.printOverview()
+for i, fn in enumerate(baseFN):
+    nn  = root+fn+'.pk'
+    dbr = mldb.mldb()
+    dbr.load(nn)
+    dvars = dbr.getXNames()
+    ovals = dbr.getYNames()
+    gens  = dbr.getNumberOfSamples()
+    #dbr.printOverview()
 
-xvals = [] 
-for gen in range(0,gens):
-    nsims = dbr.getSampleSize(i=gen)
-    print(nsims) #len(dbr[gen]['dvarValues'])
-    for x in range(0,nsims):
-        #print(x)
-        xsim = dbr.getDVarVec(gen,x)
-        ysim = dbr.getObjVec(gen,x)
-        xvals.append(xsim)
-print(np.shape(xvals))
+    with open(nn, 'rb') as f: 
+        dbr = pick.load(f, encoding='latin1')   
 
-with open(baseFN+'.pk', 'rb') as f:
-    dbr = pick.load(f, encoding='latin1')
+    allx  = dbr[gens+1]['allDvarValues'] 
+    ally  = dbr[gens+1]['allObjValues'] 
+    dvars = np.array(allx)
+    emitx1  = np.array(ally[:,0])
+    emitx2  = np.array(ally[:,1])
+    rmss1   = np.array(ally[:,2])
+    rmss2   = np.array(ally[:,3])
 
-allx = dbr[gens+1]['allDvarValues']
-ally = dbr[gens+1]['allObjValues']
+    (px, py, pd) = pareto(rmss1, emitx1, dvars)
+    #(prmss2, pemitx2, pdvars) = pareto(rmss2, emitx2, dvars)
 
-print(np.shape(allx), np.shape(ally))
+    print(np.shape(px), np.shape(py), np.shape(pd))
+#    xvals = []
+#    for y in prmss1: 
+#        p = np.where(prmss1==y)[0][0]
+#        xvals = np.append(xvals, dvars[p, :])
+#
+#    print(np.shape(xvals))
+
+#    xvals = [] 
+#
+#
+#for gen in range(0,gens):
+#    nsims = dbr.getSampleSize(i=gen)
+#    print(nsims) #len(dbr[gen]['dvarValues'])
+#    for x in range(0,nsims):
+#        #print(x)
+#        xsim = dbr.getDVarVec(gen,x)
+#        ysim = dbr.getObjVec(gen,x)
+#        xvals.append(xsim)
+#print(np.shape(xvals))
+#
+#with open(baseFN+'.pk', 'rb') as f:
+#    dbr = pick.load(f, encoding='latin1')
+#
+#allx = dbr[gens+1]['allDvarValues']
+#ally = dbr[gens+1]['allObjValues']
+#
+#print(np.shape(allx), np.shape(ally))
 #        #print('Generation #: ', gen)
 #        #print('Num of individuals: ', np.size(ns))
 #        #print('first check:', np.size(ns), cols)

@@ -3,33 +3,8 @@ import numpy as np
 import pickle as pick
 import matplotlib.pyplot as plt
 from db import mldb
-
-def doscale(vals):
-    smax = np.max(vals)
-    smin = np.min(vals)
-    scaled_vals = (vals - smin)/smax
-    return (scaled_vals)    
-
-def pareto(x, y):
-    #Making holders for my pareto fronts            
-    pareto_y = []
-    pareto_x = [] 
-    pdvars   = [] 
-    w  = np.arange(0,1.001, 0.001)
-    sx = doscale(x)
-    sy = doscale(y)
-    #Finding best point with respect to all weights (w)
-    for i in range(0, len(w)):
-        fobj     = sy * w[i] + sx *(1-w[i])
-        wmins    = np.where(fobj==min(fobj))[0][0]
-        pareto_y = np.append(pareto_y, y[wmins])
-        pareto_x = np.append(pareto_x, x[wmins])
-        pdvars   = np.append(pdvars, dvars[wmins, :])
-    return(pareto_x, pareto_y)#, pdvars)
-
-#def getx(pareto, allx, ally):
-#    return(xvals)
-    
+from visualize import scaleData
+from visualize import pareto 
 
 root = './databases/'
 baseFN = ['ex-1-bounded', 'ex-2-bounded','ex-3-bounded','ex-4-bounded']
@@ -61,13 +36,13 @@ for i, fn in enumerate(baseFN):
 
     #emittance vs rmss
     dvars = np.array(allx)
-    (prmss1, pemitx1) = pareto(rmss1, emitx1)
-    (prmss2, pemitx2) = pareto(rmss2, emitx2)
+    (prmss1, pemitx1, pdvars) = pareto(rmss1, emitx1, allx)
+    (prmss2, pemitx2, pdvars) = pareto(rmss2, emitx2, allx)
     
     print(np.shape(prmss1)) #, np.shape(pdvars1))
     ex = fn.split('-')[1]
     #Plotting
-    plot =1 
+    plot =0 
     if plot == 0:
         plt.plot(prmss1*10**3, pemitx1*10**6, style[i], alpha=alpha[i], label='ex-'+ex)
     else:
