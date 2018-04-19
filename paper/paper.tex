@@ -19,6 +19,7 @@
 \usetikzlibrary{mindmap,trees}
 \usetikzlibrary{decorations.pathreplacing}
 \usetikzlibrary{plotmarks}
+\usepackage{subcaption}
 
 \usepackage{listings}
 \newcounter{lstmain}
@@ -52,6 +53,7 @@
 \newcolumntype{C}{ >{\centering\arraybackslash} m{2.5cm} }
 \newcolumntype{D}{ >{\centering\arraybackslash} m{3cm} }
 
+\newcommand{\nrnote}[1]{\textsf{{\color{violet}{ NN note:}   #1 }}}
 \begin{document}
 
 
@@ -65,7 +67,7 @@
   \and C. Bekas\footnotemark[3]
   \and A. Curioni\footnotemark[3]
   \and A. Kolano\footnotemark[2]\ \footnotemark[5]
-  \and C. Kraus
+  \and C. Metzger-Kraus 
 }
 
 \maketitle
