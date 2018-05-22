@@ -19,6 +19,7 @@
 \usetikzlibrary{mindmap,trees}
 \usetikzlibrary{decorations.pathreplacing}
 \usetikzlibrary{plotmarks}
+\usepackage{subcaption}
 
 \usepackage{listings}
 \newcounter{lstmain}
@@ -52,6 +53,7 @@
 \newcolumntype{C}{ >{\centering\arraybackslash} m{2.5cm} }
 \newcolumntype{D}{ >{\centering\arraybackslash} m{3cm} }
 
+\newcommand{\nrnote}[1]{\textsf{{\color{violet}{ NN note:}   #1 }}}
 \begin{document}
 
 
@@ -65,7 +67,7 @@
   \and C. Bekas\footnotemark[3]
   \and A. Curioni\footnotemark[3]
   \and A. Kolano\footnotemark[2]\ \footnotemark[5]
-  \and C. Kraus
+  \and C. Metzger-Kraus 
 }
 
 \maketitle
@@ -187,8 +189,8 @@ The next section introduces the notation of multi-objective optimization
   theory and describes the first implemented optimizer.
 In Section~\ref{sec:framework} we discuss the implementation of the framework.
 We introduce the employed forward-solver in Section~\ref{sec:forward-solver}.
-A validation and a proof of concept application in two beam dynamics problems is
-  discussed in Section~\ref{sec:experiments}.
+A validation and a proof of concept application in the two beam dynamics problems 
+mentioned above is discussed in Section~\ref{sec:experiments}.
 
 
 
@@ -841,7 +843,12 @@ Finally, combining the presented multi-objective optimization framework with
 \section{ACKNOWLEDGMENT}
 
 The authors thank the \textsc{SwissFEL} and AWA teams for contributing to the
-  formulation of optimization problems. We gratefully acknowledge the computing resources provided on Bebop, a HPC cluster operated by the LCRC at ANL.
+  formulation of optimization problems. 
+  We gratefully acknowledge the computing resources provided on Bebop,
+  a HPC cluster operated by the LCRC at ANL.
+  This work was partly supported by the 
+  U.S. Department of Energy, Office of Science, under 
+  contract number DE-AC02-06CH11357 and grant number DE-SC0015479. 
 \appendix
 
 \section{Forward Solver Implementation}
@@ -962,7 +969,7 @@ private:
 
 
 \bibliographystyle{abbrv}
-\bibliography{../../bibliography/phd}
+\bibliography{paper}
 
 \end{document}
 

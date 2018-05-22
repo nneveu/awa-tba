@@ -423,16 +423,17 @@ Both trackers agree within acceptable limits \cite{chao:99}.
   %design variables are narrow enough (iteratively diminishing search space). 
 %\vspace{-7em}
 \subsection{AWA Photoinjector Optimization} \label{awaproblem}
-Next we apply the optimization framework to the high charge beam line at the AWA, 
-which consists of an rf photocathode gun, two solenoids, six linear accelerating cavities, 
-followed by four quadrupoles and a stripline kicker, as shown in Fig. \ref{awa-pic}. 
-Portions of this beam line served as the injector for Two Beam 
-Acceleration (TBA) experiments in the past [X1], and will be used for 
-similar experiments in the future [X2]. Main constraints on prior experimental 
-results were the beam size and emittance as the beam passed through small aperture 
+Next we apply the optimization framework to the high charge beam line at the AWA. 
+As shown in Fig.  \ref{awa-pic}, this beam line consists of an rf photocathode gun, 
+two solenoids, six linear accelerating cavities, 
+followed by four quadrupoles and a stripline kicker. 
+The charge of interest is 40 nC, and based on Two Beam 
+Acceleration (TBA) \cite{gai_power_jing_2012} experiments performed in the past 
+at AWA. Similar experiments will take place in the future and motivate this work. 
+Prior experimental results were limited by beam size and emittance as the beam passed through small aperture 
 wakefield structures located after the quadrupoles. 
 In an attempt to maximize charge transmission in upcoming experiments
-we optimize several parameters in the gun and quadrupole leading into the 
+we optimize several parameters in the gun and quadrupoles leading into the 
 TBA section of the beam line.
 %\vspace{-1em}
 
@@ -443,18 +444,18 @@ TBA section of the beam line.
 	\label{awa-pic}
 \end{figure}
 
-\vspace{-1em}
-We also chose this model to demonstrate the frameworks ability to tackle larger problems.
+%\vspace{-1em}
+In addition to the physics challenges, we chose this model to demonstrate the frameworks ability to tackle large problems.
 The number of design variables is eight, and the number of objectives is seven.
-This problem is also less predictable, due to the high dimensionality 
-and nonlinear effects such as space charge. There is not a definite idea
-before hand where the Pareto front will fall. This work is also meaningful in that
+This problem encompasses high dimensionality 
+and nonlinear effects such as space charge. There is no existing information
+that accurately predicts where the Pareto front will fall. This work is also meaningful in that
 it will guide future operations at the AWA.
 
 \begin{align}
-\text{min}  \quad & \text{rms}_{x, s_1}, \quad \text{rms}_{x, s_2} \label{eq:awa:p1}\\
-& \text{rms}_{s, s_1}, \quad \text{rms}_{s, s_2} \label{eq:awa:p2}\\
-& \varepsilon_{x,s_1}, \quad \varepsilon_{x,s_2} \label{eq:awa:p3} \\
+\text{min}  \quad & \text{rms}_{x}\left(s = s_1\right), \quad \text{rms}_{x}\left(s = s_2\right) \label{eq:awa:p1}\\
+& \text{rms}_{s}\left(s = s_1\right), \quad \text{rms}_{s}\left(s = s_2\right), \label{eq:awa:p2}\\
+& \varepsilon_{x}\left(s = s_1\right), \quad \varepsilon_{x}\left(s = s_2\right), \label{eq:awa:p3} \\
 & dE \label{eq:awa:p4} \\
 \text{subject to} \quad & q = 40 \left[\text{nC}\right] \label{eq:awa:firstconstr}\\
 \quad & \text{Volt}_{\text{Gun}} = 64\left[\text{MV/m}\right] \label{eq:awa:lastconstr}\\
@@ -463,19 +464,21 @@ it will guide future operations at the AWA.
 \quad & \phi_{\text{linac}} =0^\circ \label{eq:awa:lastdvar}
 \end{align}
 
-The first four objectives minimize the transverse ($rms_x$) and longitudinal ($rms_s$) 
-beam sizes at two locations of interest in the beam line ($s_1$,$s_2$). 
-These are the longitudinal positions at the entrance of the kicker and 
-$1[\text{m}]$ after the exit of the kicker. The beam size needs to be minimized
-here to prevent scraping and ensure transmission through the wakefield structures 
-following the kicker. The next two objectives (\ref{eq:awa:p4}) minimize the 
+The first four objectives, Eqs. (\ref{eq:awa:p1}) and (\ref{eq:awa:p2}),
+minimize the transverse ($rms_x$) and longitudinal ($rms_s$) 
+beam sizes at two locations of interest in the beam line ($s_1$,$s_2$);
+the longitudinal positions at the entrance of the kicker and 
+$1$ meter after the exit of the kicker. 
+Minimizing the beam size at these locations is essential to 
+to preventing scraping and ensuring transmission through the wakefield structures 
+following the kicker. The next two objectives (\ref{eq:awa:p3}) minimize the 
 transverse emittance, which favors less divergence in the beam and reduces 
 emittance growth during transport. The last objective (\ref{eq:awa:p4}), 
-minimizes energy spread in the bunch at the entrance of the kicker, $s_1$.  
+minimizes energy spread in the bunch at the entrance of the kicker at $s_1$.  
 This helps reduce emittance and beam size growth in the kicker.  
 Equations (\ref{eq:awa:firstconstr}) to
 (\ref{eq:awa:lastdvar}) define the charge, gun voltage, linac voltages, 
-laser radius and linac cavity phases. These are parameters in the simulation 
+laser radius and linac cavity phases (in that order). These are parameters in the simulation 
 that must be defined, but do not vary during the optimization.
 
 %\vspace{-1em}
@@ -514,8 +517,8 @@ the gun phase (GPHASE), the laser longitudinal full width half max (FWHM),
 and four quadrupole strengths (KQ1-KQ2). The objectives include
 beam size, emittance, and energy spread as
 defined in Eqs. (\ref{eq:awa:p1}) to (\ref{eq:awa:p4}). 
-The s location at the entrance of the kicker is $s_1=16.45[\text{m}]$, 
-and the s location of interest after the kicker is $s_1=18.45[\text{m}]$. 
+The location at the entrance of the kicker is $s_1=16.45$~meters, 
+and the location of interest after the kicker is $s_1=18.45$~meters. 
 
 All simulations for this experiment were carried out on Bebop a
 high performance computing (HPC)
@@ -524,7 +527,7 @@ at Argonne National Laboratory (ANL). We used Intel Knights Landing
 (KNL) processors at 1.3 GHz with 128 GB of memory 
 and 64 cores per node. There are 352 compute nodes available on 
 Bebop, with a total of 22,528 cores. All jobs were run and compared 
-on 8 cores each, which allowed 8 jobs per node on the KNL.
+on 8 cores each, which allowed 8 jobs per node on the KNLs.
 This in combination with the amount of nodes available 
 allows for very large optimization jobs, like the AWA case.
 
@@ -534,23 +537,25 @@ maintaining the physics of interest.
 The grid size was $16 \times 16 \times 32$, 
 and parallelized in the x and y directions.
 After comparing several options we choose ten thousand particles 
-in combination with adjusting the time step near sensitive elements 
+in combination with adjusting the time step (dT) near sensitive elements 
 (i.e. quadurpoles, kicker). 
 The resulting simulations are low fidelity, but closely approximate 
 the mid fidelity simulations for metrics of interest, as shown in 
 Fig. \ref{tstep}. For all models, the longitudinal parameters (rms$_s$ and energy) 
 are calculated correctly, but we see discrepancies in the transverse 
-rms$_x$ and $\epsilon_x$ in the low fidelity results. A summary of 
-the parameters used is listed in Table \ref{fidelity}. 
+rms$_x$ and $\epsilon_x$ in the low fidelity results. 
+Average run time each simulation with the adjusted time steps was 1.6~minutes.
+In comparison the mid fidelity simulations ran for 18~minutes each.
+%A summary of the parameters used is listed in Table \ref{fidelity}. 
 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\linewidth]{Report/timestep_comparison}
-	\caption{Comparison of different fidelity models.}
+	\caption{Comparison of different fidelity models (dT stands for time step).}
 	\label{tstep}
 \end{figure}
 
-
+\iffalse
 \begin{table}%[h!]
 	\begin{center}
 		\caption{Low and mid fidelity simulation parameters.}
@@ -566,17 +571,55 @@ the parameters used is listed in Table \ref{fidelity}.
 		\end{tabular*}
 	\end{center}
 \end{table}
+\fi 
 
 \subsubsection{AWA Optimization Results}
-Given the parameters and variable boundaries in Section \ref{awaproblem}, 
-four 50 generation optimization experiments were done with varying GA parameters. 
-Similar to the time step scan, the goal was to determine which set of optimization
-parameters strongly influence the results, and whether there was a time to solution
-difference. (NOTE FOR EDIT: May need to take this out, or compare at 50 generations, none of these runs finished 100 gens)
+While the optimization problem and goals were well defined (Section \ref{awaproblem}), 
+it was not clear what the best input parameters for the NSGA-II should be.
+These parameters include gene mutation probability, mutation probability, 
+recombination probability, number of individuals (initial and and for later generations), 
+and number of generations to complete. 
+Given the beam line and design variables given in Section \ref{awaproblem}, 
+four optimization experiments were done with varying NSGA-II parameters. 
+Similar to the time step scan, 
+the goal of this exercise was to determine which set of optimization
+parameters strongly influence the results, 
+and whether there was a time to solution difference.
+From here on, we will reference each experiment as ex-1, ex-2, ex-3, and ex-4
+as shown in Table \ref{extable}. 
+\begin{table}%[h!]
+	\begin{center}
+		\caption{Input Parameters for initial twenty four hour AWA optimization experiments. 
+			The gene mutation probability was equal to the mutation probability (not shown) in all four experiments. 
+			The max number of individuals per generation was~80.}
+		\label{extable}
+		\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} C C D }
+			\hline\noalign{\smallskip}
+			& Gene Mutation Probability & Recombination Probibility & Number of completed generations \\
+			\noalign{\smallskip}\hline\noalign{\smallskip}
+			ex-1 &  0.1  & 0.9  &  96 \\
+			ex-2 &  0.3  & 0.7  &  81 \\
+			ex-3 &  0.8  & 0.2  &  53 \\
+			ex-4 &  0.01 & 0.09 &  95 \\
+			\noalign{\smallskip}\hline
+		\end{tabular*}
+	\end{center}
+\end{table}
+
+
+The maximum number of individuals per generation was fixed at 80, 
+Each experiment was allowed to run for twenty four hours, with 
+a maximum generation limit of 100. 
+We reduced the seven objectives to the four needed to construct 
+the Pareto fronts that would be the final goal of this study.
+The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)\text{, } \text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
+The optimization parameters specific to OPAL input for ex-3 is given as an example.
+Note the design variables defined in Section \ref{awaproblem}
+precede the optimization parameters in the OPAL input file.
 
 \vspace{0.2cm}
-{\footnotesize\begin{verbatim}
-OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl",
+{\footnotesize \begin{verbatim}
+	OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl",
 	OUTPUT="optLinac_40nC",
 	OUTDIR="results",
 	OBJECTIVES = {rmss1, rmsx1, emitx1, de1, rmss2, rmsx2, emitx2},
@@ -593,7 +636,80 @@ OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl",
 	GENE_MUTATION_PROBABILITY=0.8,
 	MUTATION_PROBABILITY=0.8,
 	RECOMBINATION_PROBABILITY=0.2;
-QUIT;
-\end{verbatim}}
+	QUIT;
+	\end{verbatim}}
+\vspace{0.2cm}
+
+After collection of the data for all four experiments, several metrics
+were compared, including number of generations completed in twenty four hours,
+Pareto fronts at $s_1$ and $s_2$, and the design variables at the Pareto front. 
+From Table \ref{extable}, we clearly see ex-3 is significantly 
+slower, as it evaluated about 30 to 40 fewer generations than the other experiments.
+Perhaps this trade off would be acceptable if the Pareto front was significantly 
+improved, but from Fig. \ref{expareto}, we can see this is not the case.
+The Pareto fronts at $s_1$, are nearly identical. We could expect
+they would continue to converge given more time. 
+When looking at the Pareto front for $s_2$, we see ex-4 has a slight 
+edge over the others.  
+\begin{figure}
+	\centering
+	\includegraphics[width=0.75\textwidth]{Report/ex-pareto1}%
+	\llap{\raisebox{1.8cm}{%  move next graphics to top right corner
+			\includegraphics[height=5.5cm]{Report/ex-pareto2}%
+	}}
+	\caption{My overlay figure.}
+\end{figure}  
+
+
+
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Report/ex-pareto1}
+		\caption{Pareto fronts at $s_1$.}
+		\label{expareto1}
+	\end{subfigure}
+	\begin{subfigure}{0.49\textwidth}
+	\centering
+	\includegraphics[width=\textwidth]{Report/ex-pareto2}
+	\caption{Pareto fronts at $s_2$.}
+	\label{expareto2}
+	\end{subfigure}
+	\caption{Comparison of Pareto fronts for initial optimization experiments.}
+	\label{expareto}
+\end{figure}
+
+Next compare the design variables at each point on the 
+Pareto front.
+\begin{figure}
+	\centering
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Report/ex-pareto1}
+		\caption{Pareto fronts at $s_1$.}
+		\label{bounds1}
+	\end{subfigure}
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Report/ex-pareto2}
+		\caption{Pareto fronts at $s_2$.}
+		\label{bounds2}
+	\end{subfigure}
+	\caption{Comparison of design variables for each Pareto front.}
+	\label{bounds}
+\end{figure}
+
+
+ 
+The initial number of individuals was fixed at 656, 
+and the minimum number individuals in later generations was fixed at 328. 
+These numbers we in part based on the architecture of the KNL's. 
+Since each simulation takes 8 cores, and there are 64 cores per KNL node, 
+we wanted a large population size that would fit evenly on these resources. 
+
+
+
 
 
