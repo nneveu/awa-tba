@@ -1,0 +1,47 @@
+OPTION, ECHO=FALSE;
+OPTION, INFO=TRUE;
+
+TITLE, STRING="First full ANL AWA optimisation ";
+
+dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=350.0, UPPERBOUND=500.0;
+dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
+dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-30.0, UPPERBOUND=0.0;
+dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
+ 
+// Quad values
+dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0; 
+dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+
+rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.45))"; 
+rmsx1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',16.45))"; 
+emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.45))";
+
+rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.45))";
+rmsx2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',18.45))"; 
+emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.45))";
+
+de1:	OBJECTIVE,EXPR="fabs(statVariableAt('dE',16.45))";
+
+c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',16.45))<1.0e-1";
+c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.45))<1.0e-1";
+
+OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl", 
+	  OUTPUT="optLinac_40nC",
+	  OUTDIR="results",
+	  OBJECTIVES = {rmss1, rmsx1, emitx1, de1, rmss2, rmsx2, emitx2}, 
+	  DVARS = {dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7}, 
+	  CONSTRAINTS = {c1, c2},
+	  INITIALPOPULATION=656, 
+	  MAXGENERATIONS=200, 
+	  NUM_MASTERS=1, 
+	  NUM_COWORKERS=8, 
+	  SIMTMPDIR="tmp", 
+	  TEMPLATEDIR="tmpl", 
+	  FIELDMAPDIR="fieldmaps",
+	  NUM_IND_GEN=328,
+	  GENE_MUTATION_PROBABILITY=0.01,
+	  MUTATION_PROBABILITY=0.01,
+	  RECOMBINATION_PROBABILITY=0.09;
+QUIT;
