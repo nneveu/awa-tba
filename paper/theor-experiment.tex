@@ -650,64 +650,66 @@ improved, but from Fig. \ref{expareto}, we can see this is not the case.
 The Pareto fronts at $s_1$, are nearly identical. We could expect
 they would continue to converge given more time. 
 When looking at the Pareto front for $s_2$, we see ex-4 has a slight 
-edge over the others.  
+edge over the others. 
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}{0.8\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Report/ex-pareto1}
+		\caption{Pareto fronts at $s_1$.}
+		\label{expareto1}
+	\end{subfigure}
+	\begin{subfigure}{0.8\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Report/ex-pareto2}
+		\caption{Pareto fronts at $s_2$.}
+		\label{expareto2}
+	\end{subfigure}
+	\caption{Comparison of Pareto fronts for initial optimization experiments.}
+	\label{expareto}
+\end{figure}
+\iffalse 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.75\textwidth]{Report/ex-pareto1}%
 	\llap{\raisebox{1.8cm}{%  move next graphics to top right corner
 			\includegraphics[height=5.5cm]{Report/ex-pareto2}%
 	}}
-	\caption{My overlay figure.}
+	\caption{Comparison of Pareto fronts for initial optimization experiments.}
 \end{figure}  
-
-
-
-
 \begin{figure}
 	\centering
 	\begin{subfigure}{0.49\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Report/ex-pareto1}
 		\caption{Pareto fronts at $s_1$.}
-		\label{expareto1}
+		%\label{expareto1}
 	\end{subfigure}
 	\begin{subfigure}{0.49\textwidth}
 	\centering
 	\includegraphics[width=\textwidth]{Report/ex-pareto2}
 	\caption{Pareto fronts at $s_2$.}
-	\label{expareto2}
+	%\label{expareto2}
 	\end{subfigure}
 	\caption{Comparison of Pareto fronts for initial optimization experiments.}
-	\label{expareto}
+	%\label{expareto}
 \end{figure}
+\fi 
 
-Next compare the design variables at each point on the 
-Pareto front.
-\begin{figure}
-	\centering
-	\begin{subfigure}{1\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{Report/ex-pareto1}
-		\caption{Pareto fronts at $s_1$.}
-		\label{bounds1}
-	\end{subfigure}
-	\begin{subfigure}{1\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{Report/ex-pareto2}
-		\caption{Pareto fronts at $s_2$.}
-		\label{bounds2}
-	\end{subfigure}
-	\caption{Comparison of design variables for each Pareto front.}
-	\label{bounds}
-\end{figure}
+Next we compared the design variables at each point on several of the Pareto fronts. 
+We eliminate ex-3 from this exercise due to it's significantly slower execution time.
+There is no 
 
-
- 
+Since there was no clear advantage in the design variables, we choose
+the best Pareto front in Fig. \ref{expareto2}, ex-4, for an extended optimization run. 
 The initial number of individuals was fixed at 656, 
 and the minimum number individuals in later generations was fixed at 328. 
-These numbers we in part based on the architecture of the KNL's. 
-Since each simulation takes 8 cores, and there are 64 cores per KNL node, 
+These numbers were in part based on the architecture of the KNL's. 
+Each simulation takes 8 cores, and there are 64 cores per KNL node, 
 we wanted a large population size that would fit evenly on these resources. 
+We allowed the simulation to run for 200 generations.5
+
+
 
 
 
