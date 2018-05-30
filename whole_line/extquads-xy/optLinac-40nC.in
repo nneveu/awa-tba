@@ -1,0 +1,85 @@
+OPTION, ECHO=FALSE;
+OPTION, INFO=TRUE;
+
+TITLE, STRING="First full ANL AWA optimisation ";
+
+dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=350.0, UPPERBOUND=500.0;
+dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
+dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-30.0, UPPERBOUND=0.0;
+dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
+ 
+// Quad values
+dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0; 
+dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv8: DVAR, VARIABLE="KQ5", LOWERBOUND=-6.0, UPPERBOUND=6.0;
+dv9: DVAR, VARIABLE="KQ6", LOWERBOUND=-6.0, UPPERBOUND=6.0;
+dv10:DVAR, VARIABLE="KQ7", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv11:DVAR, VARIABLE="KQ8", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv12: DVAR, VARIABLE="KQ9", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+
+//Kicker
+rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.5))"; 
+rmsx1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',16.5))"; 
+emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.5))";
+
+//Septum
+rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.5))";
+rmsx2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',18.5))";
+rmsy2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',18.5))"; 
+emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.5))";
+
+de1:	OBJECTIVE,EXPR="fabs(statVariableAt('dE',16.5))";
+
+//Entrance of Structure
+de3: OBJECTIVE,EXPR="fabs(statVariableAt('dE',21.8))";
+rmss3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',21.8))";
+rmsx3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',21.8))";
+rmsy3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',21.8))";
+emitx3: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',21.8))";
+emity3: OBJECTIVE,EXPR="fabs(statVariableAt('emit_y',21.8))";
+
+//Exit 
+rmss4: OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',22.5))";
+rmsx4: OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',22.5))";
+rmsy4: OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',22.5))";
+emitx4: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',22.5))";
+emity4: OBJECTIVE,EXPR="fabs(statVariableAt('emit_y',22.5))";
+
+//Kicker apeture
+c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',16.5))<10e-3";
+c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5))<10e-3";
+
+//Septum apeture
+c3: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',18.5))<10e-3";
+c4: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',18.5))<10e-3";
+
+//Dipole apeture
+c5: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',20.5))<10e-3"; 
+c6: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',20.5))<10e-3";
+
+//Structure apetures
+c7: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',21.8))<5e-3";
+c8: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',21.8))<5e-3";
+c9: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',22.5))<5e-3";
+c10: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',22.5))<5e-3";
+
+OPTIMIZE, INPUT="tmpl/optLinac-40nC.tmpl", 
+	  OUTPUT="optLinac-40nC",
+	  OUTDIR="results",
+	  OBJECTIVES = {rmss1, rmsx1, emitx1, de1, rmss2, rmsx2, rmsy2, emitx2, rmss3, rmsx3, rmsy3, emitx3, emity3, de3, rmss4, rmsx4, rmsy4, emitx4, emity4}, 
+	  DVARS = {dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7, dv8, dv9, dv10, dv11, dv12}, 
+	  CONSTRAINTS = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10},
+	  INITIALPOPULATION=656, 
+	  MAXGENERATIONS=100, 
+	  NUM_MASTERS=1, 
+	  NUM_COWORKERS=8, 
+	  SIMTMPDIR="tmp", 
+	  TEMPLATEDIR="tmpl", 
+	  FIELDMAPDIR="fieldmaps",
+	  NUM_IND_GEN=328,
+	  GENE_MUTATION_PROBABILITY=0.01,
+	  MUTATION_PROBABILITY=0.01,
+	  RECOMBINATION_PROBABILITY=0.09;
+QUIT;
