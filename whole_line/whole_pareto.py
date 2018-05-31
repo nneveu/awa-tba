@@ -11,14 +11,23 @@ from opal.datasets.filetype import FileType
 from opal.visualization.plots import *
 from opal.datasets.OptimizerDataset import *
 
+def plot_stuff(title, xname, yname, xyrange=False):
+    plt.title(title, size=25)
+    plt.xlabel(xname, size=20)
+    plt.ylabel(yname, size=20)
+    if xyrange:
+        plt.axis(xyrange)
+
+
 plt.rc('text', usetex=True)
 plt.rc('font', family='serif') 
+plt.rc('axes', labelsize=18)
 
 root = '/home/nicole/Documents/awa-tba/'
 
 #baseFN = ['./noquads']#['optLinac_40nC']
 #baseFN = ['./noquads/corrected/']
-baseFN = ['./extquads']
+baseFN = ['./extquads', './noquads/corrected/']
 
 for fn in baseFN:
     allemx1  = []
@@ -43,6 +52,16 @@ for fn in baseFN:
     allq2   = [] 
     allq3   = []
     allq4   = []
+    allq5   = []
+    allq6   = [] 
+    allq7   = []
+    allq8   = []
+    allq9   = []
+
+    allphs  = []
+    allfwhm = []
+    allim   = []
+    allib   = []
 
     ngen  = len(glob.glob(fn+'/results/*.json'))
     dsets = load_dataset(fn+'/results/', ftype=FileType.OPTIMIZER)
@@ -77,6 +96,16 @@ for fn in baseFN:
         q2 = ds.getData('KQ2', gen=i)
         q3 = ds.getData('KQ3', gen=i)
         q4 = ds.getData('KQ4', gen=i)
+        try:
+            q5 = ds.getData('KQ5', gen=i)
+            q6 = ds.getData('KQ6', gen=i)
+        except:
+            pass
+        q7 = ds.getData('KQ7', gen=i)
+        q8 = ds.getData('KQ8', gen=i)
+        q9 = ds.getData('KQ9', gen=i)
+
+
         #Some runs don't have q5 and q6
         try:
             q5 = ds.getData('KQ5', gen=i)
@@ -117,7 +146,16 @@ for fn in baseFN:
         allq2  = np.append(q2, allq2)
         allq3  = np.append(q3, allq3)
         allq4  = np.append(q4, allq4)
+        allq5  = np.append(q5, allq5)
+        allq6  = np.append(q6, allq6)
+        allq7  = np.append(q7, allq7)
+        allq8  = np.append(q8, allq8)
+        allq9  = np.append(q9, allq9)
 
+        allphs  = np.append(gphs, allphs)
+        allfwhm = np.append(fwhm, allfwhm) 
+        allim   = np.append(im, allim)
+        allib   = np.append(ib, allib)
 
     #After data for all generations is saved, 
     #Make a pareto front using all data from opt run.
@@ -126,31 +164,39 @@ for fn in baseFN:
     #(pfdata2, ind2) = pareto_pts(allrmss2, allrmsx2)
     #plt.plot(pfdata2['x'], pfdata2['y'], '-.')
 
-
     (pfdatax3, indx3) = pareto_pts(allrmss3, allrmsx3)
     #plt.plot(pfdata3['x'], pfdata3['y'], '-o')
 
     #(pfdatay4, indy4) = pareto_pts(allrmss4, allrmsy4)
     (pfdatax4, indx4) = pareto_pts(allrmss4, allrmsx4)
-    #plt.plot(pfdatax4['x'], pfdatax4['y'], '-o')
+    plot_stuff('Pareto Front after Structure: \n $\sigma_x$ vs. $\sigma_z$', 'Bunch Length: $\sigma_z$ [mm]', 'Beam Size: $\sigma_x$ [mm]')
+    label = fn.split('/')[1]
+    plt.plot(pfdatax4['x']*10**3, pfdatax4['y']*10**3, '-o', label=fn)
     #plt.show()
 
-
-    #print('indy', indy4)
-    print('indx3', indx3)
-    print('indx4', indx4)
+    #print('indx3', indx3)
+    #print('indx4', indx4)
     #Printing design variables that 
     #correspond to pareto front points
-    print('Q1', allq1[indy4])
-    print('Q2', allq2[indy4])
-    print('Q3', allq3[indy4])
-    print('Q4', allq4[indy4])
-    print('Q5', allq1[indy4])
-    print('Q6', allq2[indy4])
-    print('Q7', allq3[indy4])
-    print('Q8', allq4[indy4])
-
-
+    print(fn)
+    print('xrms', pfdatax4['y'])
+    print('zrms', pfdatax4['x'])
+    print('GPHASE', allphs[indx4])
+    print('FWHM', allfwhm[indx4])
+    print('IM', allim[indx4])
+    print('BF', allib[indx4])
+    print('Q1', allq1[indx4])
+    print('Q2', allq2[indx4])
+    print('Q3', allq3[indx4])
+    print('Q4', allq4[indx4])
+    try:
+        print('Q5', allq5[indx4])
+        print('Q6', allq6[indx4])
+    except:
+        pass
+    print('Q7', allq7[indx4])
+    print('Q8', allq8[indx4])
+    print('Q9', allq9[indx4])
 
     #print('xrms1', allrmsx1[ind1])
     #print('xrms2', pfdata4['x'])
@@ -159,4 +205,7 @@ for fn in baseFN:
     #gens = ds.getLabel(data)
     #ds = dsets[0]
     #plot_parallel_coordinates(dsets[0], 1)
-
+plt.plot([0,25], [0.003,0.003], 'k-')
+plt.grid()
+plt.legend()
+plt.savefig('quads_noquads.pdf', dpi=1000, bbox_inches='tight')
