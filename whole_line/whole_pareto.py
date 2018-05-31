@@ -27,7 +27,7 @@ root = '/home/nicole/Documents/awa-tba/'
 
 #baseFN = ['./noquads']#['optLinac_40nC']
 #baseFN = ['./noquads/corrected/']
-baseFN = ['./extquads', './noquads/corrected/']
+baseFN = ['./extquads', './noquads']
 
 for fn in baseFN:
     allemx1  = []
@@ -170,8 +170,12 @@ for fn in baseFN:
     #(pfdatay4, indy4) = pareto_pts(allrmss4, allrmsy4)
     (pfdatax4, indx4) = pareto_pts(allrmss4, allrmsx4)
     plot_stuff('Pareto Front after Structure: \n $\sigma_x$ vs. $\sigma_z$', 'Bunch Length: $\sigma_z$ [mm]', 'Beam Size: $\sigma_x$ [mm]')
-    label = fn.split('/')[1]
-    plt.plot(pfdatax4['x']*10**3, pfdatax4['y']*10**3, '-o', label=fn)
+    label = fn.split('./')[1]
+    label = label.split('/')[0]
+    mmxrms = np.asarray(pfdatax4['y'])*10**3
+    mmzrms = np.asarray(pfdatax4['x'])*10**3
+    #plt.plot(pfdatax4['x'], pfdatax4['y'], '-o', label=fn)
+    plt.plot(mmzrms, mmxrms, '-o', label=fn)
     #plt.show()
 
     #print('indx3', indx3)
@@ -205,7 +209,7 @@ for fn in baseFN:
     #gens = ds.getLabel(data)
     #ds = dsets[0]
     #plot_parallel_coordinates(dsets[0], 1)
-plt.plot([0,25], [0.003,0.003], 'k-')
+#plt.plot([0,5], [3,3], 'k-')
 plt.grid()
 plt.legend()
 plt.savefig('quads_noquads.pdf', dpi=1000, bbox_inches='tight')
