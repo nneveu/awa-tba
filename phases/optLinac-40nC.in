@@ -1,0 +1,114 @@
+OPTION, ECHO=FALSE;
+OPTION, INFO=FALSE;
+
+TITLE, STRING="First full ANL AWA optimisation ";
+
+dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=350.0, UPPERBOUND=500.0;
+dv1: DVAR, VARIABLE="IM",     LOWERBOUND=180.0, UPPERBOUND=280.0;
+dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-20.0, UPPERBOUND=10.0;
+dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
+ 
+// Quad values
+dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0; 
+dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+
+//Phases
+dv8:  DVAR, VARIABLE="P1", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+dv9:  DVAR, VARIABLE="P2", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+dv10: DVAR, VARIABLE="P3", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+dv11: DVAR, VARIABLE="P4", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+dv12: DVAR, VARIABLE="P5", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+dv13: DVAR, VARIABLE="P6", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+
+//dv8:  DVAR, VARIABLE="KQ5", LOWERBOUND=-6.0, UPPERBOUND=6.0;
+//dv9:  DVAR, VARIABLE="KQ6", LOWERBOUND=-6.0, UPPERBOUND=6.0;
+//dv10: DVAR, VARIABLE="KQ7", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+//dv11: DVAR, VARIABLE="KQ8", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+//dv12: DVAR, VARIABLE="KQ9", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+
+//Kicker
+de1:	OBJECTIVE,EXPR="fabs(statVariableAt('dE',16.5))";
+rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.5))"; 
+rmsx1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',16.5))"; 
+rmsy1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',16.5))";
+rmspx1: OBJECTIVE,EXPR="fabs(statVariableAt('rms_px',16.5))";
+rmspy1: OBJECTIVE,EXPR="fabs(statVariableAt('rms_py',16.5))";
+
+//Septum
+de2: OBJECTIVE,EXPR="fabs(statVariableAt('dE',18.5))";
+rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.5))";
+rmsx2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',18.5))";
+rmsy2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',18.5))"; 
+rmspx2: OBJECTIVE,EXPR="fabs(statVariableAt('rms_px',18.5))";
+rmspy2: OBJECTIVE,EXPR="fabs(statVariableAt('rms_py',18.5))";
+
+//Dipole Entrance
+de3: OBJECTIVE,EXPR="fabs(statVariableAt('dE',20.5))";
+rmss3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',20.5))";
+rmsx3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',20.5))";
+rmsy3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',20.5))";
+rmspx3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_px',20.5))";
+rmspy3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_py',20.5))";
+
+
+//Entrance of Structure
+//de4: OBJECTIVE,EXPR="fabs(statVariableAt('dE',21.8))";
+//rmss4: OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',21.8))";
+//rmsx4: OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',21.8))";
+//rmsy4: OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',21.8))";
+//rmspx4: OBJECTIVE,EXPR="fabs(statVariableAt('rms_px',21.8))";
+//rmspy4: OBJECTIVE,EXPR="fabs(statVariableAt('rms_py',21.8))";
+
+//Middle of Structure
+//rmss5: OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',22.15))";
+//rmsx5: OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',22.15))";
+//rmsy5: OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',22.15))";
+//rmspx5: OBJECTIVE,EXPR="fabs(statVariableAt('rms_px',22.15))";
+//rmspy5: OBJECTIVE,EXPR="fabs(statVariableAt('rms_py',22.15))";
+
+//Exit 
+//rmss6: OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',22.5))";
+//rmsx6: OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',22.5))";
+//rmsy6: OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',22.5))";
+//rmspx6: OBJECTIVE,EXPR="fabs(statVariableAt('rms_px',22.5))";
+//rmspy6: OBJECTIVE,EXPR="fabs(statVariableAt('rms_py',22.5))";
+
+//Kicker apeture
+c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',16.5))<0.1";
+c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5))<0.1";
+c3: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',13.6)-statVariableAt('rms_x',13.6))<0.001";
+
+//Septum apeture
+//c3: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',18.5))<0.1";
+c4: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',18.5))<0.1";
+
+//Dipole apeture
+c5: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',20.5))<0.1"; 
+c6: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',20.5))<0.1";
+
+//Structure apetures
+//c7: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',21.8))<0.05";
+//c8: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',21.8))<0.05";
+//c9: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',22.5))<0.05";
+//c10: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',22.5))<0.05";
+
+OPTIMIZE, INPUT="tmpl/optLinac-40nC.tmpl", 
+	  OUTPUT="optLinac-40nC",
+	  OUTDIR="results",
+	  OBJECTIVES = {rmss1, rmsx1, rmsy1, rmspx1, rmspy1, de1}, 
+	  DVARS = {dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7, dv8, dv9, dv10, dv11, dv12, dv13}, 
+	  CONSTRAINTS = {c1, c2, c3},  //, c7, c8, c9, c10},
+	  INITIALPOPULATION=656, 
+	  MAXGENERATIONS=200, 
+	  NUM_MASTERS=1, 
+	  NUM_COWORKERS=8, 
+	  SIMTMPDIR="tmp", 
+	  TEMPLATEDIR="tmpl", 
+	  FIELDMAPDIR="fieldmaps",
+	  NUM_IND_GEN=328,
+	  GENE_MUTATION_PROBABILITY=0.01,
+	  MUTATION_PROBABILITY=0.01,
+	  RECOMBINATION_PROBABILITY=0.09;
+QUIT;

@@ -1,0 +1,50 @@
+OPTION, ECHO=FALSE;
+OPTION, INFO=FALSE;
+
+TITLE, STRING="First full ANL AWA optimisation ";
+
+dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=300.0, UPPERBOUND=500.0;
+dv1: DVAR, VARIABLE="IM",     LOWERBOUND=180.0, UPPERBOUND=280.0;
+dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-20.0, UPPERBOUND=0.0;
+dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
+
+//Phases
+dv4:  DVAR, VARIABLE="P1", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+dv5:  DVAR, VARIABLE="P2", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+dv6: DVAR, VARIABLE="P3", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+dv7: DVAR, VARIABLE="P4", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+dv8: DVAR, VARIABLE="P5", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+dv9: DVAR, VARIABLE="P6", LOWERBOUND=-20.0, UPPERBOUND=20.0;
+
+
+//objectives
+de1:	OBJECTIVE,EXPR="fabs(statVariableAt('dE',13.65))";
+rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',13.65))"; 
+rmsx1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',13.65))"; 
+rmsy1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',13.65))";
+rmspx1: OBJECTIVE,EXPR="fabs(statVariableAt('rms_px',13.65))";
+rmspy1: OBJECTIVE,EXPR="fabs(statVariableAt('rms_py',13.65))";
+
+//Kicker apeture
+c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',13.6))<0.1";
+c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',13.6))<0.1";
+c3: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',13.6)-statVariableAt('rms_x',13.6))<0.001";
+
+OPTIMIZE, INPUT="tmpl/optLinac-40nC.tmpl", 
+	  OUTPUT="optLinac-40nC",
+	  OUTDIR="results",
+	  OBJECTIVES = {rmss1, rmsx1, rmsy1, rmspx1, rmspy1, de1}, 
+	  DVARS = {dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7, dv8, dv9}, 
+	  CONSTRAINTS = {c1, c2, c3},
+	  INITIALPOPULATION=656, 
+	  MAXGENERATIONS=200, 
+	  NUM_MASTERS=1, 
+	  NUM_COWORKERS=8, 
+	  SIMTMPDIR="tmp", 
+	  TEMPLATEDIR="tmpl", 
+	  FIELDMAPDIR="fieldmaps",
+	  NUM_IND_GEN=328,
+	  GENE_MUTATION_PROBABILITY=0.01,
+	  MUTATION_PROBABILITY=0.01,
+	  RECOMBINATION_PROBABILITY=0.09;
+QUIT;

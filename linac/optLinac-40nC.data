@@ -1,0 +1,17 @@
+CORES 8 #
+NP 10000 # 
+#
+#
+# Gun variables
+GPHASE -28.0
+FWHM   9.6 
+IBF    350
+IM     237
+# Linac phases
+p1    -20.0   # Range -30-0.0
+p2     0.0
+p3     0.0
+p4     0.0
+p5     0.0
+p6     0.0
+#
