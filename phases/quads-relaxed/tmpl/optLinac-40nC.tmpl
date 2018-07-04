@@ -1,0 +1,219 @@
+OPTION, ECHO=FALSE; 
+OPTION, INFO=FALSE;		//psdump and statdump are in time steps
+OPTION, PSDUMPFREQ = 1000000;	//How often 6d info is dumped to .h5
+OPTION, STATDUMPFREQ = 10;	//How often beam stats dumped to .stat.  
+//OPTION, BOUNDPDESTROYFQ=10;	//Delete lost particles, if any
+OPTION, AUTOPHASE=4;		//Always leave this on, unless doing a phase scan
+Option, VERSION=20000;
+
+Title, string="AWA Drive Beamline";
+
+//------------------------------------------------------------------------
+//					Global Parameters
+
+REAL field_maps              = 2.0;     //Either 2D or 3D
+REAL rf_freq         	     = 1300.0;  //RF frequency. (MHz)
+REAL beam_bunch_charge       = 40e-9;   //Charge of bunch. (C)
+REAL beam_current            = rf_freq*beam_bunch_charge*1e6;
+
+//Initial energy Calc
+REAL Edes    = 1.4e-9;
+REAL gamma   = (Edes+EMASS)/EMASS;
+REAL beta    = sqrt(1-(1/gamma^2));
+REAL P0      = gamma*beta*EMASS;
+
+value , {Edes, P0}; 					
+
+//-------------------------------------------------------------------------------------
+
+if (field_maps == 2.0){
+    REAL gun_l   = 0.2927; //Gun length 
+    REAL gun_f   = 1300.0; //Gun frequency  
+}
+else if (field maps == 3.0){ 
+    REAL gun_l   = 0.23271;
+    REAL gun_f   = 1300.151204;  
+}
+
+GUN:	RFCavity, L = gun_l, VOLT = 64.0, ELEMEDGE = 0.0, TYPE = "STANDING", 		
+	FMAPFN = "DriveGun_2D.T7",
+	FREQ = gun_f, LAG = (_GPHASE_*Pi)/180.0; 
+
+//-------------------------------------------------------------------------------------
+
+REAL KBF = (_IBF_/550.0)*0.12017;
+
+BF:	Solenoid, L = 0.5, ELEMEDGE=0.0, KS = KBF, // old value: 0.162544398,
+	FMAPFN = "BF_550_2D.T7";
+	
+REAL KM = (_IM_/440.0)*0.61126;
+	
+MS:	Solenoid, L = 0.5, ELEMEDGE=0.0, KS = KM,
+	FMAPFN = "M_440_2D.T7";
+
+//-------------------------------------------------------------------------------------
+// Linac 
+
+if (field_maps == 2.0){
+    REAL linac_l    = 1.20713;  
+    REAL linac_f    = 1300.0;
+}
+else if (field maps == 3.0){ 
+    REAL linac_l    = 1.2;
+    REAL linac_f    = 1300.0;
+}
+
+REAL v1 = 25.0; 
+REAL v2 = 24.0; 
+REAL v3 = 24.0; 
+REAL v4 = 24.0; 
+REAL v5 = 25.5; 
+REAL v6 = 25.0; 
+
+L1: RFCavity, L = linac_l, VOLT = v1, ELEMEDGE = 0.6714, TYPE = "STANDING",	
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = (_p1_* Pi) / 180.0;          
+
+L2: RFCavity, L = linac_l, VOLT = v2, ELEMEDGE = 3.3364, TYPE = "STANDING",
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = (_p2_* Pi) / 180.0;          
+          	
+L3: RFCavity, L = linac_l, VOLT = v3, ELEMEDGE = 4.8834, TYPE = "STANDING",	
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = (_p3_ * Pi) / 180.0;     
+            		
+L4: RFCavity, L = linac_l, VOLT = v4, ELEMEDGE = 6.9994, TYPE = "STANDING",	
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = (_p4_ * Pi) / 180.0;
+    
+L5: RFCavity, L = linac_l, VOLT = v5, ELEMEDGE = 8.3364, TYPE = "STANDING",		
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = (_p5_ * Pi) / 180.0; 
+		
+L6: RFCavity, L = linac_l, VOLT = v6, ELEMEDGE = 9.7484, TYPE = "STANDING",		
+	FMAPFN = "DriveLinac_2D.T7",
+	FREQ = linac_f, LAG = EVAL(_p6_/180.0);
+
+//--------------------------------------------------------------------------------          
+
+AWAKICK: RBend, ANGLE = 2.0 * (Pi / 180.0), FMAPFN = "1DPROFILE1-DEFAULT", //"hard_edge_map.txt",
+               ELEMEDGE = 16.5, L = 1.0, GAP = 0.04, DESIGNENERGY = 65.0;
+
+IMPSEPT: RBend,ANGLE = 13.0 *(Pi / 180.0), FMAPFN = "1DPROFILE1-DEFAULT",
+               ELEMEDGE = 18.5, L = 0.2, GAP = 0.025, DESIGNENERGY = 65.0;
+ 
+DIP1:	RBend, 	ANGLE = -15.0 * (Pi / 180.0), FMAPFN = "1DPROFILE1-DEFAULT", 
+		ELEMEDGE= 20.5, DESIGNENERGY = 65.0, 
+		L = 0.2, GAP = 0.03;
+          
+//Drift Space 
+//DR1:    DRIFT, L = 10.0, ELEMEDGE = 14.5; 
+DR1:    DRIFT, L = 10.0, ELEMEDGE = 21.5; 
+
+//--------------------------------------------------------------------------------
+// Quads
+// L:	effective length (m)
+// K1:	quad strength (T/m). 
+// ELEMEDGE:	Start of quad (m). 
+
+Q1: QUADRUPOLE, L = 0.11, ELEMEDGE = 13.655, K1 = _KQ1_; 
+Q2: QUADRUPOLE, L = 0.11, ELEMEDGE = 13.905, K1 = _KQ2_;  
+Q3: QUADRUPOLE, L = 0.11, ELEMEDGE = 14.155, K1 = _KQ3_; 
+Q4: QUADRUPOLE, L = 0.11, ELEMEDGE = 14.410, K1 = _KQ4_; 
+
+Q5: QUADRUPOLE, L = 0.11, ELEMEDGE = 19.4, K1 = _KQ5_; 
+Q6: QUADRUPOLE, L = 0.11, ELEMEDGE = 19.6, K1 = _KQ6_;  
+
+Q7: QUADRUPOLE, L = 0.11, ELEMEDGE = 21.2, K1 = _KQ7_; 
+Q8: QUADRUPOLE, L = 0.11, ELEMEDGE = 21.35, K1 = _KQ8_; 
+Q9: QUADRUPOLE, L = 0.11, ELEMEDGE = 21.5, K1 = _KQ9_; 
+
+//--------------------------------------------------------------------------------
+// YAG Screens
+
+YAG1:   Monitor, L=0.01, ELEMEDGE = 3.1, OUTFN = "DYAG1.h5"; 
+YAG2:   Monitor, L=0.01, ELEMEDGE = 6.377, OUTFN = "DYAG2.h5"; 
+YAG3:   Monitor, L=0.01, ELEMEDGE = 8.76, OUTFN = "DYAG3.h5"; 
+YAG4:   Monitor, L=0.01, ELEMEDGE = 11.477, OUTFN = "DYAG4.h5"; 
+YAG5:   Monitor, L=0.01, ELEMEDGE = 14.848, OUTFN = "DYAG5.h5"; 
+YAG6:   Monitor, L=0.01, ELEMEDGE = 15.808, OUTFN = "DYAG6.h5"; 
+CTR1:   Monitor, L=0.01, ELEMEDGE = 16.753, OUTFN = "CTR1.h5"; 
+
+//-------------------------------------------------------------------------------------
+
+// Components in chunks
+GS: 	Line = (GUN, BF, MS);
+LINACS: Line = (L1, L2, L3, L4, L5, L6); 
+QUADS:  Line = (Q1,Q2,Q3, Q4);
+TBA:    Line = (AWAKICK, IMPSEPT); 
+S1:     Line = (Q5, Q6, DIP1, Q7, Q8, Q9);
+
+//Complete accelerator
+DRIVE: Line = (GS, LINACS, QUADS, TBA, S1, DR1);
+
+//-------------------------------------------------------------------------------------
+
+Dist: DISTRIBUTION, TYPE = FLATTOP,
+		SIGMAX = 0.009,		// Radius of laser (m) 
+		SIGMAY = 0.009, 		
+		TRISE = 1.0745e-12,	// (s)
+		TFALL = 1.0745e-12,	// See notes above for equation of TRISE 
+		TPULSEFWHM = _FWHM_e-12,	// FWHM length in time (s)
+		CUTOFFLONG = 4.0,
+		NBIN = 9,
+		EMISSIONSTEPS = 100,
+		EMISSIONMODEL = NONEQUIL,
+		EKIN = 0.2,
+		ELASER = 5.0,
+		W = 3.2,
+		FE = 3.2,
+		CATHTEMP = 321.95,
+		EMITTED = True,
+		WRITETOFILE = False;
+		   
+//-------------------------------------------------------------------------------------
+// Define Field solvers
+// The mesh sizes should be a factor of 2 for most efficient space charge (SC) calculation.
+
+FS_SC: Fieldsolver, FSTYPE = FFT, 
+    	MX = 16, MY = 16, MT = 32,
+		PARFFTX = false, 
+		PARFFTY = false, 
+		PARFFTT = true,
+		BCFFTX = open, 
+		BCFFTY = open, 
+		BCFFTT = open,
+		BBOXINCR = 1, 
+		GREENSF = INTEGRATED;
+
+//-------------------------------------------------------------------------------------
+// Beam Definition
+
+BEAM1: BEAM, PARTICLE = ELECTRON,
+	pc = P0, NPART = _NP_, BFREQ = rf_freq,
+      	BCURRENT = beam_current, CHARGE = -1;
+
+//-------------------------------------------------------------------------------------
+// Run beamline
+
+TRACK, LINE = DRIVE, BEAM = BEAM1, MAXSTEPS = 1900000, 
+//DT = {1.0e-13, 1.0e-11, 2.0e-12, 1.0e-11, 2.0e-12,1e-11, 2e-12,1e-11 }, 
+//ZSTOP={0.3,     13.6,   14.45,   16.5,    19.0,   21.0,   21.4, 23.0 }; 
+
+DT = {1.0e-13, 1.0e-11, 2.0e-12, 1.0e-11},  //, 2.0e-12, 1e-11 }, 
+ZSTOP ={0.3,     13.6,   14.45,   16.55};    //,    19.0,    21.0 }; 
+
+RUN, METHOD = "PARALLEL-T", BEAM = BEAM1, FIELDSOLVER = FS_SC, DISTRIBUTION = Dist;
+ENDTRACK;
+
+Stop; 
+Quit;
+
+
+
+
+
+
+
+
+
