@@ -424,13 +424,15 @@ Both trackers agree within acceptable limits \cite{chao:99}.
 %\vspace{-7em}
 \subsection{AWA Photoinjector Optimization} \label{awaproblem}
 Next we apply the optimization framework to the high charge beam line at the AWA. 
+The purpose of the Argonne Wakefield Accelerator (AWA) optimization is to produce beams of electrons meeting 
+design specifications including number of particles (charge), energy, and particle distribution (characterized by transverse beam sizes and energy spread).
 As shown in Fig.  \ref{awa-pic}, this beam line consists of an rf photocathode gun, 
 two solenoids, six linear accelerating cavities, 
 followed by four quadrupoles and a stripline kicker. 
-The charge of interest is 40 nC, and based on Two Beam 
+The charge of interest, 40 nC, is needed for Two Beam 
 Acceleration (TBA) \cite{gai_power_jing_2012} experiments performed in the past 
 at AWA. Similar experiments will take place in the future and motivate this work. 
-Prior experimental results were limited by beam size and emittance as the beam passed through small aperture 
+Prior experimental results were limited by beam size as the beam passed through small aperture 
 wakefield structures located after the quadrupoles. 
 In an attempt to maximize charge transmission in upcoming experiments
 we optimize several parameters in the gun and quadrupoles leading into the 
@@ -438,87 +440,136 @@ TBA section of the beam line.
 %\vspace{-1em}
 
 \begin{figure}
-	\centering
-	\includegraphics[width=0.9\linewidth]{Report/awa-drawing}
+	\begin{tikzpicture}[every node/.style={anchor=south west,inner sep=0pt},x=1mm, y=1mm,]   
+	\node (fig1) at (0,0)
+	{\includegraphics[width=0.9\textwidth]{Report/awa-drawing}};
+	\node[fill=white, inner sep=2pt] (txt2) at (35,15) {Interferometer};
+	\node[fill=white, inner sep=2pt, rotate=26] (txt2) at (18,19.5) {Slit};	
+	\node[fill=white, inner sep=2pt, rotate=20] (txt2) at (13,27) {Window};
+	\end{tikzpicture}
 	\caption{High charge beam line layout at the AWA.}
 	\label{awa-pic}
 \end{figure}
-
 %\vspace{-1em}
-In addition to the physics challenges, we chose this model to demonstrate the frameworks ability to tackle large problems.
-The number of design variables is eight, and the number of objectives is seven.
+In addition to the physics challenges, we chose this model to demonstrate the ability of the framework to tackle large problems.
+Six design variables and objectives were used, 
+along with three constraints.
+The objectives include transverse and longitudinal beam size, 
+transverse momentum and longitudinal energy spread. 
+The design variables include the two gun solenoids and 
+the first four quadrupoles. The objectives are calculated at 
+$s_1=19.4$~[m], at the entrance of the fifth quadrupole in Fig.~\ref{awa-pic}.  
 This problem encompasses high dimensionality 
 and nonlinear effects such as space charge. There is no existing information
 that accurately predicts where the Pareto front will fall. This work is also meaningful in that
 it will guide future operations at the AWA.
 
 \begin{align}
-\text{min}  \quad & \text{rms}_{x}\left(s = s_1\right), \quad \text{rms}_{x}\left(s = s_2\right) \label{eq:awa:p1}\\
-& \text{rms}_{s}\left(s = s_1\right), \quad \text{rms}_{s}\left(s = s_2\right), \label{eq:awa:p2}\\
-& \varepsilon_{x}\left(s = s_1\right), \quad \varepsilon_{x}\left(s = s_2\right), \label{eq:awa:p3} \\
-& dE \label{eq:awa:p4} \\
-\text{subject to} \quad & q = 40 \left[\text{nC}\right] \label{eq:awa:firstconstr}\\
+\text{min}  \quad & \text{rms}_{x}\left(s = s_1\right), \quad \text{rms}_{y}\left(s = s_1\right) \label{eq:awa:p1}\\
+& \text{rms}_{px}\left(s = s_1\right), \quad \text{rms}_{py}\left(s = s_1\right), \label{eq:awa:p2}\\
+& \text{rms}_{s}\left(s = s_1\right), \quad dE \label{eq:awa:p4} \\
+\text{subject to} \quad & rms_x(s=s_0) < 0.1 \, [m]\label{eq:awa:c1}\\
+\quad & rms_y(s=s_0) < 0.1\, [m]\label{eq:awa:c2}\\
+\quad & |rms_y(s=s_0) - rms_x(s=s_0) | < 0.005 \, [m]\label{eq:awa:c3}\\
+\quad & q = 40 \left[\text{nC}\right] \label{eq:awa:firstconstr}\\
 \quad & \text{Volt}_{\text{Gun}} = 64\left[\text{MV/m}\right] \label{eq:awa:lastconstr}\\
 \quad & \text{Volt}_{\text{Linac}} = 24-25\left[\text{MV/m}\right] \\
-\quad & \sigma_x = \sigma_y = 9 \left[\text{mm}\right] \label{eq:awa:firstdvar}\\
-\quad & \phi_{\text{linac}} =0^\circ \label{eq:awa:lastdvar}
+\quad & R_x = R_y = 9 \left[\text{mm}\right] \label{eq:awa:firstdvar}\\
+\quad & \phi_{\text{gun}} =-20^\circ \label{eq:awa:gphidvar}\\
+\quad & \phi_{\text{linac}} =-20^\circ \label{eq:awa:lastdvar}
 \end{align}
 
-The first four objectives, Eqs. (\ref{eq:awa:p1}) and (\ref{eq:awa:p2}),
-minimize the transverse ($rms_x$) and longitudinal ($rms_s$) 
-beam sizes at two locations of interest in the beam line ($s_1$,$s_2$);
-the longitudinal positions at the entrance of the kicker and 
-$1$ meter after the exit of the kicker. 
-Minimizing the beam size at these locations is essential to 
-to preventing scraping and ensuring transmission through the wakefield structures 
-following the kicker. The next two objectives (\ref{eq:awa:p3}) minimize the 
-transverse emittance, which favors less divergence in the beam and reduces 
-emittance growth during transport. The last objective (\ref{eq:awa:p4}), 
-minimizes energy spread in the bunch at the entrance of the kicker at $s_1$.  
-This helps reduce emittance and beam size growth in the kicker.  
+The first four objectives, Eqs. (\ref{eq:awa:p1}) to (\ref{eq:awa:p2}),
+minimize the transverse ($rms_{x,y}$) beam size and transverse momentum ($rms_{px,py}$)
+at the location of interest in the beam line ($s_1$).
+Where $s_1$ is the longitudinal entrance of the fifth quadrupole. 
+Minimizing the beam size at this location is essential to 
+to preventing loss of particles by scraping.
+Preventing scraping ensures better transmission through the wakefield structures downstream. 
+Less divergence in the beam (lower transverse momentum) 
+reduces growth of transverse beam size during transport in bending elements, 
+which also helps with transmission downstream. 
+The next two objectives (\ref{eq:awa:p2}) minimize the 
+longitudinal beam size ($rms_s$), and energy spread (dE) at $s_1$.
+This helps reduce longitudinal beam size growth in bending elements.  
+
+Three constraints were also defined to help guide the algorithm;
+Eqs.~\ref{eq:awa:c1} to \ref{eq:awa:c3}.
+The bounding values may seem large, but this is done to avoid over constraing the 
+problem in early generations. If the constraints are set tighter, 
+runs do not reach the second generation, because enough satisfactory 
+points are not produced to fill a complete generation. 
+Leaving the value large allows for enough simulations to finish
+in order to reach the next generation, and subsequent improved points in later generations.
+The difference constraint, Eq.~\ref{eq:awa:c3}, is used to favor nearly round beams.
+This prevents one dimension from becoming disproportionately large compared to the other.
+In this case, there is some room in the beam pipe to allow the y dimension to grow, but round beams 
+are preferred for easier data analysis.
+
 Equations (\ref{eq:awa:firstconstr}) to
 (\ref{eq:awa:lastdvar}) define the charge, gun voltage, linac voltages, 
-laser radius and linac cavity phases (in that order). These are parameters in the simulation 
+laser radius, gun phase, and linac cavity phases (in that order). 
+These are parameters in the simulation 
 that must be defined, but do not vary during the optimization.
-
 %\vspace{-1em}
-As introduced in Section \ref{ferrario}, we define the AWA optimization problem 
-objectives, and design variables in the OPAL input file as shown in
+As introduced in Section \ref{ferrario}, we define the AWA optimization 
+design variables, objectives, and constraints in the OPAL input file as shown in
 the following code: %equations (\ref{eq:awa:p1}) to (\ref{eq:awa:lastdvar}). 
 
 \vspace{0.2cm}
 {\footnotesize \begin{verbatim}
-	// Gun variables
-	dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=350.0, UPPERBOUND=500.0;
-	dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
-	dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-30.0, UPPERBOUND=0.0;
-	dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
 	
-	// Quad variables
+	// Gun variables 
+	dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=300.0, UPPERBOUND=500.0;
+	dv1: DVAR, VARIABLE="IM",     LOWERBOUND=180.0, UPPERBOUND=280.0;
+	
+	// Quad variables 
 	dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0;
 	dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
 	dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
 	dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
 	
-	// Objectives
-	rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.45))";
-	rmsx1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',16.45))";
-	emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.45))";
-	de1:    OBJECTIVE,EXPR="fabs(statVariableAt('dE',16.45))";	
-	rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.45))";
-	rmsx2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',18.45))";
-	emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.45))";
-
+	//Objectives
+	de3: OBJECTIVE,EXPR="fabs(statVariableAt('dE',19.4))";
+	rmss3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',19.4))";
+	rmsx3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',19.4))";
+	rmsy3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',19.4))";
+	rmspx3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_px',19.4))";
+	rmspy3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_py',19.4))";
+	
+	//Kicker apeture
+	c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',16.5))<0.1";
+	c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5))<0.1";
+	c3: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5)-statVariableAt('rms_x',16.5))<0.005";
+	
+	OPTIMIZE, INPUT="tmpl/optLinac-40nC.tmpl",
+	OUTPUT="optLinac-40nC",
+	OUTDIR="results",
+	OBJECTIVES = {rmss3, rmsx3, rmsy3, rmspx3, rmspy3, de3},
+	DVARS = {dv0, dv1, dv4, dv5, dv6, dv7},
+	CONSTRAINTS = {c1, c2, c3},
+	INITIALPOPULATION=656,
+	MAXGENERATIONS=200,
+	NUM_MASTERS=1,
+	NUM_COWORKERS=8,
+	SIMTMPDIR="tmp",
+	TEMPLATEDIR="tmpl",
+	FIELDMAPDIR="fieldmaps",
+	NUM_IND_GEN=328,
+	GENE_MUTATION_PROBABILITY=0.01,
+	MUTATION_PROBABILITY=0.01,
+	RECOMBINATION_PROBABILITY=0.09;
+	QUIT;
+	
 	\end{verbatim}}
 \vspace{0.2cm}
 
 Design variables include the currents in two gun solenoids (IBF and IM), 
-the gun phase (GPHASE), the laser longitudinal full width half max (FWHM), 
 and four quadrupole strengths (KQ1-KQ2). The objectives include
-beam size, emittance, and energy spread as
+beam size (transverse and longitudinal), transverse momentum, and energy spread as
 defined in Eqs. (\ref{eq:awa:p1}) to (\ref{eq:awa:p4}). 
-The location at the entrance of the kicker is $s_1=16.45$~meters, 
-and the location of interest after the kicker is $s_1=18.45$~meters. 
+The location at the entrance of the kicker is $s_0=16.45$~meters, 
+and the location of interest for objectives is $s_1=19.4$~meters. 
 
 All simulations for this experiment were carried out on Bebop a
 high performance computing (HPC)
@@ -528,13 +579,15 @@ at Argonne National Laboratory (ANL). We used Intel Knights Landing
 and 64 cores per node. There are 352 compute nodes available on 
 Bebop, with a total of 22,528 cores. All jobs were run and compared 
 on 8 cores each, which allowed 8 jobs per node on the KNLs.
-This in combination with the amount of nodes available 
+This in combination with the number of nodes available 
 allows for very large optimization jobs, like the AWA case.
+Typical runs for this paper used 41 nodes, which corresponds to 2624 KNL cores 
+and a generation size of 328 individuals.
 
 A study on time step and 
 number of particles was done to reduce the time to simulation while 
 maintaining the physics of interest. 
-The grid size was $16 \times 16 \times 32$, 
+The grid size $16 \times 16 \times 32$ was chosen, 
 and parallelized in the x and y directions.
 After comparing several options we choose ten thousand particles 
 in combination with adjusting the time step (dT) near sensitive elements 
@@ -543,9 +596,9 @@ The resulting simulations are low fidelity, but closely approximate
 the mid fidelity simulations for metrics of interest, as shown in 
 Fig. \ref{tstep}. For all models, the longitudinal parameters (rms$_s$ and energy) 
 are calculated correctly, but we see discrepancies in the transverse 
-rms$_x$ and $\epsilon_x$ in the low fidelity results. 
-Average run time each simulation with the adjusted time steps was 1.6~minutes.
-In comparison the mid fidelity simulations ran for 18~minutes each.
+rms$_x$ and $\epsilon_x$ in the low fidelity results. The
+average run time of each simulation with the adjusted time steps was 1.6~minutes.
+In comparison the mid fidelity simulations ran for 18~minutes.
 %A summary of the parameters used is listed in Table \ref{fidelity}. 
 
 \begin{figure}
@@ -577,7 +630,7 @@ In comparison the mid fidelity simulations ran for 18~minutes each.
 While the optimization problem and goals were well defined (Section \ref{awaproblem}), 
 it was not clear what the best input parameters for the NSGA-II should be.
 These parameters include gene mutation probability, mutation probability, 
-recombination probability, number of individuals (initial and and for later generations), 
+recombination probability, number of individuals (initial \lsnote{you have an extra `and' here} and for later generations), 
 and number of generations to complete. 
 Given the beam line and design variables given in Section \ref{awaproblem}, 
 four optimization experiments were done with varying NSGA-II parameters. 
@@ -613,7 +666,8 @@ a maximum generation limit of 100.
 We reduced the seven objectives to the four needed to construct 
 the Pareto fronts that would be the final goal of this study.
 The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)\text{, } \text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
-The optimization parameters specific to OPAL input for ex-3 is given as an example.
+\lsnote{You could define $\varepsilon_{x1}$ to be $\varepsilon_{x} (s=s1)$ and similarly in the table and then use going forward to simplify notation}
+The optimization parameters specific to OPAL input for ex-3 \lsnote{are} given as an example.
 Note the design variables defined in Section \ref{awaproblem}
 precede the optimization parameters in the OPAL input file.
 
@@ -650,66 +704,64 @@ improved, but from Fig. \ref{expareto}, we can see this is not the case.
 The Pareto fronts at $s_1$, are nearly identical. We could expect
 they would continue to converge given more time. 
 When looking at the Pareto front for $s_2$, we see ex-4 has a slight 
-edge over the others. 
-\begin{figure}[h]
-	\centering
-	\begin{subfigure}{0.8\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{Report/ex-pareto1}
-		\caption{Pareto fronts at $s_1$.}
-		\label{expareto1}
-	\end{subfigure}
-	\begin{subfigure}{0.8\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{Report/ex-pareto2}
-		\caption{Pareto fronts at $s_2$.}
-		\label{expareto2}
-	\end{subfigure}
-	\caption{Comparison of Pareto fronts for initial optimization experiments.}
-	\label{expareto}
-\end{figure}
-\iffalse 
+edge over the others.  
 \begin{figure}
 	\centering
 	\includegraphics[width=0.75\textwidth]{Report/ex-pareto1}%
 	\llap{\raisebox{1.8cm}{%  move next graphics to top right corner
 			\includegraphics[height=5.5cm]{Report/ex-pareto2}%
 	}}
-	\caption{Comparison of Pareto fronts for initial optimization experiments.}
+	\caption{My overlay figure.}
 \end{figure}  
+
+
+
+
 \begin{figure}
 	\centering
 	\begin{subfigure}{0.49\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Report/ex-pareto1}
 		\caption{Pareto fronts at $s_1$.}
-		%\label{expareto1}
+		\label{expareto1}
 	\end{subfigure}
 	\begin{subfigure}{0.49\textwidth}
 	\centering
 	\includegraphics[width=\textwidth]{Report/ex-pareto2}
 	\caption{Pareto fronts at $s_2$.}
-	%\label{expareto2}
+	\label{expareto2}
 	\end{subfigure}
 	\caption{Comparison of Pareto fronts for initial optimization experiments.}
-	%\label{expareto}
+	\label{expareto}
 \end{figure}
-\fi 
 
-Next we compared the design variables at each point on several of the Pareto fronts. 
-We eliminate ex-3 from this exercise due to it's significantly slower execution time.
-There is no 
+Next compare the design variables at each point on the 
+Pareto front.
+\begin{figure}
+	\centering
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Report/ex-pareto1}
+		\caption{Pareto fronts at $s_1$.}
+		\label{bounds1}
+	\end{subfigure}
+	\begin{subfigure}{1\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Report/ex-pareto2}
+		\caption{Pareto fronts at $s_2$.}
+		\label{bounds2}
+	\end{subfigure}
+	\caption{Comparison of design variables for each Pareto front.}
+	\label{bounds}
+\end{figure}
 
-Since there was no clear advantage in the design variables, we choose
-the best Pareto front in Fig. \ref{expareto2}, ex-4, for an extended optimization run. 
+
+ 
 The initial number of individuals was fixed at 656, 
 and the minimum number individuals in later generations was fixed at 328. 
-These numbers were in part based on the architecture of the KNL's. 
-Each simulation takes 8 cores, and there are 64 cores per KNL node, 
+These numbers \lsnote{were} in part based on the architecture of the KNL's. 
+Since each simulation takes 8 cores, and there are 64 cores per KNL node, 
 we wanted a large population size that would fit evenly on these resources. 
-We allowed the simulation to run for 200 generations.5
-
-
 
 
 

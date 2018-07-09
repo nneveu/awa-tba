@@ -25,6 +25,9 @@
 \newcounter{lstmain}
 \setcounter{lstmain}{1}
 
+\usepackage{graphicx,xcolor,enumitem}
+\newcommand{\lsnote}[1]{\textsf{{\color{violet}{ LS note:}   #1 }}}
+
 \lstnewenvironment{code}[1][]
 { \vspace{0.3cm}\footnotesize{\textsc{Code Listing \thelstmain: #1}}
   \hspace{0.1cm} \hrulefill
@@ -780,7 +783,7 @@ Using the default expression primitives this can be stated in an input file
 
 
 
-\input{theor-experiment}
+\input{theor-experiment} %periment}
 
 
 
