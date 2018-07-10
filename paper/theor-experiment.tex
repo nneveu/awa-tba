@@ -443,13 +443,30 @@ TBA section of the beam line.
 	\begin{tikzpicture}[every node/.style={anchor=south west,inner sep=0pt},x=1mm, y=1mm,]   
 	\node (fig1) at (0,0)
 	{\includegraphics[width=0.9\textwidth]{Report/awa-drawing}};
-	\node[fill=white, inner sep=2pt] (txt2) at (35,15) {Interferometer};
+	\node[fill=white, inner sep=2pt] (txt2) at (10,-10) {$s_1$};
 	\node[fill=white, inner sep=2pt, rotate=26] (txt2) at (18,19.5) {Slit};	
-	\node[fill=white, inner sep=2pt, rotate=20] (txt2) at (13,27) {Window};
 	\end{tikzpicture}
 	\caption{High charge beam line layout at the AWA.}
-	\label{awa-pic}
+	\label{awa-linac}
 \end{figure}
+
+\begin{figure}
+	\begin{tikzpicture}[every node/.style={anchor=south west,inner sep=0pt},x=1mm, y=1mm,]   
+	\node (fig2) at (0,0)
+	{\includegraphics[width=\textwidth]{Report/tba_dogleg}};
+	\node[fill=white, inner sep=2pt] (txt2) at (2,35) {$s_1$};
+	\node[fill=white, inner sep=2pt] (txt2) at (14,35) {$s_2$};
+	\node[fill=white, inner sep=2pt] (txt2) at (35,31) {$s_3$};
+	\node[fill=white, inner sep=2pt] (txt2) at (24,50) {Septum};
+	\draw [blue, ->, line width=1] (30,50) -- (30, 42);	
+	\node[fill=white, inner sep=2pt] (txt2) at (5,50) {Kicker};
+	\draw [blue, ->, line width=1] (10,50) -- (18, 43);
+	\end{tikzpicture}
+	\caption{Continuation of the high charge beam line layout at the AWA. 
+		This is the the two beam acceleration section.}
+	\label{awa-tba}
+\end{figure}
+
 %\vspace{-1em}
 In addition to the physics challenges, we chose this model to demonstrate the ability of the framework to tackle large problems.
 Six design variables and objectives were used, 
@@ -466,12 +483,12 @@ it will guide future operations at the AWA.
 \nrnote{Maybe eqs 5.10-5.21 and code example should move after time step scan and hyper parameters}
 
 \begin{align}
-\text{min}  \quad & \text{rms}_{x}\left(s = s_1\right), \quad \text{rms}_{y}\left(s = s_1\right) \label{eq:awa:p1}\\
-& \text{rms}_{px}\left(s = s_1\right), \quad \text{rms}_{py}\left(s = s_1\right), \label{eq:awa:p2}\\
-& \text{rms}_{s}\left(s = s_1\right), \quad dE \label{eq:awa:p4} \\
-\text{subject to} \quad & rms_x(s=s_0) < 0.1 \, [m]\label{eq:awa:c1}\\
-\quad & rms_y(s=s_0) < 0.1\, [m]\label{eq:awa:c2}\\
-\quad & |rms_y(s=s_0) - rms_x(s=s_0) | < 0.005 \, [m]\label{eq:awa:c3}\\
+\text{min}  \quad & \text{rms}_{x}\left(s = s_3\right), \quad \text{rms}_{y}\left(s = s_3\right) \label{eq:awa:p1}\\
+& \text{rms}_{px}\left(s = s_3\right), \quad \text{rms}_{py}\left(s = s_3\right), \label{eq:awa:p2}\\
+& \text{rms}_{s}\left(s = s_3\right), \quad dE \label{eq:awa:p4} \\
+\text{subject to} \quad & rms_x(s=s_1) < 0.1 \, [m]\label{eq:awa:c1}\\
+\quad & rms_y(s=s_1) < 0.1\, [m]\label{eq:awa:c2}\\
+\quad & |rms_y(s=s_1) - rms_x(s=s_1) | < 0.005 \, [m]\label{eq:awa:c3}\\
 \quad & q = 40 \left[\text{nC}\right] \label{eq:awa:firstconstr}\\
 \quad & \text{Volt}_{\text{Gun}} = 64\left[\text{MV/m}\right] \label{eq:awa:lastconstr}\\
 \quad & \text{Volt}_{\text{Linac}} = 24-25\left[\text{MV/m}\right] \\
