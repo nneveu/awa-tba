@@ -463,6 +463,7 @@ This problem encompasses high dimensionality
 and nonlinear effects such as space charge. There is no existing information
 that accurately predicts where the Pareto front will fall. This work is also meaningful in that
 it will guide future operations at the AWA.
+\nrnote{Maybe eqs 5.10-5.21 and code example should move after time step scan and hyper parameters}
 
 \begin{align}
 \text{min}  \quad & \text{rms}_{x}\left(s = s_1\right), \quad \text{rms}_{y}\left(s = s_1\right) \label{eq:awa:p1}\\
@@ -586,8 +587,7 @@ and a generation size of 328 individuals.
 
 
 
-\subsubsection{Preliminary Tests} \label{awa:subsection:test}
-\nrnote{What else could we name this subsection?}
+\subsubsection{Time Step Scan} \label{awa:subsection:test}
 A study on time step and 
 number of particles was done to reduce the time to simulation while 
 maintaining the physics of interest. 
@@ -630,7 +630,7 @@ In comparison the mid fidelity simulations ran for 18~minutes.
 \end{table}
 \fi 
 
-
+\subsubsection{Hyper parameter Scan}
 While the optimization problem and goals were well defined (Section \ref{awaproblem}), 
 it was not clear what the best input parameters for the NSGA-II should be.
 These parameters include gene mutation probability, mutation probability, 
@@ -708,8 +708,13 @@ Perhaps this trade off would be acceptable if the Pareto front was significantly
 improved, but from Fig. \ref{expareto}, we can see this is not the case.
 The Pareto fronts at $s_1$, are nearly identical. We could expect
 they would continue to converge given more time. 
-When looking at the Pareto front for $s_2$, we see ex-4 has a slight 
-edge over the others.  
+Similar arguments can be made for ex-2, which evaluated about 15 less generations
+with no clear benefit in either Pareto front.
+When looking at the Pareto front at $s_2$, only ex-4 has a slight 
+edge over the others.
+With ex-2 and ex-3 eliminated due to evaluation time, 
+the hyper parameters in ex-4 were chosen as the default values for subsequent runs.
+\iffalse  
 \begin{figure}
 	\centering
 	\includegraphics[width=0.75\textwidth]{Report/ex-pareto1}%
@@ -718,10 +723,7 @@ edge over the others.
 	}}
 	\caption{My overlay figure.}
 \end{figure}  
-
-Next compare the design variables at each point on the 
-Pareto front.
-
+\fi
 
 \begin{figure}
 	\centering
@@ -741,17 +743,28 @@ Pareto front.
 	\label{expareto}
 \end{figure}
  
+
+
+\subsubsection{AWA Optimization Results}
+With the time steps and hyper parameters set by the work in \ref{awa:subsection:test}, 
+the full optimization problem described in \ref{awaproblem} was run for 200 generations.
 The initial number of individuals was fixed at 656, 
 and the minimum number individuals in later generations was fixed at 328. 
 These numbers were in part based on the architecture of the KNL's. 
 Since each simulation takes 8 cores, and there are 64 cores per KNL node, 
 we wanted a large population size that would fit evenly on these resources. 
-This would be the population sizes used for all subsequent runs.
 
-\subsubsection{AWA Optimization Results}
-With the simulation, GA, and node resource parameters set by the work in \ref{awa:subsection:test}, 
-the full optimization problem described in \ref{awaproblem} was run for 200 generations.
-
+Again, the location of optimization is $s_3=19.4$ [m]. 
+This is the entrance to the fifth quad in the beam line. 
+This location is where the beam should be captured and focused through subsequent elements.
+After collection of the data, Pareto fronts comparing the objectives were plotted, 
+see Figs. X-Z.
+The $\sigma_x$ and $\sigma_{px}$ plots are of most interest, as they are the most heavility 
+impacted by bending elements. With this in mind, several beam parameters corresponding to
+options on Pareto Front in Fig. X were plotted and compared. 
+The best results are shown in Fig. Z. 
+The maximum beam sizes are well below the beam pip aperture limits as shown in Fig. (b). 
+ 
 \begin{figure}
 	%\includegraphics[width=0.5\textwidth]{}\includegraphics[width=0.5\textwidth]{}
 	\label{beamsizes}
