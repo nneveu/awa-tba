@@ -584,6 +584,10 @@ allows for very large optimization jobs, like the AWA case.
 Typical runs for this paper used 41 nodes, which corresponds to 2624 KNL cores 
 and a generation size of 328 individuals.
 
+
+
+\subsubsection{Preliminary Tests} \label{awa:subsection:test}
+\nrnote{What else could we name this subsection?}
 A study on time step and 
 number of particles was done to reduce the time to simulation while 
 maintaining the physics of interest. 
@@ -626,13 +630,14 @@ In comparison the mid fidelity simulations ran for 18~minutes.
 \end{table}
 \fi 
 
-\subsubsection{AWA Optimization Results}
+
 While the optimization problem and goals were well defined (Section \ref{awaproblem}), 
 it was not clear what the best input parameters for the NSGA-II should be.
 These parameters include gene mutation probability, mutation probability, 
-recombination probability, number of individuals (initial \lsnote{you have an extra `and' here} and for later generations), 
+recombination probability, number of individuals, 
 and number of generations to complete. 
-Given the beam line and design variables given in Section \ref{awaproblem}, 
+Given the beam line and design variables given in Section \ref{awaproblem},
+\nrnote{Changed variables for final run, the variables in 5.3 no longer match these small runs. Need to rework this section} 
 four optimization experiments were done with varying NSGA-II parameters. 
 Similar to the time step scan, 
 the goal of this exercise was to determine which set of optimization
@@ -667,7 +672,7 @@ We reduced the seven objectives to the four needed to construct
 the Pareto fronts that would be the final goal of this study.
 The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)\text{, } \text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
 \lsnote{You could define $\varepsilon_{x1}$ to be $\varepsilon_{x} (s=s1)$ and similarly in the table and then use going forward to simplify notation}
-The optimization parameters specific to OPAL input for ex-3 \lsnote{are} given as an example.
+The optimization parameters specific to OPAL input for ex-3 are given as an example.
 Note the design variables defined in Section \ref{awaproblem}
 precede the optimization parameters in the OPAL input file.
 
@@ -714,7 +719,8 @@ edge over the others.
 	\caption{My overlay figure.}
 \end{figure}  
 
-
+Next compare the design variables at each point on the 
+Pareto front.
 
 
 \begin{figure}
@@ -734,34 +740,24 @@ edge over the others.
 	\caption{Comparison of Pareto fronts for initial optimization experiments.}
 	\label{expareto}
 \end{figure}
-
-Next compare the design variables at each point on the 
-Pareto front.
-\begin{figure}
-	\centering
-	\begin{subfigure}{1\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{Report/ex-pareto1}
-		\caption{Pareto fronts at $s_1$.}
-		\label{bounds1}
-	\end{subfigure}
-	\begin{subfigure}{1\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{Report/ex-pareto2}
-		\caption{Pareto fronts at $s_2$.}
-		\label{bounds2}
-	\end{subfigure}
-	\caption{Comparison of design variables for each Pareto front.}
-	\label{bounds}
-\end{figure}
-
-
  
 The initial number of individuals was fixed at 656, 
 and the minimum number individuals in later generations was fixed at 328. 
-These numbers \lsnote{were} in part based on the architecture of the KNL's. 
+These numbers were in part based on the architecture of the KNL's. 
 Since each simulation takes 8 cores, and there are 64 cores per KNL node, 
 we wanted a large population size that would fit evenly on these resources. 
+This would be the population sizes used for all subsequent runs.
+
+\subsubsection{AWA Optimization Results}
+With the simulation, GA, and node resource parameters set by the work in \ref{awa:subsection:test}, 
+the full optimization problem described in \ref{awaproblem} was run for 200 generations.
+
+\begin{figure}
+	%\includegraphics[width=0.5\textwidth]{}\includegraphics[width=0.5\textwidth]{}
+	\label{beamsizes}
+\end{figure}
+
+
 
 
 
