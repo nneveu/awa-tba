@@ -494,25 +494,34 @@ that accurately predicts where the Pareto front will fall. This work is also mea
 it will guide future operations at the AWA.
 \nrnote{Moved final run set up and results to after time step scan and hyper parameters}
 
-\subsection{Tests}
-Before running a full scale optimization of the problem described in \ref{awaproblem}, 
-several computational settings, and 
+
 \subsubsection{Time Step Scan} \label{awa:subsection:test}
-A study on time step and 
-number of particles was done to reduce the time to simulation while 
+Before running a full scale optimization of the problem described in \ref{awaproblem}, 
+a study on time step and number of particles in the simulation model 
+was done to reduce the time to simulation while 
 maintaining the physics of interest. 
 The grid size $16 \times 16 \times 32$ was chosen, 
 and parallelized in the x and y directions.
-After comparing several options we choose ten thousand particles 
+After comparing several options (1,000, 10,000, 20,000, 50,000, 100,000) 
+with a small time step, the number of particles was fixed at ten thousand.
+Next several time steps were explored, see Table~\ref{timestep}.
+The largest steps were too big to resolve the physics needed.
+See low fidelity plot in Fig.~\ref{tstep} for $dT=$\num{5E-11} results.  
+In the drifts and linac tanks, \num{1E-11} was sufficient, 
+but still not acceptable near the quadrupoles. 
+
 in combination with adjusting the time step (dT) near sensitive elements 
-(i.e. quadurpoles, kicker). 
+(i.e. quadurpoles, kicker, septum). 
 The resulting simulations are low fidelity, but closely approximate 
 the mid fidelity simulations for metrics of interest, as shown in 
-Fig. \ref{tstep}. For all models, the longitudinal parameters (rms$_s$ and energy) 
+Fig.~\ref{tstep}. For all models, the longitudinal parameters (rms$_s$ and energy) 
 are calculated correctly, but we see discrepancies in the transverse 
-rms$_x$ and $\epsilon_x$ in the low fidelity results. The
+(rms$_x$ and $\epsilon_x$) for low fidelity results. This discrepancy is 
+what led to The
 average run time of each simulation with the adjusted time steps was 1.6~minutes.
 In comparison the mid fidelity simulations ran for 18~minutes.
+Note, a smaller time step, \num{1E-13}, is always used in the gun where the 
+beam is low energy and changing rapidly.
 %A summary of the parameters used is listed in Table \ref{fidelity}. 
 
 \begin{figure}
@@ -521,6 +530,27 @@ In comparison the mid fidelity simulations ran for 18~minutes.
 	\caption{Comparison of different fidelity models (dT stands for time step).}
 	\label{tstep}
 \end{figure}
+
+\begin{table}%[h!]
+	\begin{center}
+		\caption{Checkmarks (\cmark) indicate desired physics is resolved. 
+			An (\xmark) indicates the time step is too large.}
+		\label{timestep}
+		\begin{tabular*}{0.6\textwidth}{c c c c }
+			\hline\noalign{\smallskip}
+			Time Step (dT) & Linac & Drift & Quadrupoles \\
+			\noalign{\smallskip}\hline\noalign{\smallskip}
+			$5 \times10^{-10}$  & \xmark & \xmark & \xmark \\
+			$1 \times10^{-10}$  & \xmark & \xmark & \xmark \\
+			$5 \times10^{-11}$  & \xmark & \xmark & \xmark \\
+			$1 \times10^{-11}$  & \cmark & \cmark & \xmark \\
+			$5 \times10^{-12}$  & \cmark & \cmark & \xmark \\
+			$1 \times10^{-12}$  & \cmark & \cmark & \cmark \\
+			\noalign{\smallskip}\hline
+		\end{tabular*}
+	\end{center}
+\end{table}
+
 
 \iffalse
 \begin{table}%[h!]
