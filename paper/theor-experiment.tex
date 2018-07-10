@@ -442,11 +442,14 @@ TBA section of the beam line.
 \begin{figure}
 	\begin{tikzpicture}[every node/.style={anchor=south west,inner sep=0pt},x=1mm, y=1mm,]   
 	\node (fig1) at (0,0)
-	{\includegraphics[width=0.9\textwidth]{Report/awa-drawing}};
-	\node[fill=white, inner sep=2pt] (txt2) at (10,-10) {$s_1$};
-	\node[fill=white, inner sep=2pt, rotate=26] (txt2) at (18,19.5) {Slit};	
+	{\includegraphics[width=\textwidth]{Report/awa-drawing}};
+	\node[fill=white, inner sep=2pt] (txt2) at (125,10) {$s_2$};
+	\node[fill=white, inner sep=2pt] (txt2) at (112,8) {$s_1$};
+	\node[fill=white, inner sep=2pt] (txt2) at (115,30) {Kicker};
+	\draw [blue, ->, line width=1] (120,30) -- (120, 23);	
 	\end{tikzpicture}
-	\caption{High charge beam line layout at the AWA.}
+	\caption{Side view of the high charge linac at the AWA. 
+		All hardware in this drawing is currently installed.}
 	\label{awa-linac}
 \end{figure}
 
@@ -456,14 +459,14 @@ TBA section of the beam line.
 	{\includegraphics[width=\textwidth]{Report/tba_dogleg}};
 	\node[fill=white, inner sep=2pt] (txt2) at (2,35) {$s_1$};
 	\node[fill=white, inner sep=2pt] (txt2) at (14,35) {$s_2$};
-	\node[fill=white, inner sep=2pt] (txt2) at (35,31) {$s_3$};
+	\node[fill=white, inner sep=2pt] (txt2) at (33,31) {$s_3$};
 	\node[fill=white, inner sep=2pt] (txt2) at (24,50) {Septum};
 	\draw [blue, ->, line width=1] (30,50) -- (30, 42);	
 	\node[fill=white, inner sep=2pt] (txt2) at (3,50) {Kicker};
 	\draw [blue, ->, line width=1] (9.5,50) -- (9.5, 43);
 	\end{tikzpicture}
-	\caption{Continuation of the high charge beam line layout at the AWA. 
-		This is the the two beam acceleration section.}
+	\caption{Continuation of the high charge beam line layout at the AWA, top view. 
+		This is the proposed two beam acceleration section.}
 	\label{awa-tba}
 \end{figure}
 
