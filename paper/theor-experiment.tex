@@ -448,40 +448,60 @@ Minimizing beam sizes here will enable capture and further focus with quadrupole
 This will also enable cleaner transport through downstream elements.
 %\vspace{-1em}
 
-\begin{figure}
+\def \gunheight {25}
+\def \quadheight {35}
+\def \quadleft {127}
+\def \kickerleft {160}
+\def \leftarrow{10}
+\def \bottomofarrows {29}
+\def \topofarrows {34}
+\begin{figure*}
 	\begin{tikzpicture}[every node/.style={anchor=south west,inner sep=0pt},x=1mm, y=1mm,]   
 	\node (fig1) at (0,0)
 	{\includegraphics[width=\textwidth]{Report/awa-drawing}};
-	\node[fill=white, inner sep=2pt] (txt2) at (0,20) {Gun};
-	\node[fill=white, inner sep=2pt] (txt2) at (20,20) {Accelerating Cavities};
-	\node[fill=white, inner sep=2pt] (txt2) at (88,28) {Quadrupoles};
-	\draw [blue, ->, line width=1] (99,28) -- (99, 21);
-	\node[fill=white, inner sep=2pt] (txt2) at (125,10) {$s_2$};
-	\node[fill=white, inner sep=2pt] (txt2) at (112,8) {$s_1$};
-	\node[fill=white, inner sep=2pt] (txt2) at (115,30) {Kicker};
-	\draw [blue, ->, line width=1] (120,30) -- (120, 23);	
+	\node[fill=white, inner sep=2pt] (txt2) at (0,\gunheight) {\large Gun};
+	\node[fill=white, inner sep=2pt] (txt2) at (20,\gunheight) {\large Accelerating Cavities};
+	\node[fill=white, inner sep=2pt] (txt2) at (\quadleft,\quadheight) {\large Quadrupoles};
+	\draw [blue, ->, line width=1] (\quadleft+\leftarrow,\topofarrows) -- (\quadleft+\leftarrow, \bottomofarrows);
+	\node[fill=white, inner sep=2pt] (txt2) at (\kickerleft,20) {\large $s_1$};
+	\node[fill=white, inner sep=2pt] (txt2) at (\kickerleft+8,20) {\large $s_2$};
+	\node[fill=white, inner sep=2pt] (txt2) at (\kickerleft,\quadheight) {\large Kicker};
+	\draw [blue, ->, line width=1] (\kickerleft+\leftarrow-3,\topofarrows) -- (\kickerleft+\leftarrow-3, \bottomofarrows);	
+	\draw [black, ->, line width=1] (0,-2) -- (100, -2);
+	\node[fill=white, inner sep=2pt] (txt2) at (50,0) {\large Beam Direction};
 	\end{tikzpicture}
 	\caption{Side view of the high charge linac at the AWA. 
 		All hardware in this drawing is currently installed.}
 	\label{awa-linac}
-\end{figure}
+	\vspace{-7em}
+\end{figure*}
 
-\begin{figure}
+\def \septheight {65}
+\def \bottomarrow {57}
+\def \kleft {13}
+\def \sleft {41.5}
+\def \sheight {47}
+\def \beam {32}
+\begin{figure*}
 	\begin{tikzpicture}[every node/.style={anchor=south west,inner sep=0pt},x=1mm, y=1mm,]   
 	\node (fig2) at (0,0)
 	{\includegraphics[width=\textwidth]{Report/tba_dogleg}};
-	\node[fill=white, inner sep=2pt] (txt2) at (2,35) {$s_1$};
-	\node[fill=white, inner sep=2pt] (txt2) at (14,35) {$s_2$};
-	\node[fill=white, inner sep=2pt] (txt2) at (33,31) {$s_3$};
-	\node[fill=white, inner sep=2pt] (txt2) at (24,50) {Septum};
-	\draw [blue, ->, line width=1] (30,50) -- (30, 42);	
-	\node[fill=white, inner sep=2pt] (txt2) at (3,50) {Kicker};
-	\draw [blue, ->, line width=1] (9.5,50) -- (9.5, 43);
+	\node[fill=white, inner sep=2pt] (txt2) at (3,\sheight) {\large $s_1$};
+	\node[fill=white, inner sep=2pt] (txt2) at (20,\sheight) {\large $s_2$};
+	\node[fill=white, inner sep=2pt] (txt2) at (46,45) {\large $s_3$};
+	\node[fill=white, inner sep=2pt] (txt2) at (33,\septheight) {\large Septum};
+	\draw [blue, ->, line width=1] (\sleft,\septheight) -- (\sleft, \bottomarrow);	
+	\node[fill=white, inner sep=2pt] (txt2) at (7,\septheight) {\large Kicker};
+	\draw [blue, ->, line width=1] (\kleft,\septheight) -- (\kleft, \bottomarrow);
+	\draw [black, ->, line width=1] (0,\beam) -- (100,\beam);
+	\node[fill=white, inner sep=2pt] (txt2) at (50,\beam+2) {\large Beam Direction};
 	\end{tikzpicture}
+	\vspace{-10em}
 	\caption{Continuation of the high charge beam line layout at the AWA, top view. 
-		This is the proposed two beam acceleration section.}
+		This is the proposed two beam acceleration section. 
+		Only the kicker in this drawing is installed}
 	\label{awa-tba}
-\end{figure}
+\end{figure*}
 %
 %\vspace{-1em}
 
@@ -620,6 +640,7 @@ The optimization parameters specific to OPAL input for ex-3 are given as an exam
 Note the design variables defined in Section \ref{awaproblem}
 precede the optimization parameters in the OPAL input file.
 %
+
 \vspace{0.2cm}
 \begin{Verbatim}[fontsize=\scriptsize]
 OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl",

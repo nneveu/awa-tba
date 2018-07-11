@@ -794,20 +794,24 @@ Using functors and the default expression primitives already powerful
   multi-objective optimization problems can be specified, i.e.\ the benchmark
   problem presented in \cite{hbwh:05}:
 %
-\small{
+
+\tiny{	
+\begin{flushleft}
 \begin{align} \label{eqn:bench}
-  \text{ min} & \left[ 1 - \exp \left( -1 \left(
-    \left(x_1 - \frac{1}{\sqrt{3}} \right)^2 +
-    \left(x_2 - \frac{1}{\sqrt{3}} \right)^2 +
-    \left(x_3 - \frac{1}{\sqrt{3}} \right)^2 \right)\right), \right. \\
-                    & \quad \left. 1 - \exp \left( -1 \left(
-    \left(x_1 + \frac{1}{\sqrt{3}} \right)^2 +
-    \left(x_2 + \frac{1}{\sqrt{3}} \right)^2 +
-    \left(x_3 + \frac{1}{\sqrt{3}} \right)^2 \right)\right) \right]^T \nonumber \\
-    \text{s.t.} \quad & \quad -1 \le x_i \le 1, \quad i=1,2,3 \nonumber
-  \text{.}
+\text{min} & \left[ 1 - \exp \left( -1 \left(
+\left(x_1 - \frac{1}{\sqrt{3}} \right)^2 +
+\left(x_2 - \frac{1}{\sqrt{3}} \right)^2 +
+\left(x_3 - \frac{1}{\sqrt{3}} \right)^2 \right)\right), \right. \\
+& \quad \left. 1 - \exp \left( -1 \left(
+\left(x_1 + \frac{1}{\sqrt{3}} \right)^2 +
+\left(x_2 + \frac{1}{\sqrt{3}} \right)^2 +
+\left(x_3 + \frac{1}{\sqrt{3}} \right)^2 \right)\right) \right]^T \nonumber \\
+\text{s.t.} \quad & \quad -1 \le x_i \le 1, \quad i=1,2,3 \nonumber
+\text{.}
 \end{align}
+\end{flushleft}
 }
+
 %
 Using the default expression primitives this can be stated in an input file
   as:
