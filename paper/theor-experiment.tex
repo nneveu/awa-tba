@@ -743,17 +743,19 @@ and a slightly better Pareto front at $s_2$ for ex-4, the hyper parameters in ex
 \subsubsection{TBA Optimization Problem}
 With computational and hyper parameters set, 
 the full optimization problem of interest is explored.
-The objectives (beam sizes and energy spread) are calculated at 
-$s_3=19.4$~[m], see Fig.~\ref{awa-tba}.  
-
+The objectives (beam sizes and energy spread) are weighted 
+equally and calculated at 
+$s_3=19.4$~[m], see Fig.~\ref{awa-tba}. 
+Given the longitudinal location of $s_3$ (unless otherwise noted), 
+we define the objectives and input parameters as:
 \begin{align}
-\text{min}  \quad & \text{rms}_{x}\left(s = s_3\right), \quad \text{rms}_{y}\left(s = s_3\right) \label{eq:awa:p1}\\
-& \text{rms}_{px}\left(s = s_3\right), \quad \text{rms}_{py}\left(s = s_3\right), \label{eq:awa:p2}\\
-& \text{rms}_{s}\left(s = s_3\right), \quad dE \label{eq:awa:p4} \\
-\text{subject to} \quad & rms_x(s=s_1) < 0.1 \, [m]\label{eq:awa:c1}\\
-\quad & rms_y(s=s_1) < 0.1\, [m]\label{eq:awa:c2}\\
-\quad & |rms_y(s=s_1) - rms_x(s=s_1) | < 0.005 \, [m]\label{eq:awa:c3}\\
-\quad & q = 40 \left[\text{nC}\right] \label{eq:awa:firstconstr}\\
+\text{min}  \quad & \text{rms}_{x}, \quad \text{rms}_{y} \label{eq:awa:p1}\\
+& \text{rms}_{px}, \quad \text{rms}_{py}, \label{eq:awa:p2}\\
+& \text{rms}_{s}, \quad dE \label{eq:awa:p4} \\
+\text{constraints} \quad & rms_x < 0.1 \, [m] |_{s=s_1}\label{eq:awa:c1}\\
+\quad & rms_y < 0.1 [m] |_{s=s_1}\, \label{eq:awa:c2}\\
+\quad & |rms_y - rms_x | < 0.005 \, [m] |_{s=s_1}\label{eq:awa:c3}\\
+\text{subject to} \quad & q = 40 \left[\text{nC}\right] \label{eq:awa:firstconstr}\\
 \quad & \text{Volt}_{\text{Gun}} = 64\left[\text{MV/m}\right] \label{eq:awa:lastconstr}\\
 \quad & \text{Volt}_{\text{Linac}} = 24-25\left[\text{MV/m}\right] \\
 \quad & R_x = R_y = 9 \left[\text{mm}\right] \label{eq:awa:firstdvar}\\
@@ -768,14 +770,19 @@ minimize the transverse ($rms_{x,y}$) beam size and transverse momentum ($rms_{p
 at the location of interest in the beam line ($s_3$).
 %Where $s_3$ is the longitudinal entrance of the fifth quadrupole. 
 Minimizing the beam size at this location is essential to 
-to preventing loss of particles by scraping.
-Preventing scraping ensures better transmission through the wakefield structures downstream. 
+to preventing loss of particles by scraping; 
+which ensures better transmission through the wakefield structures downstream. 
 Less divergence in the beam (lower transverse momentum) 
-reduces growth of transverse beam size during transport in bending elements, 
-which also helps with transmission downstream. 
-The next two objectives (\ref{eq:awa:p2}) minimize the 
-longitudinal beam size ($rms_s$), and energy spread (dE) at $s_1$.
-This helps reduce longitudinal beam size growth in bending elements.  
+reduces growth of transverse beam size after the focal point (min beam size).
+This reduces halo by ensuring the beam is not over focused through a hard waist.
+The momentum is also critical to preventing large growth during transport in bending elements. 
+All of these factors help with transmission downstream. 
+
+The next two objectives in Eq. (\ref{eq:awa:p4}) minimize the 
+longitudinal beam size ($rms_s$), and energy spread (dE) at $s_3$.
+This helps reduce longitudinal beam size growth in bending elements.
+A small bunch length ($rms_s$) is also critical.......
+  
 
 Three constraints were also defined to help guide the algorithm;
 Eqs.~\ref{eq:awa:c1} to \ref{eq:awa:c3}.
