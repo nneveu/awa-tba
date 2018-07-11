@@ -661,12 +661,12 @@ By providing an extra input file parser, optimization problems can be read
 
 To allow arbitrary constraints and objective expressions, such as
 %
-\vspace{0.2cm}
+%{0.2cm}
 \begin{Verbatim}[fontsize=\scriptsize]
   name: OBJECTIVE,
         EXPR="5 * average(42.0, "measurement.dat") + ENERGY";
 \end{Verbatim}
-\vspace{0.2cm}
+%\vspace{0.2cm}
 %
 \noindent
   we implemented an expression parser using Boost
@@ -811,10 +811,9 @@ Using functors and the default expression primitives already powerful
 %
 Using the default expression primitives this can be stated in an input file
   as:
-
-\vspace{0.2cm}
+%
+%\vspace{0.2cm}
 \begin{flushleft}
-\noindent
 \begin{Verbatim}[fontsize=\scriptsize]
 d1: DVAR, VARIABLE="x1", LOWERBOUND="-1.0", UPPERBOUND="1.0";
 d2: DVAR, VARIABLE="x2", LOWERBOUND="-1.0", UPPERBOUND="1.0";
@@ -833,8 +832,7 @@ constrs: CONSTRAINTS = ();
 opt: OPTIMIZE, OBJECTIVES=objs, DVARS=dvars, CONSTRAINTS=constrs;
 \end{Verbatim}
 \end{flushleft}
-
-\vspace{0.2cm}
+%\vspace{0.2cm}
 
 
 
