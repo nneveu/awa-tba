@@ -795,14 +795,14 @@ Using functors and the default expression primitives already powerful
   problem presented in \cite{hbwh:05}:
 %
 
-\tiny{	
+
 \begin{flushleft}
 \begin{align} \label{eqn:bench}
 \text{min} & \left[ 1 - \exp \left( -1 \left(
 \left(x_1 - \frac{1}{\sqrt{3}} \right)^2 +
 \left(x_2 - \frac{1}{\sqrt{3}} \right)^2 +
 \left(x_3 - \frac{1}{\sqrt{3}} \right)^2 \right)\right), \right. \\
-& \quad \left. 1 - \exp \left( -1 \left(
+& \left. 1 - \exp \left( -1 \left(
 \left(x_1 + \frac{1}{\sqrt{3}} \right)^2 +
 \left(x_2 + \frac{1}{\sqrt{3}} \right)^2 +
 \left(x_3 + \frac{1}{\sqrt{3}} \right)^2 \right)\right) \right]^T \nonumber \\
@@ -810,13 +810,14 @@ Using functors and the default expression primitives already powerful
 \text{.}
 \end{align}
 \end{flushleft}
-}
+
 
 %
 Using the default expression primitives this can be stated in an input file
   as:
 %
 %\vspace{0.2cm}
+
 \begin{flushleft}
 \begin{Verbatim}[fontsize=\scriptsize]
 d1: DVAR, VARIABLE="x1", LOWERBOUND="-1.0", UPPERBOUND="1.0";

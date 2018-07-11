@@ -103,19 +103,19 @@ By artificially reproducing this working point as the solution of a
   given a set of desired objectives.
 
 \begin{align}
-  \text{min}  \quad & \left[ \Delta \text{rms}_{x,\text{peak}} = \vert 3.0 -
-  \text{rms}_{x,\text{peak}} \vert, \right. \label{eq:swissfel:p1}\\
-                    & \Delta \varepsilon_{x,\text{peak}}  = \vert 3.0 -
-                    \varepsilon_{x,\text{peak}} \vert, \label{eq:swissfel:p2}\\
-                    & \left. \vert \text{rms}_{x, \text{peak\_pos}} -
-                    \varepsilon_{x,\text{peak\_pos}} \vert
-                    \label{eq:swissfel:p3} \right]^T\\
-  \text{subject to} \quad & q = 200 \left[\text{pC}\right] \label{eq:swissfel:firstconstr}\\
-              \quad & \text{Volt}_{\text{RF}} = 100 \left[\text{MV/m}\right] \label{eq:swissfel:lastconstr}\\
-              \quad & \sigma_{L} \leq \sigma_x = \sigma_y \leq \sigma_{U} \label{eq:swissfel:firstdvar}\\
-              \quad & \text{KS}_{L} \leq \text{KS}_{\text{RF}} \leq \text{KS}_{U} \label{eq:swissfel:seconddvar}\\
-              \quad & \text{LAG}_{L} \leq \text{LAG}_{\text{RF}} \leq \text{LAG}_{U} \\
-              \quad & \Delta z_{L\text{KS}} \leq \Delta z_{\text{KS}} \leq \Delta z_{U\text{KS}} \label{eq:swissfel:lastdvar}
+\text{min}  \quad & \left[ \Delta \text{rms}_{x,\text{peak}} = \vert 3.0 -
+\text{rms}_{x,\text{peak}} \vert, \right. \label{eq:swissfel:p1}\\
+                & \Delta \varepsilon_{x,\text{peak}}  = \vert 3.0 -
+                \varepsilon_{x,\text{peak}} \vert, \label{eq:swissfel:p2}\\
+                & \left. \vert \text{rms}_{x, \text{peak\_pos}} -
+                \varepsilon_{x,\text{peak\_pos}} \vert
+                \label{eq:swissfel:p3} \right]^T\\
+\text{subject to} \quad & q = 200 \left[\text{pC}\right] \label{eq:swissfel:firstconstr}\\
+          \quad & \text{Volt}_{\text{RF}} = 100 \left[\text{MV/m}\right] \label{eq:swissfel:lastconstr}\\
+          \quad & \sigma_{L} \leq \sigma_x = \sigma_y \leq \sigma_{U} \label{eq:swissfel:firstdvar}\\
+          \quad & \text{KS}_{L} \leq \text{KS}_{\text{RF}} \leq \text{KS}_{U} \label{eq:swissfel:seconddvar}\\
+          \quad & \text{LAG}_{L} \leq \text{LAG}_{\text{RF}} \leq \text{LAG}_{U} \\
+          \quad & \Delta z_{L\text{KS}} \leq \Delta z_{\text{KS}} \leq \Delta z_{U\text{KS}} \label{eq:swissfel:lastdvar}
 \end{align}
 
 The first two objectives minimize the distance from the position of the current
@@ -141,6 +141,7 @@ The custom \texttt{fromFile} functor allows us to access the values stored in
   the peak finder Python script result files
 %
 %\vspace{0.2cm}
+
 \begin{flushleft}
 \begin{Verbatim}[fontsize=\scriptsize]
 rmsx:  OBJECTIVE, EXPR="statVariableAt("rms_x-err.dat", "var")";
@@ -155,6 +156,7 @@ statVariableAt("rms_x-peak.dat", "var"))";
 The design variables and the assembly of the multi-objective optimization problem
   can be included in the \textsc{OPAL}~input file as shown below:
 %\vspace{0.2cm}
+
 \begin{flushleft}
 \begin{Verbatim}[fontsize=\scriptsize]
 d1: DVAR, VARIABLE="SIGX", LOWERBOUND="0.00025", UPPERBOUND="0.00029";
@@ -425,6 +427,7 @@ Both trackers agree within acceptable limits \cite{chao:99}.
   %the optimizer with increasing space-charge resolution when the limits of the
   %design variables are narrow enough (iteratively diminishing search space). 
 %\vspace{-7em}
+
 \subsection{AWA Photoinjector Optimization} \label{awaproblem}
 Next we apply the optimization framework to a high charge beam line
  at the Argonne Wakefield Accelerator (AWA) facility. 
@@ -437,14 +440,16 @@ followed by four quadrupoles and a stripline kicker.
 The charge of interest, 40 nC, is needed for Two Beam 
 Acceleration (TBA) \cite{gai_power_jing_2012,JING201872} 
 experiments performed at AWA, which motivates this work. 
-Prior experimental results were limited by beam size as the beam passed through small aperture 
+
+Prior experimental results were limited by beam size when the beam passed through small aperture 
 wakefield structures located downstream. 
 In an attempt to maximize charge transmission in upcoming experiments
 we optimize magnet strengths in the gun and quadrupoles leading into the 
 TBA section of the beam line, shown in Fig.~\ref{awa-tba}.
 The simulation model includes the linac, kicker, and septum. 
-The optimization location is chosen as the entrance to the fifth quadrupole, $s_3$, on the dog leg.
-Minimizing beam sizes here will enable capture and further focus with quadrupoles five and six before space charge effects dominate the beam. 
+The optimization location is chosen as the longitudinal 
+entrance to the first quadrupole on the dog leg ($s_3$), see Fig.~\ref{awa-tba}.
+Minimizing beam sizes here will enable capture and further focusing before space charge effects dominate the beam. 
 This will also enable cleaner transport through downstream elements.
 %\vspace{-1em}
 
@@ -481,7 +486,7 @@ This will also enable cleaner transport through downstream elements.
 \def \kleft {13}
 \def \sleft {41.5}
 \def \sheight {47}
-\def \beam {32}
+\def \beam {35}
 \begin{figure*}
 	\begin{tikzpicture}[every node/.style={anchor=south west,inner sep=0pt},x=1mm, y=1mm,]   
 	\node (fig2) at (0,0)
@@ -496,7 +501,7 @@ This will also enable cleaner transport through downstream elements.
 	\draw [black, ->, line width=1] (0,\beam) -- (100,\beam);
 	\node[fill=white, inner sep=2pt] (txt2) at (50,\beam+2) {\large Beam Direction};
 	\end{tikzpicture}
-	\vspace{-10em}
+	\vspace{-12em}
 	\caption{Continuation of the high charge beam line layout at the AWA, top view. 
 		This is the proposed two beam acceleration section. 
 		Only the kicker in this drawing is installed}
@@ -510,17 +515,16 @@ Six design variables and objectives were used, along with three constraints.
 The objectives include transverse and longitudinal beam sizes, 
 transverse momentum, and longitudinal energy spread. 
 The design variables include the two gun solenoids and 
-the first four quadrupoles. The objectives are calculated at 
-$s_3=19.4$~[m], at the entrance of the fifth quadrupole in Fig.~\ref{awa-tba}.  
+the first four quadrupoles. 
 This problem encompasses high dimensionality 
 and nonlinear effects such as space charge. There is no existing information
-that accurately predicts where the Pareto front will fall. This work is also meaningful in that
+that accurately predicts where the Pareto fronts will fall. This work is also meaningful in that
 it will guide future operations at the AWA.
 \nrnote{Moved final run set up and results to after time step scan and hyper parameters}
 
 
 \subsubsection{Time Step Scan} \label{awa:subsection:test}
-Before running a full scale optimization of the problem described in \ref{awaproblem}, 
+Before running a full scale optimization of the problem described in Subsection \ref{awaproblem}, 
 a study on time step and number of particles in the simulation model 
 was done to reduce the time to simulation while 
 maintaining the physics of interest. 
@@ -531,29 +535,6 @@ with a small time step, the number of particles was fixed at ten thousand.
 Next several time steps were explored, see Table~\ref{timestep}.
 The largest steps were too big to resolve the physics needed.
 See low fidelity plot in Fig.~\ref{tstep} for $dT=$\num{5E-11} results.  
-In the drifts and linac tanks, \num{1E-11} was sufficient, 
-but still not acceptable near the quadrupoles. 
-
-in combination with adjusting the time step (dT) near sensitive elements 
-(i.e. quadurpoles, kicker, septum). 
-The resulting simulations are low fidelity, but closely approximate 
-the mid fidelity simulations for metrics of interest, as shown in 
-Fig.~\ref{tstep}. For all models, the longitudinal parameters (rms$_s$ and energy) 
-are calculated correctly, but we see discrepancies in the transverse 
-(rms$_x$ and $\epsilon_x$) for low fidelity results. This discrepancy is 
-what led to The
-average run time of each simulation with the adjusted time steps was 1.6~minutes.
-In comparison the mid fidelity simulations ran for 18~minutes.
-Note, a smaller time step, \num{1E-13}, is always used in the gun where the 
-beam is low energy and changing rapidly.
-%A summary of the parameters used is listed in Table \ref{fidelity}. 
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.8\linewidth]{Report/timestep_comparison}
-	\caption{Comparison of different fidelity models (dT stands for time step).}
-	\label{tstep}
-\end{figure}
 
 \begin{table}%[h!]
 	\begin{center}
@@ -575,6 +556,32 @@ beam is low energy and changing rapidly.
 	\end{center}
 \end{table}
 
+In the drifts and linac tanks, $dT=\num{1E-11}$ was sufficient, 
+but not acceptable near the quadrupoles. 
+For all models, the longitudinal parameters (rms$_s$ and energy) 
+are calculated correctly, but we see discrepancies in the transverse 
+(rms$_x$ and $\epsilon_x$) for low fidelity results. This discrepancy is 
+what led to the decision to adjust the time steps w.r.t. beam line elements. 
+In the linac and drift sections $dT=\num{1E-11}$ was used. 
+A time step of $dT=\num{1E-12}$ was used near sensitive elements such as the quadrupoles, kicker, and septum. 
+
+The resulting simulations are low fidelity in most places, but closely approximate 
+the mid fidelity simulations for metrics of interest, as shown in 
+Fig.~\ref{tstep}.  Where we consider mid fidelity as a simulation of the 
+beam line using $dT=\num{1E-12}$ everywhere. The
+average run time of each simulation with the adjusted time steps was 1.6~minutes.
+In comparison, the mid fidelity simulation ran for 18~minutes.
+Note, a smaller time step, \num{1E-13}, is always used in the gun where the 
+beam is low energy and changing rapidly.
+%A summary of the parameters used is listed in Table \ref{fidelity}. 
+
+\begin{figure}%[h]
+	\centering
+	\includegraphics[width=0.8\linewidth]{Report/timestep_comparison}
+	\caption{Comparison of different fidelity models (dT stands for time step).}
+	\label{tstep}
+\end{figure}
+
 
 \iffalse
 \begin{table}%[h!]
@@ -595,14 +602,13 @@ beam is low energy and changing rapidly.
 \fi 
 
 \subsubsection{Hyper parameter Scan}
-While the optimization problem and goals were well defined (Section \ref{awaproblem}), 
-it was not clear what the best input parameters for the NSGA-II should be.
+While the optimization problem and goals were well defined (Subsection \ref{awaproblem}), 
+it was not clear what the best hyper parameters for the NSGA-II would be.
 These parameters include gene mutation probability, mutation probability, 
 recombination probability, number of individuals, 
 and number of generations to complete. 
-Given the beam line and design variables given in Section \ref{awaproblem},
-\nrnote{Changed variables for final run, the variables in 5.3 no longer match these small runs. Need to rework this section} 
-four optimization experiments were done with varying NSGA-II parameters. 
+Given the beam line in Fig.~\ref{awa-linac},
+four small optimization experiments were done with varying NSGA-II parameters. 
 Similar to the time step scan, 
 the goal of this exercise was to determine which set of optimization
 parameters strongly influence the results, 
@@ -632,53 +638,73 @@ as shown in Table \ref{extable}.
 The maximum number of individuals per generation was fixed at 80, 
 Each experiment was allowed to run for twenty four hours, with 
 a maximum generation limit of 100. 
-We reduced the seven objectives to the four needed to construct 
-the Pareto fronts that would be the final goal of this study.
+We reduced the six objectives to four, 
+and shortened the simulation time by moving the objectives further 
+upstream to $s_1$ and $s_2$.
 The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)\text{, } \text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
 \lsnote{You could define $\varepsilon_{x1}$ to be $\varepsilon_{x} (s=s1)$ and similarly in the table and then use going forward to simplify notation}
-The optimization parameters specific to OPAL input for ex-3 are given as an example.
-Note the design variables defined in Section \ref{awaproblem}
-precede the optimization parameters in the OPAL input file.
+The OPAL input file for ex-3 is given as an example to show how optimization and design variables are defined:
 %
 
-\vspace{0.2cm}
+%\vspace{0.2cm}
 \begin{Verbatim}[fontsize=\scriptsize]
+OPTION, ECHO=FALSE;
+OPTION, INFO=TRUE;
+
+TITLE, STRING="ANL Optimisation";
+
+dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=200.0, UPPERBOUND=500.0;
+dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
+dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-30.0, UPPERBOUND=0.0;
+dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
+
+// Quad values
+dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+
+rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.5))";
+emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.5))";
+
+rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.5))";
+emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.5))";
+
+c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',16.5))<1.0e-1";
+c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5))<1.0e-1";
+
+
 OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl",
 OUTPUT="optLinac_40nC",
 OUTDIR="results",
-OBJECTIVES = {rmss1, rmsx1, emitx1, de1, rmss2, rmsx2, emitx2},
+OBJECTIVES = {rmss1, emitx1, rmss2, emitx2},
 DVARS = {dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7},
 CONSTRAINTS = {c1, c2},
-INITIALPOPULATION=656,
-MAXGENERATIONS=200,
+INITIALPOPULATION=80,
+MAXGENERATIONS=100,
 NUM_MASTERS=1,
 NUM_COWORKERS=8,
 SIMTMPDIR="tmp",
 TEMPLATEDIR="tmpl",
-FIELDMAPDIR="fieldmaps",
-NUM_IND_GEN=328,
-GENE_MUTATION_PROBABILITY=0.8,
-MUTATION_PROBABILITY=0.8,
-RECOMBINATION_PROBABILITY=0.2;
-QUIT;
 \end{Verbatim}
-\vspace{0.2cm}
+%\vspace{0.2cm}
 
 After collection of the data for all four experiments, several metrics
-were compared, including number of generations completed in twenty four hours,
-Pareto fronts at $s_1$ and $s_2$, and the design variables at the Pareto front. 
+were compared, including number of generations completed in twenty four hours and
+Pareto fronts at $s_1$ and $s_2$.
 From Table \ref{extable}, we clearly see ex-3 is significantly 
-slower, as it evaluated about 30 to 40 fewer generations than the other experiments.
+slower, as it evaluated only 53 generations compared to the max 
+experiment, ex-1 at 96 generations.
 Perhaps this trade off would be acceptable if the Pareto front was significantly 
 improved, but from Fig. \ref{expareto}, we can see this is not the case.
-The Pareto fronts at $s_1$, are nearly identical. We could expect
-they would continue to converge given more time. 
 Similar arguments can be made for ex-2, which evaluated about 15 less generations
 with no clear benefit in either Pareto front.
+The Pareto fronts at $s_1$, are nearly identical. We could expect
+this trend would continue given more time. 
 When looking at the Pareto front at $s_2$, only ex-4 has a slight 
 edge over the others.
 With ex-2 and ex-3 eliminated due to evaluation time, 
-the hyper parameters in ex-4 were chosen as the default values for subsequent runs.
+and a slightly better Pareto front at $s_2$ for ex-4, the hyper parameters in ex-4 were chosen as the default values for subsequent runs.
 \iffalse  
 \begin{figure}
 	\centering
@@ -715,6 +741,11 @@ the hyper parameters in ex-4 were chosen as the default values for subsequent ru
 
 
 \subsubsection{TBA Optimization Problem}
+With computational and hyper parameters set, 
+the full optimization problem of interest is explored.
+The objectives (beam sizes and energy spread) are calculated at 
+$s_3=19.4$~[m], see Fig.~\ref{awa-tba}.  
+
 \begin{align}
 \text{min}  \quad & \text{rms}_{x}\left(s = s_3\right), \quad \text{rms}_{y}\left(s = s_3\right) \label{eq:awa:p1}\\
 & \text{rms}_{px}\left(s = s_3\right), \quad \text{rms}_{py}\left(s = s_3\right), \label{eq:awa:p2}\\
@@ -729,6 +760,8 @@ the hyper parameters in ex-4 were chosen as the default values for subsequent ru
 \quad & \phi_{\text{gun}} =-20^\circ \label{eq:awa:gphidvar}\\
 \quad & \phi_{\text{linac}} =-20^\circ \label{eq:awa:lastdvar}
 \end{align}
+
+
 
 The first four objectives, Eqs. (\ref{eq:awa:p1}) to (\ref{eq:awa:p2}),
 minimize the transverse ($rms_{x,y}$) beam size and transverse momentum ($rms_{px,py}$)
