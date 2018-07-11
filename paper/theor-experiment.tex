@@ -91,7 +91,7 @@ This behavior is illustrated in Figure~\ref{fig:fer_match}.
   \centering
   \input{figures/ferrario_illustrated}
   \caption{Illustration of the Ferrario matching criteria: beam emittance
-  attains a maximum and rms beamsize a minimum at the entrance to the first
+  attains a maximum and rms beam size a minimum at the entrance to the first
   accelerating traveling wave structure.}
   \label{fig:fer_match}
 \end{figure}
@@ -139,33 +139,38 @@ Once the peaks (in a given range) were located, the two objectives
   values written into corresponding files.
 The custom \texttt{fromFile} functor allows us to access the values stored in
   the peak finder Python script result files
-
-\vspace{0.2cm}
-{\footnotesize \begin{verbatim}
-    rmsx:  OBJECTIVE, EXPR="statVariableAt("rms_x-err.dat", "var")";
-    emitx: OBJECTIVE, EXPR="statVariableAt("emit_x-err.dat", "var")";
-    match: OBJECTIVE, EXPR="fabs(statVariableAt("emit_x-peak.dat", "var") -
-                                 statVariableAt("rms_x-peak.dat", "var"))";
-\end{verbatim}}
+%
+%\vspace{0.2cm}
+\begin{flushleft}
+\noindent
+\begin{Verbatim}[fontsize=\scriptsize]
+rmsx:  OBJECTIVE, EXPR="statVariableAt("rms_x-err.dat", "var")";
+emitx: OBJECTIVE, EXPR="statVariableAt("emit_x-err.dat", "var")";
+match: OBJECTIVE, EXPR="fabs(statVariableAt("emit_x-peak.dat", "var") -
+statVariableAt("rms_x-peak.dat", "var"))";
+\end{Verbatim}
+\end{flushleft}
 \vspace{0.2cm}
 
 \noindent
 The design variables and the assembly of the multi-objective optimization problem
   can be included in the \textsc{OPAL}~input file as shown below:
+%\vspace{0.2cm}
+\begin{flushleft}
+\noindent
+\begin{Verbatim}[fontsize=\scriptsize]
+d1: DVAR, VARIABLE="SIGX", LOWERBOUND="0.00025", UPPERBOUND="0.00029";
+d2: DVAR, VARIABLE="FIND1_MSOL10_i", LOWERBOUND="110", UPPERBOUND="120";
+d3: DVAR, VARIABLE="D_LAG_RGUN", LOWERBOUND="-0.1", UPPERBOUND="0.1";
+d4: DVAR, VARIABLE="D_SOLPOS", LOWERBOUND="-0.05", UPPERBOUND="0.05";
 
-\vspace{0.2cm}
-{\footnotesize \begin{verbatim}
-    d1:  DVAR, VARIABLE="SIGX", LOWERBOUND="0.00025", UPPERBOUND="0.00029";
-    d2:  DVAR, VARIABLE="FIND1_MSOL10_i", LOWERBOUND="110", UPPERBOUND="120";
-    d3:  DVAR, VARIABLE="D_LAG_RGUN", LOWERBOUND="-0.1", UPPERBOUND="0.1";
-    d4:  DVAR, VARIABLE="D_SOLPOS", LOWERBOUND="-0.05", UPPERBOUND="0.05";
-
-    objs:    OBJECTIVES = (rmsx, emitx);
-    dvars:   DVARS = (d1, d2, d3, d4);
-    constrs: CONSTRAINTS = ();
-    opt:     OPTIMIZE, OBJECTIVES=objs, DVARS=dvars,
-             CONSTRAINTS=constrs;
-\end{verbatim}}
+objs:    OBJECTIVES = (rmsx, emitx);
+dvars:   DVARS = (d1, d2, d3, d4);
+constrs: CONSTRAINTS = ();
+opt:     OPTIMIZE, OBJECTIVES=objs, DVARS=dvars,
+CONSTRAINTS=constrs;
+\end{Verbatim}
+\end{flushleft}
 \vspace{0.2cm}
 
 All numerical experiments in this sections were executed on the
@@ -272,12 +277,12 @@ As expected, increasing the number of slices while lowering the timestep
 
 Each of the $40$ points on the Pareto front, shown in
   Figure~\ref{fig:pareto_front_21}, represents an optimal solution, where
-  emittance and beamsize values are compromised to achieve the best agreement
+  emittance and beam size values are compromised to achieve the best agreement
   with the Ferrario matching point.
-We selected individual $3$ based on a comparison of the emittance and beamsize
+We selected individual $3$ based on a comparison of the emittance and beam size
   characteristics of all solutions and by retaining the feasibility of the
   beam line optics parameters.
-The design variables, emittance and beamsize of the selected solution are
+The design variables, emittance and beam size of the selected solution are
   shown in Table~\ref{tbl:des_vars} and Figure~\ref{fig:rmsemit}.
 With the multi-objective optimization framework we attain the same working
   point as reported in~\cite{pedr:10}.
@@ -302,7 +307,7 @@ With the multi-objective optimization framework we attain the same working
 \begin{figure}%[h!]
   \centering
   \includegraphics[width=0.8\linewidth]{Report/iff_plot_emrms}
-  \caption{Beamsize and emittance of individual $3$.}
+  \caption{Beam size and emittance of individual $3$.}
   \label{fig:rmsemit}
 \end{figure}
 
@@ -319,7 +324,7 @@ For validation purposes we compared the results of the envelope-tracker using
   tracker.
 The benchmark was run on the first 12.5 meters of the \textsc{SwissFEL} 250
   MeV injector.
-The results for both rms beamsize and emittance are shown in
+The results for both rms beam size and emittance are shown in
   Figure~\ref{fig:et-vs-tt}.
 A good agreement between the two codes can be observed.
 The difference of the larger emittance along the solenoids in case of 3D
