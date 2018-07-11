@@ -481,6 +481,7 @@ This will also enable cleaner transport through downstream elements.
 \end{figure}
 %
 %\vspace{-1em}
+
 In addition to the physics challenges, we chose this model to demonstrate the ability of the framework to tackle large problems.
 Six design variables and objectives were used, along with three constraints.
 The objectives include transverse and longitudinal beam sizes, 
@@ -533,10 +534,10 @@ beam is low energy and changing rapidly.
 
 \begin{table}%[h!]
 	\begin{center}
-		\caption{Checkmarks (\cmark) indicate desired physics is resolved. 
-			An (\xmark) indicates the time step is too large.}
+		\caption{Checkmarks (\cmark) indicate desired physics is resolved at that time step. 
+			An (\xmark) indicates the time step is too large, and results are nonphysical.}
 		\label{timestep}
-		\begin{tabular*}{0.6\textwidth}{c c c c }
+		\begin{tabular*}{0.48\textwidth}{c @{\extracolsep{\fill}} C c D }
 			\hline\noalign{\smallskip}
 			Time Step (dT) & Linac & Drift & Quadrupoles \\
 			\noalign{\smallskip}\hline\noalign{\smallskip}
@@ -557,7 +558,7 @@ beam is low energy and changing rapidly.
 	\begin{center}
 		\caption{Low and mid fidelity simulation parameters.}
 		\label{fidelity}
-		\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} C c D }
+		\begin{tabular*}{0.48\textwidth}{l @{\extracolsep{\fill}} C c D }
 			\hline\noalign{\smallskip}
 			& Number of particles & dT (seconds) & Time to simulation (minutes)\\
 			\noalign{\smallskip}\hline\noalign{\smallskip}
@@ -591,7 +592,7 @@ as shown in Table \ref{extable}.
 			The gene mutation probability was equal to the mutation probability (not shown) in all four experiments. 
 			The max number of individuals per generation was~80.}
 		\label{extable}
-		\begin{tabular*}{\textwidth}{l @{\extracolsep{\fill}} C C D }
+		\begin{tabular*}{0.48\textwidth}{l @{\extracolsep{\fill}} C C D }
 			\hline\noalign{\smallskip}
 			& Gene Mutation Probability & Recombination Probibility & Number of completed generations \\
 			\noalign{\smallskip}\hline\noalign{\smallskip}
@@ -667,19 +668,21 @@ the hyper parameters in ex-4 were chosen as the default values for subsequent ru
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{0.49\textwidth}
+	\begin{minipage}{0.49\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Report/ex-pareto1}
-		\caption{Pareto fronts at $s_1$.}
-		\label{expareto1}
-	\end{subfigure}
-	\begin{subfigure}{0.49\textwidth}
+		(a) Pareto fronts for ex-1 through ex-4 at $s_1$.
+		%\caption{(a) Pareto fronts at $s_1$.}
+		%\label{expareto1}
+	\end{minipage}
+	\begin{minipage}{0.49\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Report/ex-pareto2}
-		\caption{Pareto fronts at $s_2$.}
-		\label{expareto2}
-	\end{subfigure}
-	\caption{Comparison of Pareto fronts for initial optimization experiments.}
+		(b) Pareto fronts for ex-1 through ex-4 at $s_2$.
+		%\caption{(b) Pareto fronts at $s_2$.}
+		%\label{expareto2}
+	\end{minipage}
+	\caption{Comparison of Pareto fronts for initial optimization experiments, ex-1 through ex-4.}
 	\label{expareto}
 \end{figure}
 
@@ -687,7 +690,7 @@ the hyper parameters in ex-4 were chosen as the default values for subsequent ru
 
 
 
-\subsubsection{AWA Optimization Problem}
+\subsubsection{TBA Optimization Problem}
 \begin{align}
 \text{min}  \quad & \text{rms}_{x}\left(s = s_3\right), \quad \text{rms}_{y}\left(s = s_3\right) \label{eq:awa:p1}\\
 & \text{rms}_{px}\left(s = s_3\right), \quad \text{rms}_{py}\left(s = s_3\right), \label{eq:awa:p2}\\

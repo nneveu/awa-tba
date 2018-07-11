@@ -177,7 +177,7 @@ Observe that multiple and conflicting optimality criteria call for a
   multi-objective approach.
 
 \begin{figure}%[h!]
-%\begin{center}\normalsize
+%\begin{center}%\normalsize
 	\scalebox{0.8}{
 	\pgfdeclarelayer{background}
 	\pgfsetlayers{background,main}
@@ -185,7 +185,6 @@ Observe that multiple and conflicting optimality criteria call for a
 	\input{figures/opt-framework_code.tex}
 	\end{tikzpicture}
 }
-%\end{center}
 %\end{center}
 \caption{Multi-objective framework: the pilot (master) solves the
 	optimization problem specified in the input file by coordinating optimizer
@@ -349,9 +348,11 @@ In general, a generic evolutionary algorithm consists of the following
 
 \begin{figure}
     \centering
+    \scalebox{1}{
     \begin{tikzpicture}[scale=0.8, transform shape, text=black]
-      \input{figures/ga_explained_big.tex}
+    \input{figures/ga_explained_big.tex}
     \end{tikzpicture}
+	}
   \caption{Schematic view of interplay between selector and variator. The
   selector ranks all individuals in the population according to fitness and
   subsequently the variator uses the fittest individuals to produces new
@@ -504,9 +505,12 @@ We divide the framework in three exchangeable components, as shown in
 %
 \begin{figure}
   \centering
+  \scalebox{0.85}{
   \begin{tikzpicture}[text=black]
-    \input{figures/opt-framework-layout.tex}
+  \input{figures/opt-framework-layout.tex}
   \end{tikzpicture}
+}
+  
 
   \caption{Schematic view of messages passed within the network between the
     three roles.
@@ -525,15 +529,16 @@ The \textsc{Pilot} component acts as a bridge between the optimizer and
 We implemented the framework in \texttt{C++}, utilizing features like template
   parameters to specify the composition of the framework (shown in Listing 1).
 
-\noindent\begin{minipage}{\textwidth}
-\begin{code}[Assembling the optimizer from components]
+%\noindent\begin{minipage}{0.48\textwidth}
+%\noindent
+\begin{code}[Assembling the optimizer \\ from components]
 typedef OpalInputFileParser Input_t;
 typedef PisaVariator        Opt_t;
 typedef OpalSimulation      Sim_t;
 
 typedef Pilot< Input_t, Opt_t, Sim_t > Pilot_t;
 \end{code}
-\end{minipage}
+%\end{minipage}
 
 The framework provides ``default'' implementations that can be controlled via
   command line options.
@@ -578,7 +583,7 @@ Every \textsc{Poller} terminates the loop upon receiving a special MPI tag.
 All \textsc{Optimizer} implementations have to respect the API shown in
 Listing 2.
 
-\noindent\begin{minipage}{\textwidth}
+%\noindent\begin{minipage}{0.48\textwidth}
 \begin{code}[Optimizer API]
 virtual void initialize() = 0;
 
@@ -590,7 +595,7 @@ virtual void onStop() = 0;
 virtual bool onMessage(MPI_Status status,
                        size_t length) = 0;
 \end{code}
-\end{minipage}
+%\end{minipage}
 
 All processors running an \textsc{Optimizer} component call the
   \texttt{initialize} entry point after role assignment in the
@@ -714,15 +719,16 @@ As shown in Listing 5 this is done by creating a collection of Boost
   available custom functions in expressions and passing this to the
   \textsc{Pilot}.
 
-\noindent\begin{minipage}{\textwidth}
+%\noindent\begin{minipage}{\textwidth}
 \begin{code}[Creating function pointer for registering functor]
 functionDictionary_t funcs;
 client::function::type ff;
 ff = average();
-funcs.insert(std::pair<std::string, client::function::type>
-        ("my_average_name", ff));
+funcs.insert(std::pair<std::string, 
+		client::function::type> 
+       		("my_average_name", ff));
 \end{code}
-\end{minipage}
+%\end{minipage}
 
 A set of default operators, corresponding to a mapping to \texttt{C} math
   functions, is included in the dictionary by default.
@@ -787,8 +793,9 @@ Using functors and the default expression primitives already powerful
   multi-objective optimization problems can be specified, i.e.\ the benchmark
   problem presented in \cite{hbwh:05}:
 %
+\small{
 \begin{align} \label{eqn:bench}
-  \text{ min} \quad & \quad \left[ 1 - \exp \left( -1 \left(
+  \text{ min} & \left[ 1 - \exp \left( -1 \left(
     \left(x_1 - \frac{1}{\sqrt{3}} \right)^2 +
     \left(x_2 - \frac{1}{\sqrt{3}} \right)^2 +
     \left(x_3 - \frac{1}{\sqrt{3}} \right)^2 \right)\right), \right. \\
@@ -799,6 +806,7 @@ Using functors and the default expression primitives already powerful
     \text{s.t.} \quad & \quad -1 \le x_i \le 1, \quad i=1,2,3 \nonumber
   \text{.}
 \end{align}
+}
 %
 Using the default expression primitives this can be stated in an input file
   as:
@@ -810,9 +818,13 @@ Using the default expression primitives this can be stated in an input file
   d3: DVAR, VARIABLE="x3", LOWERBOUND="-1.0", UPPERBOUND="1.0";
 
   obj1: OBJECTIVE,
-    EXPR="1- exp(-1 * (sq(x1 - 1/sqrt(3)) + sq(x2 - 1/sqrt(3)) + sq(x3 - 1/sqrt(3))))";
+    EXPR="1- exp(-1 * (sq(x1 - 1/sqrt(3)) 
+    + sq(x2 - 1/sqrt(3)) 
+    + sq(x3 - 1/sqrt(3))))";
   obj2: OBJECTIVE,
-    EXPR="1- exp(-1 * (sq(x1 + 1/sqrt(3)) + sq(x2 + 1/sqrt(3)) + sq(x3 + 1/sqrt(3))))";
+    EXPR="1- exp(-1 * (sq(x1 + 1/sqrt(3)) 
+    + sq(x2 + 1/sqrt(3)) 
+    + sq(x3 + 1/sqrt(3))))";
 
   objs:    OBJECTIVES = (obj1, obj2);
   dvars:   DVARS = (d1, d2, d3);
