@@ -33,9 +33,9 @@ doublet = False
 triplet = False 
 baseFN  = ['../phases/quads1-4_newobj/zrms']
 
-x=True
+x=False
 y=False
-bunch=False
+bunch=True
 if x==True:
     savefile = 'x_vs_px_pareto_front_quads_before_Q5'
     #plottitle = 'Pareto Front After Kicker and Septum \n $\sigma_{x}$ vs. $\sigma_{px}$'
@@ -53,15 +53,15 @@ if y==True:
     ytitle =  'Beam Size: $\sigma_{y}$ [mm]'
 
 if y==True and x==True:
-    savefile = 'xy_vs_py_pareto_front_quads_before_Q5'
+    savefile = 'xy_vs_pxy_pareto_front_quads_before_Q5'
     #plottitle = 'Pareto Front After Quads \n $\sigma_{x,y}$ vs. $\sigma_{px}$'
     #xtitle = "Energy Spread [MeV]"
     #xtitle = 'Bunch Length: $\sigma_z$ [mm]'
-    xtitle =  r'Momentum: $\sigma_{px}$ [$\gamma$ $\beta$]'
+    xtitle =  r'Momentum: $\sigma_{px,py}$ [$\gamma$ $\beta$]'
     ytitle =  'Beam Size: $\sigma_{x,y}$ [mm]'
 
 if bunch==True:
-    savefile = 'xy_vs_py_pareto_front_quads_before_Q5'
+    savefile = 'dE_vs_zrms_pareto_front_quads_before_Q5'
     xtitle = 'Bunch Length: $\sigma_s$ [mm]'
     ytitle = 'Energy Spread: dE [MeV]'
 
@@ -167,7 +167,7 @@ for fn in baseFN:
         if z3==True:
             #Loadig all data in the i-th generation
             de3   = ds.getData('DE3', gen=i)
-            #rmss3 = ds.getData('RMSS3', gen=i)
+            rmss3 = ds.getData('RMSS3', gen=i)
             rmsx3 = ds.getData('RMSX3', gen=i)
             rmsy3 = ds.getData('RMSY3', gen=i)
             rmspx3 = ds.getData('RMSPX3', gen=i)
@@ -177,6 +177,7 @@ for fn in baseFN:
             #that holds data for every generation
             allrmsx3 = np.append(rmsx3, allrmsx3)
             allrmsy3 = np.append(rmsy3, allrmsy3)
+            allrmss3 = np.append(rmss3, allrmss3)
             allde3 = np.append(de3, allde3)
             allrmspx3 = np.append(rmspx3, allrmspx3)
             allrmspy3 = np.append(rmspy3, allrmspy3)
@@ -261,38 +262,34 @@ for fn in baseFN:
     #(pfdatasx, ind) = pareto_pts(allrmss5, allrmsx5)
 
     if x==True:
-        (pfdatapx, ind) = pareto_pts(allrmsx3, allrmspx3)
-        print('ind', ind)
+        (pfdatapx, indx) = pareto_pts(allrmsx3, allrmspx3)
+        print('ind', indx)
         mmxrms  = np.asarray(pfdatapx['x'])*10**3
         mmpxrms = np.asarray(pfdatapx['y'])
         plt.plot(mmpxrms, mmxrms, '-o', label='xrms')
 
-#    elif y==True and x==False:
-#        (pfdatapy, ind) = pareto_pts(allrmsy3, allrmspy3)
-#        mmyrms = np.asarray(pfdatapy['x'])*10**3
-#        mmpyrms = np.asarray(pfdatapy['y'])
-#        plt.plot(mmpyrms, mmyrms, '-o')
-#
+    if y==True:
+        (pfdatapy, indy) = pareto_pts(allrmsy3, allrmspy3)
+        mmyrms = np.asarray(pfdatapy['x'])*10**3
+        mmpyrms = np.asarray(pfdatapy['y'])
+        plt.plot(mmpyrms, mmyrms, '-o', label='yrms')
+        plt.legend()
 #    if x==True and y==True:
 #        mmyrms = np.asarray(allrmsy1[ind])*10**3
 #        plt.plot(mmpxrms, mmxrms, '-o', label='xrms')
 #        plt.plot(mmpxrms, mmyrms, '-o', label='yrms')
-    #mmzrms = np.asarray(pfdatasx['y'])*10**3
-    #plt.plot(mmzrms, mmyrms, '-o', label='yrms')
-    #plt.plot(mmzrms, mmxrms, '-o', label='xrms')
-    #de1    = np.asarray(pfdatapx['y'])    
-    #plt.plot(de1, mmyrms, '-o', label='yrms')
-    #plt.plot(de1, mmxrms, '-o', label='xrms')
-    #plt.plot(mmpyrms, mmyrms, '-o', label='yrms')
-    #plt.plot(mmpxrms, mmxrms, '-o', label='xrms')
+
+
+    if bunch==True:
+        (pfdataz, ind) = pareto_pts(allrmss3, allde3)
+        mmzrms = np.asarray(pfdataz['x'])*10**3
+        plt.axis([1.38,1.5,0.45,0.75])
+        plt.plot(mmzrms, pfdataz['y'], '-o')
+    
     plot_stuff(xtitle,ytitle)
     plt.grid()
     plt.savefig(savefile+'.pdf', dpi=1000, bbox_inches='tight')
 
-    #mmxrms = np.asarray(pfdatase['x'])*10**3
-    #de1    = np.asarray(pfdatase['y'])    
-    #plt.plot(de1, mmyrms, '-o', label='yrms')
-    #plt.plot(de1, mmxrms, '-o', label='xrms')
 
     #Printing design variables that 
     #correspond to pareto front points
@@ -309,7 +306,7 @@ for fn in baseFN:
         print('dE', allde3[ind])
         print('yrms', allrmsy3[ind])
         print('xrms', allrmsx3[ind])
-        #print('zrms', allrmss1[ind])
+        print('zrms', allrmss3[ind])
 
     ##print('GPHASE', allphs[ind])
     #print('P1', allp1[ind]) 
