@@ -877,7 +877,7 @@ This first study shows that the framework is ready to tackle problems arising
 
 Interestingly, the computation of a good approximation of the Pareto front is
   already feasible on a small cluster using only a modest number of MPI
-  procsses.
+  processes.
 For 1000 generations consisting of 2048 feasible and 8354 infeasible function
   evaluations (simulations) the optimizer needed $845$ minutes on the
   \textsc{Felsim} cluster on $16$ processes.
@@ -886,9 +886,17 @@ When we double the number of processes to $32$ (\textsc{Felsim} allows a
   accepted and 5426 infeasible individuals).
 Notice that the runtime can vary due to the random nature of the process.
 Nevertheless we see a reasonable speeduo when using more cores to solve the
-  optimization problem and the parallel performance will be further evaluated
-  in a forthcoming publication.
+  optimization problem. %and the parallel performance will be further evaluated
+%  in a forthcoming publication.
 %The number of individuals is the only limiting factor.
+
+The framework was then applied to a larger and untested beam dynamics problem at the AWA.
+Optimization of the 3D beam size and energy spread was accomplished.
+A scan of time step and hyper parameters was done to determine computational settings.
+Then a full scale physics optimization was performed.
+The resulting beam tune can and will be used in future TBA experiments at the AWA.
+This problem also took advantage of the frameworks massively parallel capabilities by
+running on 2624 processes on Bebop at LCRC.
 
 In contrast to approaches that are tightly coupled to the optimization
   algorithm, the range of possible applications is much wider.
@@ -907,6 +915,7 @@ The authors thank the \textsc{SwissFEL} and AWA teams for contributing to the
   formulation of optimization problems. 
   We gratefully acknowledge the computing resources provided on Bebop,
   a HPC cluster operated by the LCRC at ANL.
+  Thanks to Scott Doran for providing CAD drawings of the AWA beam lines.
   This work was partly supported by the 
   U.S. Department of Energy, Office of Science, under 
   contract number DE-AC02-06CH11357 and grant number DE-SC0015479. 

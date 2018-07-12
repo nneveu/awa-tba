@@ -705,16 +705,7 @@ When looking at the Pareto front at $s_2$, only ex-4 has a slight
 edge over the others.
 With ex-2 and ex-3 eliminated due to evaluation time, 
 and a slightly better Pareto front at $s_2$ for ex-4, the hyper parameters in ex-4 were chosen as the default values for subsequent runs.
-\iffalse  
-\begin{figure}
-	\centering
-	\includegraphics[width=0.75\textwidth]{Report/ex-pareto1}%
-	\llap{\raisebox{1.8cm}{%  move next graphics to top right corner
-			\includegraphics[height=5.5cm]{Report/ex-pareto2}%
-	}}
-	\caption{My overlay figure.}
-\end{figure}  
-\fi
+
 
 \begin{figure}
 	\centering
@@ -724,6 +715,7 @@ and a slightly better Pareto front at $s_2$ for ex-4, the hyper parameters in ex
 		(a) Pareto fronts for ex-1 through ex-4 at $s_1$.
 		%\caption{(a) Pareto fronts at $s_1$.}
 		%\label{expareto1}
+		\vspace{2em}
 	\end{minipage}
 	\begin{minipage}{0.49\textwidth}
 		\centering
@@ -904,21 +896,40 @@ see Figs.~\ref{fig:pareto1} and \ref{fig:pareto2}.
 	\label{fig:pareto1}
 \end{figure}
 
-\begin{figure}
-	\includegraphics[width=0.5\textwidth]{../pareto_stat_plots/y_vs_py_pareto_front_quads_before_Q5}
-	\caption{Pareto front comparing longitudinal beam size ($\sigma_z$) and energy spread ($dE$).}
-	\label{fig:pareto2}
-\end{figure}
-
-
-As expected, the x dimension is impacted by the bending elements, and unable to maintain 
-the small beam sizes seen in the y dimension. 
-The $\sigma_x$ and $\sigma_{px}$ plots are of most interest, as these parameters are the heavily 
-impacted by bending elements. With this in mind, several beam parameters corresponding to
-options on Pareto Front in Fig. X were plotted and compared. 
-The best results are shown in Fig. Z. 
-The maximum beam sizes are well below the beam pip aperture limits as shown in Fig. (b). 
  
+\begin{figure}
+	\centering
+	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/dE_vs_zrms_pareto_front_quads_before_Q5_zoomout}%
+	\llap{\raisebox{1.9cm}{%  move next graphics to top right corner
+			\includegraphics[height=4.5cm]{../pareto_stat_plots/dE_vs_zrms_pareto_front_quads_before_Q5}%
+	}}
+	\caption{Comparison of energy spread and bunch length ($\sigma_z$). \nrnote{add tikz arrows to point to left side of curve?}}
+	\label{fig:pareto2}
+\end{figure}  
+
+
+As expected, the x dimension is impacted by the bending elements, and unable to reach 
+the small beam sizes seen in the y dimension. This suggest objectives in the x 
+should be weighted higher than y when choosing operating parameters. 
+In the case of bunch length, there are not many options to choose from.
+Ignoring the extreme value on the right, Fig.~\ref{fig:pareto2} shows the 
+range of optimal bunch lengths fall between 1.39 and 1.5 mm.
+
+With these observations in mind, several beam parameters corresponding to
+options on Pareto Front in Fig.~\ref{fig:pareto1} were plotted and compared. 
+A select result is shown in Fig.~\ref{fig:stat}. 
+The maximum beam sizes are well below the beam pipe aperture limits as shown in Fig.~\ref{fig:stat} (b).
+The solution is nearly round, which will increase changes of keeping the beam nearly round
+as it travels to the last triplet in Fig.~\ref{awa-tba}.
+Overall this solution is satisfactory, and meets all requirements at the AWA.
+
+
+\begin{figure}
+	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/xyrms-zrms_newobj}\\
+	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/xy-max-min-zrms_newobj}
+	\caption{Optimized beam sizes along high charge beam line.}
+	\label{fig:stat}
+\end{figure}
 
 
 
