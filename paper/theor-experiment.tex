@@ -779,22 +779,29 @@ The momentum is also critical to preventing large growth during transport in ben
 All of these factors help with transmission downstream. 
 
 The next two objectives in Eq. (\ref{eq:awa:p4}) minimize the 
-longitudinal beam size ($rms_s$), and energy spread (dE) at $s_3$.
+longitudinal beam size ($rms_s$), and energy spread (dE) at location $s_3$.
 This helps reduce longitudinal beam size growth in bending elements.
-A small bunch length ($rms_s$) is also critical.......
+A small bunch length ($rms_s$) is also critical to the goals of 
+TBA experiments. The power generated in the wakefield structures 
+designed for TBA is related to the bunch length \cite{JING201872}.
+\nrnote{need better source for this info} 
+i.e. smaller bunch lengths result in larger wakefields and higher power generation.
+ 
   
 
-Three constraints were also defined to help guide the algorithm;
-Eqs.~\ref{eq:awa:c1} to \ref{eq:awa:c3}.
-The bounding values may seem large, but this is done to avoid over constraing the 
-problem in early generations. If the constraints are set tighter, 
-runs do not reach the second generation, because enough satisfactory 
-points are not produced to fill a complete generation. 
-Leaving the value large allows for enough simulations to finish
-in order to reach the next generation, and subsequent improved points in later generations.
+Eqs.~\ref{eq:awa:c1} to \ref{eq:awa:c3} 
+define three constraints used to guide the algorithm.
+The bounding values may seem large, but this is done to avoid over constraining the 
+problem in early generations. When the constraints were set tighter, 
+optimization runs did not reach the second generation within a 48 hour time limit. 
+In other words, enough satisfactory points were not produced to fill a complete generation in 48 hours. 
+By leaving the value large, a sufficient number of simulations finish
+and subsequent generations are reached in a timely manner. 
+As multiple generations, the objectives continue to improve.
+
 The difference constraint, Eq.~\ref{eq:awa:c3}, is used to favor nearly round beams.
 This prevents one dimension from becoming disproportionately large compared to the other.
-In this case, there is some room in the beam pipe to allow the y dimension to grow, but round beams 
+At the AWA, there is some room in the beam pipe to allow the y dimension to grow, but round beams 
 are preferred for easier data analysis.
 
 Equations (\ref{eq:awa:firstconstr}) to
@@ -858,8 +865,8 @@ Design variables include the currents in two gun solenoids (IBF and IM),
 and four quadrupole strengths (KQ1-KQ2). The objectives include
 beam size (transverse and longitudinal), transverse momentum, and energy spread as
 defined in Eqs. (\ref{eq:awa:p1}) to (\ref{eq:awa:p4}). 
-The location at the entrance of the kicker is $s_0=16.45$~meters, 
-and the location of interest for objectives is $s_1=19.4$~meters. 
+The location at the entrance of the kicker is $s_1=16.45$~meters, 
+and the location of interest for objectives is $s_3=19.4$~meters. 
 
 
 \subsubsection{AWA Optimization Results}
@@ -889,17 +896,30 @@ Again, the location of optimization is $s_3=19.4$ [m].
 This is the entrance to the fifth quad in the beam line. 
 This location is where the beam should be captured and focused through subsequent elements.
 After collection of the data, Pareto fronts comparing the objectives were plotted, 
-see Figs. X-Z.
-The $\sigma_x$ and $\sigma_{px}$ plots are of most interest, as they are the most heavility 
+see Figs.~\ref{fig:pareto1} and \ref{fig:pareto2}.
+
+\begin{figure}
+	\includegraphics[width=0.5\textwidth]{../pareto_stat_plots/xy_vs_pxy_pareto_front_quads_before_Q5}
+	\caption{Pareto front comparing transverse beam size ($\sigma_{x,y}$) and transverse momentum ($\sigma_{px,py}$).}
+	\label{fig:pareto1}
+\end{figure}
+
+\begin{figure}
+	\includegraphics[width=0.5\textwidth]{../pareto_stat_plots/y_vs_py_pareto_front_quads_before_Q5}
+	\caption{Pareto front comparing longitudinal beam size ($\sigma_z$) and energy spread ($dE$).}
+	\label{fig:pareto2}
+\end{figure}
+
+
+As expected, the x dimension is impacted by the bending elements, and unable to maintain 
+the small beam sizes seen in the y dimension. 
+The $\sigma_x$ and $\sigma_{px}$ plots are of most interest, as these parameters are the heavily 
 impacted by bending elements. With this in mind, several beam parameters corresponding to
 options on Pareto Front in Fig. X were plotted and compared. 
 The best results are shown in Fig. Z. 
 The maximum beam sizes are well below the beam pip aperture limits as shown in Fig. (b). 
  
-\begin{figure}
-	%\includegraphics[width=0.5\textwidth]{}\includegraphics[width=0.5\textwidth]{}
-	\label{beamsizes}
-\end{figure}
+
 
 
 
