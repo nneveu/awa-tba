@@ -57,13 +57,13 @@ if y==True and x==True:
     #plottitle = 'Pareto Front After Quads \n $\sigma_{x,y}$ vs. $\sigma_{px}$'
     #xtitle = "Energy Spread [MeV]"
     #xtitle = 'Bunch Length: $\sigma_z$ [mm]'
-    xtitle =  r'Momentum: $\sigma_{px,py}$ [$\gamma$ $\beta$]'
-    ytitle =  'Beam Size: $\sigma_{x,y}$ [mm]'
+    xtitle =  r'Momentum: rms$_{px,py}$ ($\gamma$ $\beta$)'
+    ytitle =  'Beam Size: rms$_{x,y}$ (mm)'
 
 if bunch==True:
-    savefile = 'dE_vs_zrms_pareto_front_quads_before_Q5'
-    xtitle = 'Bunch Length: $\sigma_s$ [mm]'
-    ytitle = 'Energy Spread: dE [MeV]'
+    savefile = 'dE_vs_zrms_pareto_front_quads_before_Q5_zoomout'
+    xtitle = 'Bunch Length: rms$_s$ (mm)'
+    ytitle = 'Energy Spread: dE (MeV)'
 
 for fn in baseFN:
     
@@ -266,13 +266,13 @@ for fn in baseFN:
         print('ind', indx)
         mmxrms  = np.asarray(pfdatapx['x'])*10**3
         mmpxrms = np.asarray(pfdatapx['y'])
-        plt.plot(mmpxrms, mmxrms, '-o', label='xrms')
+        plt.plot(mmpxrms, mmxrms, '-o', label='rms$_{x,px}$')
 
     if y==True:
         (pfdatapy, indy) = pareto_pts(allrmsy3, allrmspy3)
         mmyrms = np.asarray(pfdatapy['x'])*10**3
         mmpyrms = np.asarray(pfdatapy['y'])
-        plt.plot(mmpyrms, mmyrms, '-o', label='yrms')
+        plt.plot(mmpyrms, mmyrms, '-o', label='rms$_{y,py}$')
         plt.legend()
 #    if x==True and y==True:
 #        mmyrms = np.asarray(allrmsy1[ind])*10**3
@@ -283,7 +283,7 @@ for fn in baseFN:
     if bunch==True:
         (pfdataz, ind) = pareto_pts(allrmss3, allde3)
         mmzrms = np.asarray(pfdataz['x'])*10**3
-        plt.axis([1.38,1.5,0.45,0.75])
+        #plt.axis([1.38,1.5,0.45,0.75])
         plt.plot(mmzrms, pfdataz['y'], '-o')
     
     plot_stuff(xtitle,ytitle)

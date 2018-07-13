@@ -1,6 +1,9 @@
 from opal.visualization.plots import *
 from opal.opal import load_dataset
 
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+plt.rc('axes', labelsize=18)
 
 #myfile = '3gens_large_xrms_at_triplet.stat'
 #myfile = '3gens_small_xrms_at_triplet.stat'
@@ -20,9 +23,9 @@ for myfile in files:
     except Exception as e:
             print ( e )
     
-    pltxy  = plot_profile1D(ds, 's', 'rms_x', xsci=True, label='$\sigma_x$')
-    pltxy  = plot_profile1D(ds, 's', 'rms_y', xsci=True, label='$\sigma_y$')
-    
+    pltxy  = plot_profile1D(ds, 's', 'rms_x', xsci=True, label='rms$_x$')
+    pltxy  = plot_profile1D(ds, 's', 'rms_y', xsci=True, label='rms$_y$')
+    plt.xlabel('s (m)') 
     z = np.array([ 18.5,   18.7,   20.5,  20.7])
     y = np.array([0.0041, 0.0041, 0.0083,0.0083 ]) 
 
@@ -49,7 +52,7 @@ for myfile in files:
     plt.plot([19.4,19.4],[0,0.015], '-g', label='$s_3$')
     plt.axis([0,zstop,0,0.015])
     plt.legend(loc='lower left')
-    plt.ylabel('Beam sizes: $\sigma_{x,y}$', size=20)
+    plt.ylabel('Beam Sizes: rms$_{x,y}$ (mm)', size=20)
     plt.grid()
     #plt.show()
     savefile = myfile.split('.stat')[0]
@@ -94,9 +97,12 @@ for myfile in files:
     plt.savefig('energy-'+savefile+'.pdf', dpi=1000, bbox_inches='tight')
 
     fig7 = plt.figure(7)
+    ax   = plt.axes()
     pltmax = plot_profile1D(ds, 's', 'max_x', xsci=True, label='max x')
     pltmax = plot_profile1D(ds, 's', 'max_y', xsci=True, label='max y')
+    plt.xlabel('s (m)')
 
+    
     #2 inch pipe
     plt.plot([10, 16.5],   [0.05, 0.05], 'k-', label = 'Beam pipe aperture')
     plt.plot([16.5, 16.5], [0.05, 0.04], 'k-') #Down from kicker to septum
@@ -117,9 +123,15 @@ for myfile in files:
     plt.plot([13.6, 19.4, 21.2], [0.05, 0.05,0.05], 'g^', label='quads')
     plt.plot(z,y*6, 'ko', label = 'dipole')
 
-    plt.ylabel('Max Beam Sizes', size=20) #, $\sigma_{z}$')
+    plt.ylabel(r'Max Beam Sizes', size=20) #, $\sigma_{z}$')
     plt.axis([0,zstop,0,0.055])
-    plt.legend(loc='lower left')
+
+    ticks = ax.get_yticklabels() 
+    newticks = ticks*100
+    print((ticks[0]))#, newticks)
+    ax.set_yticklabels(newticks)
+    
+    plt.legend(loc='upper left')
     plt.grid()
     plt.savefig('xy-max-min-'+savefile+'.pdf', dpi=1000, bbox_inches='tight')
 
