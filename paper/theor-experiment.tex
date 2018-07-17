@@ -320,7 +320,7 @@ No difference between $800$ and $400$ slices is visible as their minimum
   maximum extension seems to be in the same range of $0.024$ mm~mrad.
 
 For validation purposes we compared the results of the envelope-tracker using
-  the analytical space charge model with the \textsc{OPAL} 3D macro particle
+  the analytical space charge model with the \textsc{OPAL-T} 3D macro particle
   tracker.
 The benchmark was run on the first 12.5 meters of the \textsc{SwissFEL} 250
   MeV injector.
@@ -737,7 +737,8 @@ With computational and hyper parameters set,
 the full optimization problem of interest is explored.
 The objectives (beam sizes and energy spread) are weighted 
 equally and calculated at 
-$s_3=19.4$~[m], see Fig.~\ref{awa-tba}. 
+$s_3=19.4$~m. See Fig.~\ref{awa-tba} for location of $s_3$ w.r.t. other 
+beam line elements. 
 Given the longitudinal location of $s_3$ (unless otherwise noted), 
 we define the objectives and input parameters as:
 \begin{align}
@@ -876,7 +877,7 @@ Typical runs for this paper used 41 nodes, which corresponds to 2624 KNL cores
 and a generation size of 328 individuals.
 
 
-With the time steps and hyper parameters set by the work in \ref{awa:subsection:test}, 
+With the time steps and hyper parameters set by the work in Section \ref{awa:subsection:test}, 
 the full optimization problem described in \ref{awaproblem} was run for 200 generations.
 The initial number of individuals was fixed at 656, 
 and the minimum number individuals in later generations was fixed at 328. 
