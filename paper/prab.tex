@@ -102,12 +102,13 @@ aps,
 }%
 
 
-\author{Andreas Adelmann}
+\author{A. Adelmann}
 \email{andreas.adelmann@psi.ch}
 \author{A. Kolano}
 \altaffiliation[Also at ]{
-	University of Huddersfield, West Yorkshire, United Kingdom}
-
+	University of Huddersfield, West Yorkshire, United Kingdom and  CERN, Genf}
+\author{C. Metzger-Kraus}
+\altaffiliation[Also at ]{AiF Projekt GmbH}
 \affiliation{
 	PSI, Villigen, Switzerland}%
 
@@ -119,11 +120,6 @@ aps,
 \author{P. Arbenz}
 \affiliation{%
 	Department of Computer Science, ETH Zurich, Switzerland}%
-
-\author{C. Metzger-Kraus }
-\affiliation{% 
-	place holder \\
-}%
 
 \date{\today}% It is always \today, today,
 %  but any date may be explicitly specified
@@ -876,21 +872,24 @@ We found that the optimal slice number is around 400 for the problem addressed
   of the solution of the simulation.
 Similarly, the gun and beam line time step was investigated confirming the
   convergence of the results.
-This first study shows that the framework is ready to tackle problems arising
-  in the domain of beam dynamics.
 
-Interestingly, the computation of a good approximation of the Pareto front is
-  already feasible on a small cluster using only a modest number of MPI
-  processes.
-For 1000 generations consisting of 2048 feasible and 8354 infeasible function
-  evaluations (simulations) the optimizer needed $845$ minutes on the
-  \textsc{Felsim} cluster on $16$ processes.
-When we double the number of processes to $32$ (\textsc{Felsim} allows a
-  maximum of $64$ processes per job) the runtime improves to $302$ minutes (2048
-  accepted and 5426 infeasible individuals).
-Notice that the runtime can vary due to the random nature of the process.
-Nevertheless we see a reasonable speeduo when using more cores to solve the
-  optimization problem. %and the parallel performance will be further evaluated
+%This first study shows that the framework is ready to tackle problems arising
+%  in the domain of beam dynamics.
+%
+%Interestingly, the computation of a good approximation of the Pareto front is
+%  already feasible on a small cluster using only a modest number of MPI
+%  processes.
+%  
+%For 1000 generations consisting of 2048 feasible and 8354 infeasible function
+%  evaluations (simulations) the optimizer needed $845$ minutes on the
+%  \textsc{Felsim} cluster on $16$ processes.
+%
+%When we double the number of processes to $32$ (\textsc{Felsim} allows a
+%  maximum of $64$ processes per job) the runtime improves to $302$ minutes (2048
+%  accepted and 5426 infeasible individuals).
+%Notice that the runtime can vary due to the random nature of the process.
+%Nevertheless we see a reasonable speeduo when using more cores to solve the
+%  optimization problem. %and the parallel performance will be further evaluated
 %  in a forthcoming publication.
 %The number of individuals is the only limiting factor.
 
