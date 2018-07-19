@@ -173,13 +173,13 @@ CONSTRAINTS=constrs;
 \end{flushleft}
 \vspace{0.2cm}
 
-All numerical experiments in this sections were executed on the
-  \textsc{Felsim} cluster at PSI\@.
-The \textsc{Felsim} cluster consists of 8 dual quad-core Intel Xeon
-  processors at 3.0 GHz and has $2$ GB memory per core with a total of 128
-  cores.
-The nodes are connected via Infiniband network with a total bandwidth of 16
-  GB/s.
+%All numerical experiments in this sections were executed on the
+%  \textsc{Felsim} cluster at PSI\@.
+%The \textsc{Felsim} cluster consists of 8 dual quad-core Intel Xeon
+%  processors at 3.0 GHz and has $2$ GB memory per core with a total of 128
+%  cores.
+%The nodes are connected via Infiniband network with a total bandwidth of 16
+%  GB/s.
 
 The envelope-tracker, mentioned in the previous section, was used to evaluate
   the forward problems.
@@ -320,7 +320,7 @@ No difference between $800$ and $400$ slices is visible as their minimum
   maximum extension seems to be in the same range of $0.024$ mm~mrad.
 
 For validation purposes we compared the results of the envelope-tracker using
-  the analytical space charge model with the \textsc{OPAL-T} 3D macro particle
+  the analytical space charge model with the \textsc{OPAL-t} 3D macro particle
   tracker.
 The benchmark was run on the first 12.5 meters of the \textsc{SwissFEL} 250
   MeV injector.
@@ -750,7 +750,7 @@ we define the objectives and input parameters as:
 \quad & |rms_y - rms_x | < 0.005 \, [m] |_{s=s_1}\label{eq:awa:c3}\\
 \text{subject to} \quad & q = 40 \left[\text{nC}\right] \label{eq:awa:firstconstr}\\
 \quad & \text{Volt}_{\text{Gun}} = 64\left[\text{MV/m}\right] \label{eq:awa:lastconstr}\\
-\quad & \text{Volt}_{\text{Linac}} = 24-25\left[\text{MV/m}\right] \\
+\quad & \text{Volt}_{\text{Linac}} = 24 \ldots 25\left[\text{MV/m}\right] \\
 \quad & R_x = R_y = 9 \left[\text{mm}\right] \label{eq:awa:firstdvar}\\
 \quad & \phi_{\text{gun}} =-20^\circ \label{eq:awa:gphidvar}\\
 \quad & \phi_{\text{linac}} =-20^\circ \label{eq:awa:lastdvar}
