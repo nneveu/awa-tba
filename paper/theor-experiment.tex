@@ -520,7 +520,6 @@ This problem encompasses high dimensionality
 and nonlinear effects such as space charge. There is no existing information
 that accurately predicts where the Pareto fronts will fall. This work is also meaningful in that
 it will guide future operations at the AWA.
-\nrnote{Moved final run set up and results to after time step scan and hyper parameters}
 
 
 \subsubsection{Time Step Scan} \label{awa:subsection:test}
@@ -735,8 +734,7 @@ and a slightly better Pareto front at $s_2$ for ex-4, the hyper parameters in ex
 \subsubsection{TBA Optimization Problem}
 With computational and hyper parameters set, 
 the full optimization problem of interest is explored.
-The objectives (beam sizes and energy spread) are weighted 
-equally and calculated at 
+The objectives (beam sizes and energy spread) are calculated at 
 $s_3=19.4$~m. See Fig.~\ref{awa-tba} for location of $s_3$ w.r.t. other 
 beam line elements. 
 Given the longitudinal location of $s_3$ (unless otherwise noted), 
@@ -750,7 +748,7 @@ we define the objectives and input parameters as:
 \quad & |rms_y - rms_x | < 0.005 \, [m] |_{s=s_1}\label{eq:awa:c3}\\
 \text{subject to} \quad & q = 40 \left[\text{nC}\right] \label{eq:awa:firstconstr}\\
 \quad & \text{Volt}_{\text{Gun}} = 64\left[\text{MV/m}\right] \label{eq:awa:lastconstr}\\
-\quad & \text{Volt}_{\text{Linac}} = 24 \ldots 25\left[\text{MV/m}\right] \\
+\quad & \text{Volt}_{\text{Linac}} = 24 \, \text{or} \, 25\left[\text{MV/m}\right] \\
 \quad & R_x = R_y = 9 \left[\text{mm}\right] \label{eq:awa:firstdvar}\\
 \quad & \phi_{\text{gun}} =-20^\circ \label{eq:awa:gphidvar}\\
 \quad & \phi_{\text{linac}} =-20^\circ \label{eq:awa:lastdvar}
@@ -911,7 +909,12 @@ see Figs.~\ref{fig:pareto1} and \ref{fig:pareto2}.
 
 As expected, the x dimension is impacted by the bending elements, and unable to reach 
 the small beam sizes seen in the y dimension. This suggest objectives in the x 
-should be weighted higher than y when choosing operating parameters. 
+dimension will drive design variable choices used in operations. 
+However, it is still necessary to 
+include the y dimension in optimization. Early optimization tests showed the y dimension 
+can easily grow out of control if not included in the objectives.
+Those results are not shown here due to the unfeasible solutions they resulted in
+(i.e. $rms_y$ larger than the beam pipe).
 In the case of bunch length, there are not many options to choose from.
 Ignoring the extreme value on the right, Fig.~\ref{fig:pareto2} shows the 
 range of optimal bunch lengths fall between 1.39 and 1.5 mm.
