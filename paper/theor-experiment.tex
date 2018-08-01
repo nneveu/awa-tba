@@ -158,8 +158,8 @@ The design variables include the two gun solenoids and
 the first four quadrupoles. 
 This problem encompasses high dimensionality 
 and nonlinear effects such as space charge. There is no existing information
-that accurately predicts where the Pareto fronts will fall. This work is also meaningful in that
-it will guide future operations at the AWA.
+that accurately predicts optimized parameters for this beam line. 
+This work is also meaningful in that it will guide future operations at the AWA.
 
 
 \subsubsection{Time Step Scan} \label{awa:subsection:test}
@@ -242,12 +242,12 @@ beam is low energy and changing rapidly.
 
 \subsubsection{Hyper parameter Scan}
 While the optimization problem and goals were well defined (Subsection \ref{awaproblem}), 
-it was not clear what the best hyper parameters for the NSGA-II would be.
+it was not clear what the best hyper parameters for the genetic algorithm would be.
 These parameters include gene mutation probability, mutation probability, 
 recombination probability, number of individuals, 
 and number of generations to complete. 
 Given the beam line in Fig.~\ref{awa-linac},
-four small optimization experiments were done with varying NSGA-II parameters. 
+four small optimization experiments were done with various NSGA-II parameters. 
 Similar to the time step scan, 
 the goal of this exercise was to determine which set of optimization
 parameters strongly influence the results, 
