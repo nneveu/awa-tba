@@ -287,7 +287,7 @@ This can be formulated as MOOP (\ref{eq:car-moop}).
 
 In general, it is not possible to get the maximal performance for the lowest
   price and a trade-off decision between performance and price has to be
-  reached (see Figure~\ref{fig:tradeoff}).
+  reached (see Fig.~\ref{fig:tradeoff}).
 Since not every choice is equally profitable for the buyer (for example, car
   $x_4$ costs as much as $x_2^*$ but offers less performance), we pick
   trade-offs (red points) that are essentially ``equally optimal'' in both
@@ -365,7 +365,7 @@ Applied to multi-objective optimization problems, genes correspond to
   design variables.
 The fitness of an individual is loosely related to the value of the objective
   functions for the corresponding genes.
-Figure~\ref{fig:varsel} schematically depicts the connection of the
+Fig.~\ref{fig:varsel} schematically depicts the connection of the
   components introduced above.
 The process starts with an initially random population of individuals, each
   individual with a unique set of genes and corresponding fitness,
@@ -386,7 +386,7 @@ One of the advantages of PISA is that it separates variator from selector,
   rendering the library expandable and configurable.
 Implementing a variator was enough to use PISA in our framework and
   retain access to all available PISA selectors.
-As shown in Figure~\ref{fig:varsel}, the selector is in charge of ordering a
+As shown in Fig.~\ref{fig:varsel}, the selector is in charge of ordering a
   set of $d$-dimensional vectors and selecting the $k$ fittest individuals
   currently in the population.
 The performance of a selector depends on the number of objectives and the
@@ -501,7 +501,7 @@ The basic assumption in simulation-based optimization is that we need to
   call an expensive simulation software component present in the
   constraints or objectives.
 We divide the framework in three exchangeable components, as shown in
-  Figure~\ref{fig:opt-framework-layout}, to encapsulate the major behavioral
+  Fig.~\ref{fig:opt-framework-layout}, to encapsulate the major behavioral
   patterns of the framework.
 %
 \begin{figure}
@@ -546,12 +546,12 @@ The framework provides ``default'' implementations that can be controlled via
 Due to its modular design, all components can be completely customized.
 
 Every available MPI process will take up one of the three available roles (see
-  Figure~\ref{fig:framenetwork}):  one process acts as \textsc{Pilot}, the
+  Fig.~\ref{fig:framenetwork}):  one process acts as \textsc{Pilot}, the
   remaining processes are divided amongst \textsc{Worker} and
   \textsc{Optimizer} roles.
 Both, the \textsc{Worker} and the \textsc{Optimizer} can consist of multiple
   MPI processes to exploit parallelism.
-As shown in Figure~\ref{fig:opt-framework-layout} the \textsc{Pilot} is used
+As shown in Fig.~\ref{fig:opt-framework-layout} the \textsc{Pilot} is used
   to coordinate all ``information requests'' between the \textsc{Optimizer}
   and the \textsc{Worker}.
 An information request is a job that consists of a set of design variables
@@ -860,19 +860,6 @@ The flexibility of being able to adapt both ends of the optimization
   not only leads to broad applicability but it facilitates the ability to
   tailor the optimization strategy to the optimization problem as well.
 
-In this paper we applied the framework to reproduce the important and well
-  known Ferrario matching condition for the \textsc{250 MeV injector}, a part of PSI's
-  \textsc{SwissFEL} project.
-The beam size and emittance optimization was successful and emittance damping
-  is observed in the accelerating cavity.
-Also, the influence of the number of slices employed by the envelope tracker
-  with respect to convergence was investigated.
-We found that the optimal slice number is around 400 for the problem addressed
-  here, producing the best trade-off between computational cost and accuracy
-  of the solution of the simulation.
-Similarly, the gun and beam line time step was investigated confirming the
-  convergence of the results.
-
 %This first study shows that the framework is ready to tackle problems arising
 %  in the domain of beam dynamics.
 %
@@ -892,8 +879,7 @@ Similarly, the gun and beam line time step was investigated confirming the
 %  optimization problem. %and the parallel performance will be further evaluated
 %  in a forthcoming publication.
 %The number of individuals is the only limiting factor.
-
-The framework was then applied to a larger beam dynamics problem at the AWA.
+In this paper we applied the framework to a beam dynamics problem at the AWA.
 Optimization of the 3D beam size and energy spread was accomplished.
 A scan of time step and hyper parameters was done to determine computational settings.
 Then a full scale physics optimization was performed.
