@@ -15,7 +15,7 @@ aps,
 %pra,
 %prb,
 %rmp,
-%prstab,
+prstab,
 %prstper,
 %floatfix,
 ]{revtex4-1}
@@ -48,6 +48,7 @@ aps,
 \setcounter{lstmain}{1}
 
 \usepackage{graphicx,xcolor,enumitem}
+%\usepackage{cuted}
 \newcommand{\lsnote}[1]{\textsf{{\color{violet}{ LS note:}   #1 }}}
 
 \lstnewenvironment{code}[1][]
@@ -790,21 +791,25 @@ Using functors and the default expression primitives already powerful
   problem presented in \cite{hbwh:05}:
 %
 
+%\begin{strip}
+	\begin{widetext}
+		\begin{align} \label{eqn:bench}
+		\text{min} & \left[ 1 - \exp \left( -1 \left(
+		\left(x_1 - \frac{1}{\sqrt{3}} \right)^2 +
+		\left(x_2 - \frac{1}{\sqrt{3}} \right)^2 +
+		\left(x_3 - \frac{1}{\sqrt{3}} \right)^2 \right)\right), \right. \\
+		\vspace{3em} 
+		& \left. 1 - \exp \left( -1 \left(
+		\left(x_1 + \frac{1}{\sqrt{3}} \right)^2 +
+		\left(x_2 + \frac{1}{\sqrt{3}} \right)^2 +
+		\left(x_3 + \frac{1}{\sqrt{3}} \right)^2 \right)\right) \right]^T \nonumber \\
+		\vspace{3em} \\
+		\text{s.t.} \quad & \quad -1 \le x_i \le 1, \quad i=1,2,3 \nonumber
+		\text{.}
+		\end{align}
+	\end{widetext}
+%\end{strip}
 
-\begin{flushleft}
-\begin{align} \label{eqn:bench}
-\text{min} & \left[ 1 - \exp \left( -1 \left(
-\left(x_1 - \frac{1}{\sqrt{3}} \right)^2 +
-\left(x_2 - \frac{1}{\sqrt{3}} \right)^2 +
-\left(x_3 - \frac{1}{\sqrt{3}} \right)^2 \right)\right), \right. \\
-& \left. 1 - \exp \left( -1 \left(
-\left(x_1 + \frac{1}{\sqrt{3}} \right)^2 +
-\left(x_2 + \frac{1}{\sqrt{3}} \right)^2 +
-\left(x_3 + \frac{1}{\sqrt{3}} \right)^2 \right)\right) \right]^T \nonumber \\
-\text{s.t.} \quad & \quad -1 \le x_i \le 1, \quad i=1,2,3 \nonumber
-\text{.}
-\end{align}
-\end{flushleft}
 
 
 %
