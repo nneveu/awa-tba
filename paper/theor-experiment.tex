@@ -21,9 +21,10 @@ To ensure that the optimizer works correctly we solved the benchmark
 To that end, we use a metric for comparing the quality of a Pareto
   front.
 Given a point in the Pareto set, we compute the $m$ dimensional volume (for
-  $m$ objectives) of the dominated space, relative a chosen origin.
+  $m$ objectives) of the dominated space, relative to a chosen origin.
 We visualize this for $2$ objectives in Fig.~\ref{fig:hypervolume}.
 For further information and details of the implementation see~\cite{whbb:12}.
+\lsedit{The next sentence is confusing.  If hyper volumes referring to fig. 6, why is there only one value?  Is it an average?}
 Figure~\ref{fig:pisa_bench} and the corresponding hypervolume values in
   Table~\ref{tbl:bench_rms_error}.
 The reference Pareto front is clearly very well approximated.
@@ -40,6 +41,8 @@ The hypervolume of the reference solution ($0.6575$) for our benchmark was
            individuals.}
   \label{fig:pisa_bench}
 \end{figure}
+
+\lsedit{The column descriptors for the table are not clear  - better formatting needed}
 
 \begin{table}%[h!]
 \begin{center}
@@ -78,16 +81,16 @@ beam line consists of an rf photocathode gun,
 two solenoids, and six linear accelerating cavities
 followed by four quadrupoles and a stripline kicker. 
 The charge of interest, 40 nC, is needed for Two Beam 
-Acceleration (TBA) \cite{gai_power_jing_2012,JING201872} 
-experiments performed at AWA, which motivates this work. 
-
+Acceleration (TBA) 
+experiments performed at AWA \cite{gai_power_jing_2012,JING201872}, 
+which motivates this work. 
 Prior experimental results were limited by beam size when the beam passed through small aperture 
 wakefield structures located downstream. 
 In an attempt to maximize charge transmission in upcoming experiments
-we optimize magnet strengths in the gun and quadrupoles leading into the 
+we optimize magnet strengths of the solenoids and quadrupoles leading into the 
 TBA section of the beam line, shown in Fig.~\ref{awa-tba}.
-The simulation model includes the linac, kicker, and septum. 
-The optimization location is chosen as the longitudinal 
+The simulation model includes from the gun to the septum.
+The optimization location is chosen as the  
 entrance to the first quadrupole on the dog leg ($s_3$), see Fig.~\ref{awa-tba}.
 Minimizing beam sizes here will enable capture and further focusing before space charge effects dominate the beam. 
 This will also enable cleaner transport through downstream elements.
@@ -150,34 +153,35 @@ This will also enable cleaner transport through downstream elements.
 %
 %\vspace{-1em}
 
-In addition to the physics challenges, we chose this model to demonstrate the ability of the framework to tackle large problems.
+In addition to addressing the challenge of producing an optimized beam, 
+we chose this model to demonstrate the ability of the framework to tackle large problems.
 Six design variables and objectives were used, along with three constraints.
 The objectives include transverse and longitudinal beam sizes, 
 transverse momentum, and longitudinal energy spread. 
 The design variables include the two gun solenoids and 
-the first four quadrupoles. 
+the first four quadrupoles settings. 
 This problem encompasses high dimensionality 
 and nonlinear effects such as space charge. There is no existing information
 that accurately predicts optimized parameters for this beam line. 
-This work is also meaningful in that it will guide future operations at the AWA.
+This work is meaningful in that it will guide future operations at the AWA.
 
 
 \subsubsection{Time Step Scan} \label{awa:subsection:test}
 Before running a full scale optimization of the problem described in Subsection \ref{awaproblem}, 
 a study on time step and number of particles in the simulation model 
-was done to reduce the time to simulation while 
+was done to reduce the time of the simulation while 
 maintaining the physics of interest. 
 The grid size $16 \times 16 \times 32$ was chosen, 
 and parallelized in the x and y directions.
 After comparing several options (1,000, 10,000, 20,000, 50,000, 100,000) 
 with a small time step, the number of particles was fixed at ten thousand.
 Next several time steps were explored, see Table~\ref{timestep}.
-The largest steps were too big to resolve the physics needed.
+The largest steps were too big to resolve the beam parameters accurately.
 See low fidelity plot in Fig.~\ref{tstep} for $dT=$\num{5E-11} results.  
 
 \begin{table}%[h!]
 	\begin{center}
-		\caption{Checkmarks (\cmark) indicate desired physics is resolved at that time step. 
+		\caption{Checkmarks (\cmark) indicate desired beam parameters are resolved at that time step. 
 			An (\xmark) indicates the time step is too large, and results are nonphysical.}
 		\label{timestep}
 		\begin{tabular*}{0.48\textwidth}{c @{\extracolsep{\fill}} C c D }
@@ -206,9 +210,8 @@ A time step of $dT=\num{1E-12}$ was used near sensitive elements such as the qua
 
 The resulting simulations are low fidelity in most places, but closely approximate 
 the mid fidelity simulations for metrics of interest, as shown in 
-Fig.~\ref{tstep}.  Where we consider mid fidelity as a simulation of the 
-beam line using $dT=\num{1E-12}$ everywhere. The
-average run time of each simulation with the adjusted time steps was 1.6~minutes.
+Fig.~\ref{tstep}.  Mid fidelity simulations used steps of  $dT=\num{1E-12}$ everywhere.
+The average run time of each simulation with the adjusted time steps was 1.6~minutes.
 In comparison, the mid fidelity simulation ran for 18~minutes.
 Note, a smaller time step, \num{1E-13}, is always used in the gun where the 
 beam is low energy and changing rapidly.
@@ -279,9 +282,12 @@ Each experiment was allowed to run for twenty four hours, with
 a maximum generation limit of 100. 
 We reduced the six objectives to four, 
 and shortened the simulation time by moving the objectives further 
-upstream to $s_1$ and $s_2$.
+upstream to $s_1$ and $s_2$, the locations before and after the kicker.  
+
+
+\lsedit{Also, I had no idea what you meant by} %\text{rms}_{s}\left(s = s_1\right) until I saw the parameter list.   I would suggest`t' for time?  In any case maybe some text specifying what this is when you first mention it would be helpful.}
+
 The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)\text{, } \text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
-\lsnote{You could define $\varepsilon_{x1}$ to be $\varepsilon_{x} (s=s1)$ and similarly in the table and then use going forward to simplify notation}
 The OPAL input file for ex-3 is given as an example to show how optimization and design variables are defined:
 %
 
@@ -332,8 +338,8 @@ After collection of the data for all four experiments, several metrics
 were compared, including number of generations completed in twenty four hours and
 Pareto fronts at $s_1$ and $s_2$.
 From Table \ref{extable}, we clearly see ex-3 is significantly 
-slower, as it evaluated only 53 generations compared to the max 
-experiment, ex-1 at 96 generations.
+slower, as it evaluated only 53 generations 
+compared to the experiment with the maximum number, ex-1 at 96 generations.
 Perhaps this trade off would be acceptable if the Pareto front was significantly 
 improved, but from Fig. \ref{expareto}, we can see this is not the case.
 Similar arguments can be made for ex-2, which evaluated about 15 less generations
@@ -375,8 +381,7 @@ and a slightly better Pareto front at $s_2$ for ex-4, the hyper parameters in ex
 With computational and hyper parameters set, 
 the full optimization problem of interest is explored.
 The objectives (beam sizes and energy spread) are calculated at 
-$s_3=19.4$~m. See Fig.~\ref{awa-tba} for location of $s_3$ w.r.t. other 
-beam line elements. 
+$s_3=19.4$~m, located downstream of the septum, see Fig.~\ref{awa-tba}. 
 Given the longitudinal location of $s_3$ (unless otherwise noted), 
 we define the objectives and input parameters as:
 \begin{align}
@@ -396,22 +401,23 @@ we define the objectives and input parameters as:
 
 
 
-The first four objectives, Eqs. (\ref{eq:awa:p1}) to (\ref{eq:awa:p2}),
+The first four objectives, parameters (\ref{eq:awa:p1}) to (\ref{eq:awa:p2}),
 minimize the transverse ($rms_{x,y}$) beam size and transverse momentum ($rms_{px,py}$)
 at the location of interest in the beam line ($s_3$).
 %Where $s_3$ is the longitudinal entrance of the fifth quadrupole. 
 Minimizing the beam size at this location is essential to 
 to preventing loss of particles by scraping; 
 which ensures better transmission through the wakefield structures downstream. 
-Less divergence in the beam (lower transverse momentum) 
-reduces growth of transverse beam size after the focal point (min beam size).
+Less divergence in the beam (lower transverse momentum spread) 
+reduces growth of transverse beam size after the focal point (location of min beam size).
 This reduces halo by ensuring the beam is not over focused through a hard waist.
-The momentum is also critical to preventing large growth during transport in bending elements. 
+The momentum spread is also critical to preventing large growth during transport in bending elements. 
 All of these factors help with transmission downstream. 
 
-The next two objectives in Eq. (\ref{eq:awa:p4}) minimize the 
-longitudinal beam size ($rms_s$), and energy spread (dE) at location $s_3$.
+The next two objectives in parameter (\ref{eq:awa:p4}) minimize the 
+longitudinal beam size ($rms_s$), and energy spread (dE) at location $s_3$. 
 This helps reduce longitudinal beam size growth in bending elements.
+\lsedit{Why?  If all particles at lightspeed, then long beam size should not change in a dipole magnet}
 A small bunch length ($rms_s$) is also critical to the goals of 
 TBA experiments. The power generated in the wakefield structures 
 designed for TBA is related to the bunch length \cite{JING201872}.
@@ -429,6 +435,7 @@ In other words, enough satisfactory points were not produced to fill a complete 
 By leaving the value large, a sufficient number of simulations finish
 and subsequent generations are reached in a timely manner. 
 As multiple generations, the objectives continue to improve.
+\lsedit{the above sentence makes no sense to me}
 
 The difference constraint, Eq.~\ref{eq:awa:c3}, is used to favor nearly round beams.
 This prevents one dimension from becoming disproportionately large compared to the other.
@@ -498,6 +505,7 @@ beam size (transverse and longitudinal), transverse momentum, and energy spread 
 defined in Eqs. (\ref{eq:awa:p1}) to (\ref{eq:awa:p4}). 
 The location at the entrance of the kicker is $s_1=16.45$~meters, 
 and the location of interest for objectives is $s_3=19.4$~meters. 
+\lsedit{Do you mean `the objectives are optimized at location s3' in the above sentence? `location of interest for objectives' is not clear.  Also, I think your later text `This is the entrance to the fifth quad in the beam line. This location is where the beam should be captured and focused through subsequent elements.' should be moved here.}
 
 
 \subsubsection{AWA Optimization Results}
@@ -526,6 +534,7 @@ we wanted a large population size that would fit evenly on these resources.
 Again, the location of optimization is $s_3=19.4$ [m]. 
 This is the entrance to the fifth quad in the beam line. 
 This location is where the beam should be captured and focused through subsequent elements.
+\lsedit{as previously mentioned, move above two sentences.}
 After collection of the data, Pareto fronts comparing the objectives were plotted, 
 see Figs.~\ref{fig:pareto1} and \ref{fig:pareto2}.
 
@@ -548,24 +557,25 @@ see Figs.~\ref{fig:pareto1} and \ref{fig:pareto2}.
 
 
 As expected, the x dimension is impacted by the bending elements, and unable to reach 
-the small beam sizes seen in the y dimension. This suggest objectives in the x 
+the small beam sizes seen in the y dimension. This suggest suggests objectives in the x 
 dimension will drive design variable choices used in operations. 
 However, it is still necessary to 
-include the y dimension in optimization. Early optimization tests showed the y dimension 
-can easily grow out of control if not included in the objectives.
-Those results are not shown here due to the unfeasible solutions they resulted in
+include the y dimension in the optimization. Early optimization tests showed the y dimension 
+can easily grow out of control if it is not included in the objectives.
+Those results are not shown here due to the unfeasible nature of the solutions 
 (i.e. $rms_y$ larger than the beam pipe).
 In the case of bunch length, there are not many options to choose from.
 Ignoring the extreme value on the right, Fig.~\ref{fig:pareto2} shows the 
 range of optimal bunch lengths fall between 1.39 and 1.5 mm.
 
 With these observations in mind, several beam parameters corresponding to
-options on Pareto Front in Fig.~\ref{fig:pareto1} were plotted and compared. 
-A select result is shown in Fig.~\ref{fig:stat}. 
+options on the Pareto Front in Fig.~\ref{fig:pareto1} were plotted and compared. 
+A select result is shown in Fig.~\ref{fig:stat}.  \lsedit{It would be a nice addition to say which point on the pareto front that was, perhaps marking it on the curve}
 The maximum beam sizes are well below the beam pipe aperture limits as shown in Fig.~\ref{fig:stat} (b).
 The solution is nearly round, which will increase changes of keeping the beam nearly round
 as it travels to the last triplet in Fig.~\ref{awa-tba}.
 Overall this solution is satisfactory, and meets all requirements at the AWA.
+\lsedit{Some comments on Fig. 13: FIrst, is fig 13(a) necessary?  Why can't you just add a vertical scale to fig. 13b?  Also, how about adding more info to the figure caption; is s=0 the position of the cathode?  If so, put that in the caption.  You could describe what each curve is in the figure caption for completeness.  The bottom traces show the optimized beam sizes.. The top black trace shows.. including key elements such as the kicker location.  Why do you start showing the aperture at s=10?  Is it plenty big before that?  If so, in the figure caption you could say, the aperture is shown starting at s=10 because the aperture constraints are more acute after that point.}
 
 
 \begin{figure}
