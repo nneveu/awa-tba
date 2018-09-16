@@ -1,6 +1,9 @@
 from opal.visualization.plots import *
 from opal.opal import load_dataset
 
+plt.rc('text', usetex=True)
+plt.rc('font', family='serif')
+plt.rc('axes', labelsize=18)
 
 #myfile = '3gens_large_xrms_at_triplet.stat'
 #myfile = '3gens_small_xrms_at_triplet.stat'
@@ -8,10 +11,10 @@ from opal.opal import load_dataset
 ####myfile = 'larger_goodLinac.stat'
 #myfile = 'smaller_goodLinac.stat'
 
-zstop= 24
+zstop= 20 
 
 # zero was bad.... files= ['optLinac-40nC_GPHASE=0.stat', 'optLinac-40nC_GPHASE=-10.stat', 'optLinac-40nC_GPHASE=-8.stat', 
-files = ['csr_fields.stat']
+files = ['zrms_newobj.stat'] #'optLinac-40nC_KQ3=3.2_IM=250.stat']
 
 for myfile in files:
     try:
@@ -20,41 +23,36 @@ for myfile in files:
     except Exception as e:
             print ( e )
     
-    pltxy  = plot_profile1D(ds, 's', 'rms_x', xsci=True, label='$\sigma_x$')
-    pltxy  = plot_profile1D(ds, 's', 'rms_y', xsci=True, label='$\sigma_y$')
-    
-    #plt.plot([18.5,18.5], [0,0.015], label='Septum')
-    #plt.plot([19.4,19.4], [0,0.015], label='Extra Quads')
-    #plt.plot([20.5,20.5], [0,0.015], label='Dipole')
-    #plt.plot([21.2,21.2], [0,0.015], label='Triplet')
-    #plt.plot([21.8, 21.8], [0,0.015], 'k-')#label='Structure')
-    
+    pltxy  = plot_profile1D(ds, 's', 'rms_x', xsci=True, label='rms$_x$')
+    pltxy  = plot_profile1D(ds, 's', 'rms_y', xsci=True, label='rms$_y$')
+    plt.xlabel('s (m)') 
     z = np.array([ 18.5,   18.7,   20.5,  20.7])
     y = np.array([0.0041, 0.0041, 0.0083,0.0083 ]) 
 
-    #2 inch pipe
-    plt.plot([10, 16.5],   [0.0083, 0.0083], 'k-', label = '1/6 of 2 inch pipe')
-    plt.plot([16.5, 16.5], [0.0083, 0.006], 'k-')
-    plt.plot([17.6, 18.5], [0.0041, 0.0041], 'k-')
-    plt.plot([18.7, 21.8], [0.0083, 0.0083], 'k-') #label = '1/6 of 2 inch pipe')
-    plt.plot([21.8, 21.8], [0.0083, 0.003], 'k-')
-    plt.plot([18.7, 18.7], [0.0083, 0.0041], 'k-')
-    plt.plot([22.5, 22.5], [0.003, 0.0083], 'k-')
-    plt.plot([22.5, 25], [0.0083, 0.0083], 'k-')
+#    #2 inch pipe
+#    plt.plot([10, 16.5],   [0.0083, 0.0083], 'k-', label = '1/6 of 2 inch pipe')
+#    plt.plot([16.5, 16.5], [0.0083, 0.006], 'k-')
+#    plt.plot([17.6, 18.5], [0.0041, 0.0041], 'k-')
+#    plt.plot([18.7, 21.8], [0.0083, 0.0083], 'k-') #label = '1/6 of 2 inch pipe')
+#    plt.plot([21.8, 21.8], [0.0083, 0.003], 'k-')
+#    plt.plot([18.7, 18.7], [0.0083, 0.0041], 'k-')
+#    plt.plot([22.5, 22.5], [0.003, 0.0083], 'k-')
+#    plt.plot([22.5, 25], [0.0083, 0.0083], 'k-')
 
-    #1 inch pipe
-    plt.plot([17.6, 17.6], [0.006, 0.0041], 'k-')#label = '1/6 of 1 inch pipe')
-    plt.plot([21.8, 22.5], [0.003, 0.003], 'k-')#label = '1/6 of PETS')
+#    #1 inch pipe
+#    plt.plot([17.6, 17.6], [0.006, 0.0041], 'k-')#label = '1/6 of 1 inch pipe')
+#    plt.plot([21.8, 22.5], [0.003, 0.003], 'k-')#label = '1/6 of PETS')
 
-    #Colored elements
-    plt.plot([16.5,17.6],[0.006,0.006], 'b-o', label='kicker')
-    plt.plot([13.6, 19.4, 21.2], [0.0083, 0.0083,0.0083], 'g^', label='quads')
-    plt.plot([21.8, 22.5], [0.003, 0.003], 'yD', label='PETS', markersize=2)
-    plt.plot(z,y, 'ko', label = 'bending elements')
+#    #Colored elements
+#    plt.plot([16.5,17.6],[0.006,0.006], 'b-o', label='kicker')
+#    plt.plot([13.6, 19.4, 21.2], [0.0083, 0.0083,0.0083], 'g^', label='quads')
+#    plt.plot([21.8, 22.5], [0.003, 0.003], 'yD', label='PETS', markersize=2)
+#    plt.plot(z,y, 'ko', label = 'bending elements')
 
-    plt.axis([0,zstop,0,0.013])
-    plt.legend(loc='upper left')
-    plt.ylabel('$\sigma_{x,y}$')
+    plt.plot([19.4,19.4],[0,0.015], '-g', label='$s_3$')
+    plt.axis([0,zstop,0,0.015])
+    plt.legend(loc='lower left')
+    plt.ylabel('Beam Sizes: rms$_{x,y}$ (mm)', size=20)
     plt.grid()
     #plt.show()
     savefile = myfile.split('.stat')[0]
@@ -99,11 +97,14 @@ for myfile in files:
     plt.savefig('energy-'+savefile+'.pdf', dpi=1000, bbox_inches='tight')
 
     fig7 = plt.figure(7)
+    ax   = plt.axes()
     pltmax = plot_profile1D(ds, 's', 'max_x', xsci=True, label='max x')
     pltmax = plot_profile1D(ds, 's', 'max_y', xsci=True, label='max y')
+    plt.xlabel('s (m)')
 
+    
     #2 inch pipe
-    plt.plot([10, 16.5],   [0.05, 0.05], 'k-', label = '1/6 of pipe')
+    plt.plot([10, 16.5],   [0.05, 0.05], 'k-', label = 'Beam pipe aperture')
     plt.plot([16.5, 16.5], [0.05, 0.04], 'k-') #Down from kicker to septum
     plt.plot([17.6, 18.6],[0.025,0.025], 'k-') #1 inch, dipole
     plt.plot([18.7, 18.7], [0.025, 0.05], 'k-') #label = '1/6 of 2 inch pipe')
@@ -117,12 +118,20 @@ for myfile in files:
     plt.plot([21.8, 22.5], [0.018, 0.018], 'k-')#label = '1/6 of PETS')
 
     #Colored elements
+    plt.plot([19.4,19.4],[0,0.05], '-g', label='$s_3$')
     plt.plot([16.5,17.6],[0.04,0.04], 'b-o', label='kicker')
     plt.plot([13.6, 19.4, 21.2], [0.05, 0.05,0.05], 'g^', label='quads')
-    plt.plot(z,y*6, 'ko', label = 'bending elements')
+    plt.plot(z,y*6, 'ko', label = 'dipole')
 
-    plt.ylabel('Max Beam Sizes') #, $\sigma_{z}$')
-    #plt.axis([0,25,0,0.0007])
+    plt.ylabel(r'Max Beam Sizes', size=20) #, $\sigma_{z}$')
+    plt.axis([0,zstop,0,0.055])
+
+    ticks = ax.get_yticklabels() 
+    newticks = ticks*100
+    print((ticks[0]))#, newticks)
+    ax.set_yticklabels(newticks)
+    
+    plt.legend(loc='upper left')
     plt.grid()
     plt.savefig('xy-max-min-'+savefile+'.pdf', dpi=1000, bbox_inches='tight')
 

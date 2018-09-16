@@ -10,8 +10,8 @@ from opal.datasets.filetype import FileType
 from opal.visualization.plots import *
 from opal.datasets.OptimizerDataset import *
 
-def plot_stuff(title, xname, yname, xyrange=False):
-    plt.title(title, size=25)
+def plot_stuff(xname, yname, xyrange=False):
+    #plt.title(title, size=25)
     plt.xlabel(xname, size=20)
     plt.ylabel(yname, size=20)
     if xyrange:
@@ -25,40 +25,45 @@ plt.rc('axes', labelsize=18)
 #baseFN = ['./noquads/corrected/']
 #baseFN = ['./extquads', './noquads']
 #baseFN = ['to_q7-9']
-z1=True; z2=False; z3=False; z4=False; z5=False;
+z1=False; z2=False; z3=True; z4=False; z5=False;
 gun     = True
 lphase  = False 
 quads   = True 
 doublet = False
 triplet = False 
-baseFN  = ['../phases/quads-relaxed']
+baseFN  = ['../phases/quads1-4_newobj/zrms']
 
-x=True
-y=True
+x=False
+y=False
+bunch=True
 if x==True:
-    savefile = 'x_vs_px_pareto_front_quads_before_kicker'
-    plottitle = 'Pareto Front After Quads \n $\sigma_{x}$ vs. $\sigma_{px}$'
+    savefile = 'x_vs_px_pareto_front_quads_before_Q5'
+    #plottitle = 'Pareto Front After Kicker and Septum \n $\sigma_{x}$ vs. $\sigma_{px}$'
     #xtitle = "Energy Spread [MeV]"
     #xtitle = 'Bunch Length: $\sigma_z$ [mm]'
     xtitle =  'Momentum: $\sigma_{px}$ [$\gamma$ ]'
     ytitle =  'Beam Size: $\sigma_{x}$ [mm]'
 
 if y==True:
-    savefile = 'y_vs_py_pareto_front_quads_before_pets'
-    plottitle = 'Pareto Front After Quads \n $\sigma_{y}$ vs. $\sigma_{py}$'
+    savefile = 'y_vs_py_pareto_front_quads_before_Q5'
+    #plottitle = 'Pareto Front After Quads \n $\sigma_{y}$ vs. $\sigma_{py}$'
     #xtitle = "Energy Spread [MeV]"
     #xtitle = 'Bunch Length: $\sigma_z$ [mm]'
     xtitle =  'Momentum: $\sigma_{py}$ [$\gamma$ ]'
     ytitle =  'Beam Size: $\sigma_{y}$ [mm]'
 
 if y==True and x==True:
-    savefile = 'xy_vs_py_pareto_front_quads_before_pets'
-    plottitle = 'Pareto Front After Quads \n $\sigma_{x,y}$ vs. $\sigma_{px}$'
+    savefile = 'xy_vs_pxy_pareto_front_quads_before_Q5'
+    #plottitle = 'Pareto Front After Quads \n $\sigma_{x,y}$ vs. $\sigma_{px}$'
     #xtitle = "Energy Spread [MeV]"
     #xtitle = 'Bunch Length: $\sigma_z$ [mm]'
-    xtitle =  'Momentum: $\sigma_{px}$ [$\gamma$ ]'
-    ytitle =  'Beam Size: $\sigma_{x,y}$ [mm]'
+    xtitle =  r'Momentum: rms$_{px,py}$ ($\gamma$ $\beta$)'
+    ytitle =  'Beam Size: rms$_{x,y}$ (mm)'
 
+if bunch==True:
+    savefile = 'dE_vs_zrms_pareto_front_quads_before_Q5_zoomout'
+    xtitle = 'Bunch Length: rms$_s$ (mm)'
+    ytitle = 'Energy Spread: dE (MeV)'
 
 for fn in baseFN:
     
@@ -127,7 +132,7 @@ for fn in baseFN:
         if z1==True:
             #Loadig all data in the i-th generation
             de1   = ds.getData('DE1', gen=i)
-            #rmss1 = ds.getData('RMSS1', gen=i)
+            rmss1 = ds.getData('RMSS1', gen=i)
             rmsx1 = ds.getData('RMSX1', gen=i)
             rmsy1 = ds.getData('RMSY1', gen=i)
             rmspx1 = ds.getData('RMSPX1', gen=i)
@@ -165,14 +170,17 @@ for fn in baseFN:
             rmss3 = ds.getData('RMSS3', gen=i)
             rmsx3 = ds.getData('RMSX3', gen=i)
             rmsy3 = ds.getData('RMSY3', gen=i)
+            rmspx3 = ds.getData('RMSPX3', gen=i)
+            rmspy3 = ds.getData('RMSPY3', gen=i)
 
             #Saving i-th generation data to an array
             #that holds data for every generation
-            #allemx1  = np.append(emx1, allemx1)
-            allrmss3 = np.append(rmss3, allrmss3)
             allrmsx3 = np.append(rmsx3, allrmsx3)
             allrmsy3 = np.append(rmsy3, allrmsy3)
+            allrmss3 = np.append(rmss3, allrmss3)
             allde3 = np.append(de3, allde3)
+            allrmspx3 = np.append(rmspx3, allrmspx3)
+            allrmspy3 = np.append(rmspy3, allrmspy3)
 
 
         if z5==True:
@@ -190,7 +198,6 @@ for fn in baseFN:
 
 
         if gun == True:
-            #Some runs don't have q5 and q6
             #gphs = ds.getData('GPHASE', gen=i)
             #fwhm = ds.getData('FWHM', gen=i)
             im = ds.getData('IM', gen=i)
@@ -255,55 +262,51 @@ for fn in baseFN:
     #(pfdatasx, ind) = pareto_pts(allrmss5, allrmsx5)
 
     if x==True:
-        (pfdatapx, ind) = pareto_pts(allrmsx1, allrmspx1)
-        mmxrms = np.asarray(pfdatapx['x'])*10**3
+        (pfdatapx, indx) = pareto_pts(allrmsx3, allrmspx3)
+        print('ind', indx)
+        mmxrms  = np.asarray(pfdatapx['x'])*10**3
         mmpxrms = np.asarray(pfdatapx['y'])
-        #plt.plot(mmpxrms, mmxrms, '-o', label='xrms')
+        plt.plot(mmpxrms, mmxrms, '-o', label='rms$_{x,px}$')
 
-    elif y==True and x==False:
-        (pfdatapy, ind) = pareto_pts(allrmsy1, allrmspy1)
+    if y==True:
+        (pfdatapy, indy) = pareto_pts(allrmsy3, allrmspy3)
         mmyrms = np.asarray(pfdatapy['x'])*10**3
         mmpyrms = np.asarray(pfdatapy['y'])
-        plt.plot(mmpyrms, mmyrms, '-o')
+        plt.plot(mmpyrms, mmyrms, '-o', label='rms$_{y,py}$')
+        plt.legend()
+#    if x==True and y==True:
+#        mmyrms = np.asarray(allrmsy1[ind])*10**3
+#        plt.plot(mmpxrms, mmxrms, '-o', label='xrms')
+#        plt.plot(mmpxrms, mmyrms, '-o', label='yrms')
 
-    if x==True and y==True:
-        mmyrms = np.asarray(allrmsy1[ind])*10**3
-        plt.plot(mmpxrms, mmxrms, '-o', label='xrms')
-        plt.plot(mmpxrms, mmyrms, '-o', label='yrms')
-    #mmzrms = np.asarray(pfdatasx['y'])*10**3
-    #plt.plot(mmzrms, mmyrms, '-o', label='yrms')
-    #plt.plot(mmzrms, mmxrms, '-o', label='xrms')
-    #de1    = np.asarray(pfdatapx['y'])    
-    #plt.plot(de1, mmyrms, '-o', label='yrms')
-    #plt.plot(de1, mmxrms, '-o', label='xrms')
-    #plt.plot(mmpyrms, mmyrms, '-o', label='yrms')
-    #plt.plot(mmpxrms, mmxrms, '-o', label='xrms')
-    plot_stuff(plottitle, xtitle,ytitle)
+
+    if bunch==True:
+        (pfdataz, ind) = pareto_pts(allrmss3, allde3)
+        mmzrms = np.asarray(pfdataz['x'])*10**3
+        #plt.axis([1.38,1.5,0.45,0.75])
+        plt.plot(mmzrms, pfdataz['y'], '-o')
+    
+    plot_stuff(xtitle,ytitle)
     plt.grid()
-    plt.legend()
-    plt.savefig(savefile, dpi=1000, bbox_inches='tight')
+    plt.savefig(savefile+'.pdf', dpi=1000, bbox_inches='tight')
 
-    #mmxrms = np.asarray(pfdatase['x'])*10**3
-    #de1    = np.asarray(pfdatase['y'])    
-    #plt.plot(de1, mmyrms, '-o', label='yrms')
-    #plt.plot(de1, mmxrms, '-o', label='xrms')
 
     #Printing design variables that 
     #correspond to pareto front points
     print(fn)
 
     if z1==True:
-      print('dE1', allde1[ind])
-      print('yrms1', allrmsy1[ind])
-      #print('xrms1', allrmsx1[ind])
-      #print('zrms1', allrmss1[ind], '\n')
+        print('dE1', allde1[ind])
+        print('yrms1', allrmsy1[ind])
+        #print('xrms1', allrmsx1[ind])
+        #print('zrms1', allrmss1[ind], '\n')
  
     
     if z3==True:  
-        print('dE', allde2[ind])
-        print('yrms', allrmsy2[ind])
-        print('xrms', allrmsx2[ind])
-        #print('zrms', allrmss1[ind])
+        print('dE', allde3[ind])
+        print('yrms', allrmsy3[ind])
+        print('xrms', allrmsx3[ind])
+        print('zrms', allrmss3[ind])
 
     ##print('GPHASE', allphs[ind])
     #print('P1', allp1[ind]) 
@@ -315,6 +318,7 @@ for fn in baseFN:
 
     if gun==True:
         #print('FWHM', allfwhm[ind])
+        #print('testIM', allim[211])
         print('IM', allim[ind])
         print('BF', allib[ind])
     try:
