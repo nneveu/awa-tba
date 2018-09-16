@@ -16,7 +16,10 @@ The content of the file is
 #baseFN = 'rand_sample'
 #root   = "/lcrc/project/AWA-beam-dynamics/surrogatemodels/random_sample/surrogate_models_rand_sample_bounds2"
 path    = './databases/'
-baseFN  = ['ex-1', 'ex-2', 'ex-3', 'ex-4']
+#baseFN  = ['ex-1', 'ex-2', 'ex-3', 'ex-4']
+root    = 'paper-run-ex4/results'
+baseFN  = ['paper-run-ex4']
+
 #root   = "/lcrc/project/AWA-beam-dynamics/Nicole/awa-tba/paper-run-1/results"
 #root   = "./ex-4/results"
 

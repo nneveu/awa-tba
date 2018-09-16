@@ -265,7 +265,7 @@ as shown in Table \ref{extable}.
 		\label{extable}
 		\begin{tabular*}{0.48\textwidth}{l @{\extracolsep{\fill}} C C D }
 			\hline\noalign{\smallskip}
-			& Gene Mutation Probability & Recombination Probibility & Number of completed generations \\
+			& Gene Mutation Probability & Recombination Probability & Number of completed generations \\
 			\noalign{\smallskip}\hline\noalign{\smallskip}
 			ex-1 &  0.1  & 0.9  &  96 \\
 			ex-2 &  0.3  & 0.7  &  81 \\
@@ -534,7 +534,7 @@ we wanted a large population size that would fit evenly on these resources.
 Again, the location of optimization is $s_3=19.4$ [m]. 
 
 \begin{figure}
-	\includegraphics[width=0.5\textwidth]{../pareto_stat_plots/xy_vs_pxy_pareto_front_quads_before_Q5}
+	\includegraphics[width=0.5\textwidth]{../pareto_stat_plots/safehold/xy_vs_pxy_pareto_front_quads_before_Q5}
 	\caption{Pareto front comparing transverse beam sizes ($\sigma_{x,y}$) and transverse momentum ($\sigma_{px,py}$).}
 	\label{fig:pareto1}
 \end{figure}
@@ -542,9 +542,9 @@ Again, the location of optimization is $s_3=19.4$ [m].
  
 \begin{figure}
 	\centering
-	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/dE_vs_zrms_pareto_front_quads_before_Q5_zoomout}%
+	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/safehold/dE_vs_zrms_pareto_front_quads_before_Q5_zoomout}%
 	\llap{\raisebox{1.9cm}{%  move next graphics to top right corner
-			\includegraphics[height=4.5cm]{../pareto_stat_plots/dE_vs_zrms_pareto_front_quads_before_Q5}%
+			\includegraphics[height=4.5cm]{../pareto_stat_plots/safehold/dE_vs_zrms_pareto_front_quads_before_Q5}%
 	}}
 	\caption{Pareto front comparing energy spread (dE) and bunch length ($\sigma_z$). \nrnote{add tikz arrows to point to left side of curve?}}
 	\label{fig:pareto2}
@@ -574,9 +574,7 @@ Overall this solution is satisfactory, and meets all requirements at the AWA.
 
 
 \begin{figure}
-	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/xyrms-zrms_newobj}\\
-	\vspace{2em}
-	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/xy-max-min-zrms_newobj}
+	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/safehold/xy-max-min-zrms_newobj}
 	\caption{Optimized beam sizes along high charge beam line.}
 	\label{fig:stat}
 \end{figure}
