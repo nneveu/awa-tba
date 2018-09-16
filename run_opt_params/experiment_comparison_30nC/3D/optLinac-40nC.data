@@ -1,0 +1,33 @@
+CORES 16 #
+NP 100000 # 
+#
+#
+# Gun variables
+GPHASE -20
+FWHM   10 
+IBF    550 
+IM     200
+# Linac phases
+p1    -20.0   # Range -30-0.0
+p2    -20.0
+p3    -20.0
+p4    -20.0
+p5    -20.0
+p6    -20.0
+# Quads 
+KQ1 0.0 
+KQ2 -1.53
+KQ3 3.08
+KQ4 -1.53
+#
+#Kicker Angle
+KA  2.0
+#
+KQ5 -1.9 
+KQ6 -0.8
+#
+KQ7 -0.4 
+KQ8 0.8
+KQ9 -0.4
+#
+zstop FALSE 
