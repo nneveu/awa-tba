@@ -6,7 +6,7 @@ from db import mldb
 from visualize import scaleData
 from visualize import pareto 
 
-root = './databases/'
+root = './databases/' #run-after-bounds-fixed/'
 baseFN = ['ex-1-bounded', 'ex-2-bounded','ex-3-bounded','ex-4-bounded']
 style  = ['k--', 'y.-', 'b-.','m.-'] 
 alpha  = [1.0, 0.7, 0.7, 0.7]
@@ -22,6 +22,7 @@ for i, fn in enumerate(baseFN):
     ovals = dbr.getYNames()
     print(ovals)
     gens  = dbr.getNumberOfSamples()
+    print(gens)
     #Read all data at once:
     with open(nn, 'rb') as f:
         dbr = pick.load(f, encoding='latin1')
@@ -42,7 +43,7 @@ for i, fn in enumerate(baseFN):
     print(np.shape(prmss1)) #, np.shape(pdvars1))
     ex = fn.split('-')[1]
     #Plotting
-    plot =0 
+    plot =1
     if plot == 0:
         plt.plot(prmss1*10**3, pemitx1*10**6, style[i], alpha=alpha[i], label='ex-'+ex)
     else:
