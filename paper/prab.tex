@@ -79,7 +79,7 @@ prstab,
 \newcolumntype{C}{ >{\centering\arraybackslash} m{2.5cm} }
 \newcolumntype{D}{ >{\centering\arraybackslash} m{3cm} }
 
-\newcommand{\nrnote}[1]{\textsf{{\color{violet}{ NN note:}   #1 }}}
+\newcommand{\nrnote}[1]{\textsf{{\color{blue}{ NN note:}   #1 }}}
 \newcommand{\lsedit}[1]{\textsf{{\color{violet}{ ls note:}   #1 }}}
 \begin{document}
 
@@ -216,10 +216,11 @@ The framework discussed here, incorporates the following three contributions:
         application in the domain of particle accelerators.
 \end{enumerate}
 
-Here, we will focus on a real world applications arising from Paul Scherrer Institut's (PSI)
-  \textsc{SwissFEL}~\cite{pedr:10} activities, and a high charge photoinjector 
-  at the Argonne Wakefield Accelerator (AWA). Both of which have an immediate and a
-  long-range impact, by optimizing important parameters for rf photoinjectors. 
+Here, we will focus on a real world application, the a high charge photoinjector 
+  at the Argonne Wakefield Accelerator (AWA). 
+  
+  %Both of which have an immediate and a
+  %long-range impact, by optimizing important parameters for rf photoinjectors. 
 
 The next section introduces the notation of multi-objective optimization
   theory and describes the first implemented optimizer.
@@ -899,7 +900,7 @@ Finally, combining the presented multi-objective optimization framework with
 
 \section{ACKNOWLEDGMENT}
 
-The authors thank the \textsc{SwissFEL} and AWA teams for contributing to the
+The authors thank the AWA team for contributing to the
   formulation of optimization problems. 
   We gratefully acknowledge the computing resources provided on Bebop,
   a HPC cluster operated by the LCRC at ANL.
