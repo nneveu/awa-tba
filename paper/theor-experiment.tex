@@ -24,9 +24,8 @@ Given a point in the Pareto set, we compute the $m$ dimensional volume (for
   $m$ objectives) of the dominated space, relative to a chosen origin.
 We visualize this for $2$ objectives in Fig.~\ref{fig:hypervolume}.
 For further information and details of the implementation see~\cite{whbb:12}.
-\lsedit{The next sentence is confusing.  If hyper volumes referring to fig. 6, why is there only one value?  Is it an average?}
 Figure~\ref{fig:pisa_bench} and the corresponding hypervolume values in
-  Table~\ref{tbl:bench_rms_error}.
+  Table~\ref{tbl:bench_rms_error}, show expected convergence.
 The reference Pareto front is clearly very well approximated.
 It took a total of 1100 function evaluations to perform this computation.
 The hypervolume of the reference solution ($0.6575$) for our benchmark was
@@ -42,20 +41,18 @@ The hypervolume of the reference solution ($0.6575$) for our benchmark was
   \label{fig:pisa_bench}
 \end{figure}
 
-\lsedit{The column descriptors for the table are not clear  - better formatting needed}
-
 \begin{table}%[h!]
 \begin{center}
   \caption{Convergence of benchmark problem with errors relative to
     hypervolume of sampled reference solution.}
   \label{tbl:bench_rms_error}
-  \begin{tabular}{lcc}
+  \begin{tabular}{c|c|c}
     \hline\noalign{\smallskip}
     tot.\ function  & hyper volume & relative error\\
     evaluations    & & \\
     \noalign{\smallskip}\hline\noalign{\smallskip}
     100  &  0.859753 & $3.076 \times 10^{-1}$ \\
-    \noalign{\smallskip}\hline\noalign{\smallskip}
+   % \noalign{\smallskip}\hline\noalign{\smallskip}
     200  &  0.784943 & $1.938 \times 10^{-1}$ \\
     500  &  0.685183 & $4.210 \times 10^{-2}$ \\
     900  &  0.661898 & $6.689 \times 10^{-3}$ \\
@@ -285,9 +282,7 @@ and shortened the simulation time by moving the objectives further
 upstream to $s_1$ and $s_2$, the locations before and after the kicker.  
 
 
-\lsedit{Also, I had no idea what you meant by} %\text{rms}_{s}\left(s = s_1\right) until I saw the parameter list.   I would suggest`t' for time?  In any case maybe some text specifying what this is when you first mention it would be helpful.}
-
-The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)\text{, } \text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
+The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)$, $\text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
 The OPAL input file for ex-3 is given as an example to show how optimization and design variables are defined:
 %
 
@@ -416,27 +411,15 @@ All of these factors help with transmission downstream.
 
 The next two objectives in parameter (\ref{eq:awa:p4}) minimize the 
 longitudinal beam size ($rms_s$), and energy spread (dE) at location $s_3$. 
-This helps reduce longitudinal beam size growth in bending elements.
-\lsedit{Why?  If all particles at lightspeed, then long beam size should not change in a dipole magnet}
+This helps reduce the transverse beam size growth in bending elements.
 A small bunch length ($rms_s$) is also critical to the goals of 
 TBA experiments. The power generated in the wakefield structures 
-designed for TBA is related to the bunch length \cite{JING201872}.
-\nrnote{need better source for this info} 
-i.e. smaller bunch lengths result in larger wakefields and higher power generation.
- 
-  
+designed for TBA is related to the bunch length \cite{JING201872,PETSeq}.
 
 Eqs.~\ref{eq:awa:c1} to \ref{eq:awa:c3} 
 define three constraints used to guide the algorithm.
-The bounding values may seem large, but this is done to avoid over constraining the 
-problem in early generations. When the constraints were set tighter, 
-optimization runs did not reach the second generation within a 48 hour time limit. 
-In other words, enough satisfactory points were not produced to fill a complete generation in 48 hours. 
-By leaving the value large, a sufficient number of simulations finish
-and subsequent generations are reached in a timely manner. 
-As multiple generations, the objectives continue to improve.
-\lsedit{the above sentence makes no sense to me}
-
+However, it is important to not over-constrain the problem, which would prevent
+the algorithm from converging.
 The difference constraint, Eq.~\ref{eq:awa:c3}, is used to favor nearly round beams.
 This prevents one dimension from becoming disproportionately large compared to the other.
 At the AWA, there is some room in the beam pipe to allow the y dimension to grow, but round beams 
@@ -448,7 +431,7 @@ laser radius, gun phase, and linac cavity phases (in that order).
 These are parameters in the simulation 
 that must be defined, but do not vary during the optimization.
 %\vspace{-1em}
-As introduced in Section \ref{ferrario}, we define the AWA optimization 
+The AWA 
 design variables, objectives, and constraints in the OPAL input file as shown in
 the following code: %equations (\ref{eq:awa:p1}) to (\ref{eq:awa:lastdvar}). 
 %\vspace{0.2cm}
@@ -570,12 +553,12 @@ The maximum beam sizes are well below the beam pipe aperture limits as shown in 
 The solution is nearly round, which will increase changes of keeping the beam nearly round
 as it travels to the last triplet in Fig.~\ref{awa-tba}.
 Overall this solution is satisfactory, and meets all requirements at the AWA.
-\lsedit{Some comments on Fig. 13: FIrst, is fig 13(a) necessary?  Why can't you just add a vertical scale to fig. 13b?  Also, how about adding more info to the figure caption; is s=0 the position of the cathode?  If so, put that in the caption.  You could describe what each curve is in the figure caption for completeness.  The bottom traces show the optimized beam sizes.. The top black trace shows.. including key elements such as the kicker location.  Why do you start showing the aperture at s=10?  Is it plenty big before that?  If so, in the figure caption you could say, the aperture is shown starting at s=10 because the aperture constraints are more acute after that point.}
-
 
 \begin{figure}
 	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/xy-max-min-zrms_newobj}
-	\caption{Optimized beam sizes along high charge beam line.}
+	\caption{Optimized beam sizes along high charge beam line. The gun is located at $s=0$, 
+	both x and y beam sizes are shown. The black line represents the relevant beam line aperture, while
+	the green line indicates the location of the optimisation.}
 	\label{fig:stat}
 \end{figure}
 
