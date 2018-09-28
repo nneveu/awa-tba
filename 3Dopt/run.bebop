@@ -1,0 +1,26 @@
+#!/bin/bash -l 
+#SBATCH -A AWA-beam-dynamics
+#SBATCH --job-name=awa40nC
+#SBATCH -o opt1.%j.%N.out
+#SBATCH -e opt1.%j.%N.error
+#SBATCH --time=01:00:00
+#SBATCH --ntasks=2624
+#SBATCH -p knlall
+#########SBATCH -C knl,quad,cache 
+#
+#export I_MPI_SLURM_EXT=0 
+#export I_MPI_FABRICS=shm:tmi 
+
+ulimit -s unlimited
+
+export OPAL_EXE_PATH=/lcrc/project/AWA-beam-dynamics/software/knl/bin
+#
+cd $SLURM_SUBMIT_DIR
+# 
+rm -rf results *.0 tmp *_0
+# 
+mkdir results tmp
+#
+ln -sf /lcrc/project/AWA-beam-dynamics/FieldFiles/DriveFiles fieldmaps
+#
+mpirun -n $SLURM_NTASKS $OPAL_EXE_PATH/opal optLinac-40nC.in --info 5 
