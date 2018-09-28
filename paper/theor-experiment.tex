@@ -216,7 +216,7 @@ beam is low energy and changing rapidly.
 
 \begin{figure}%[h]
 	\centering
-	\includegraphics[width=\linewidth]{Report/timestep_comparison}
+	\includegraphics[width=\linewidth]{Report/timestep_comparison_paper}
 	\caption{Comparison of different fidelity models (dT stands for time step).}
 	\label{tstep}
 \end{figure}
@@ -291,7 +291,7 @@ The OPAL input file for ex-3 is given as an example to show how optimization and
 OPTION, ECHO=FALSE;
 OPTION, INFO=TRUE;
 
-TITLE, STRING="ANL Optimisation";
+TITLE, STRING="ANL Optimization";
 
 dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=200.0, UPPERBOUND=500.0;
 dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
@@ -515,14 +515,20 @@ These numbers were in part based on the architecture of the KNL's.
 Since each simulation takes 8 cores, and there are 64 cores per KNL node, 
 we wanted a large population size that would fit evenly on these resources. 
 Again, the location of optimization is $s_3=19.4$ [m]. 
-
 \begin{figure}
-	\includegraphics[width=0.5\textwidth]{../pareto_stat_plots/xy_vs_pxy_pareto_front_quads_before_Q5}
-	\caption{Pareto front comparing transverse beam sizes ($\sigma_{x,y}$) and transverse momentum ($\sigma_{px,py}$).}
+	\begin{center}		
+		\begin{tikzpicture}[scale=1]
+		\node (fig1) at (0,0)
+		{\includegraphics[width=0.5\textwidth]{../pareto_stat_plots/xy_vs_pxy_pareto_front_quads_before_Q5}};
+		\node[star, star points=5, star point ratio=0.5, fill=yellow, draw](key) at (3.35,-1.7) {};
+		\end{tikzpicture}
+	\end{center} 
+		\caption{Pareto front comparing transverse beam sizes ($\sigma_{x,y}$) and transverse momentum ($\sigma_{px,py}$). The yellow star indicates the 
+		point plotted in Fig.~\ref{fig:stat}}
 	\label{fig:pareto1}
 \end{figure}
-
  
+\iffalse
 \begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/dE_vs_zrms_pareto_front_quads_before_Q5_zoomout}%
@@ -532,7 +538,7 @@ Again, the location of optimization is $s_3=19.4$ [m].
 	\caption{Pareto front comparing energy spread (dE) and bunch length ($\sigma_z$). \nrnote{add tikz arrows to point to left side of curve?}}
 	\label{fig:pareto2}
 \end{figure}  
-
+\fi
 
 As expected, the x dimension is impacted by the bending elements, and unable to reach 
 the small beam sizes seen in the y dimension. This suggest suggests objectives in the x 
@@ -548,19 +554,39 @@ range of optimal bunch lengths fall between 1.39 and 1.5 mm.
 
 With these observations in mind, several beam parameters corresponding to
 options on the Pareto Front in Fig.~\ref{fig:pareto1} were plotted and compared. 
-A select result is shown in Fig.~\ref{fig:stat}.  \lsedit{It would be a nice addition to say which point on the pareto front that was, perhaps marking it on the curve}
+A select result is shown in Fig.~\ref{fig:stat}.  
 The maximum beam sizes are well below the beam pipe aperture limits as shown in Fig.~\ref{fig:stat} (b).
 The solution is nearly round, which will increase changes of keeping the beam nearly round
 as it travels to the last triplet in Fig.~\ref{awa-tba}.
 Overall this solution is satisfactory, and meets all requirements at the AWA.
 
 \begin{figure}
-	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/xy-max-min-zrms_newobj}
+	\includegraphics[width=0.48\textwidth]{../pareto_stat_plots/xy-max-min-sigma-paper}
 	\caption{Optimized beam sizes along high charge beam line. The gun is located at $s=0$, 
 	both x and y beam sizes are shown. The black line represents the relevant beam line aperture, while
-	the green line indicates the location of the optimisation.}
+	the green line indicates the location of the optimization.}
 	\label{fig:stat}
 \end{figure}
+\begin{table}%[h!]
+	\begin{center}
+		\caption{Input Parameters for large scale TBA optimization runs.}
+		\label{tab:designopt}   
+		\begin{tabular}{l|c|c}
+			\noalign{\smallskip}\hline\noalign{\smallskip}
+			%\rowcolor{blue!30} 
+			\textbf{Design Variable} & \textbf{Unit}	&  \textbf{Value}  \\ 
+			\noalign{\smallskip}\hline\noalign{\smallskip}
+			{Buck Focusing Solenoid} & amps	& 478 \\
+			Matching Solenoid &	amps	& 197	  \\
+			Quadrupole 1& T-m		& -0.8	\\ 
+			Quadrupole 2& T-m		& 0.9	\\
+			Quadrupole 3 & T-m		& 0.8	\\
+			Quadrupole 4 & T-m		& -1.0	\\ 
+			Bunch Length & mm 		& 1.5	\\
+			\noalign{\smallskip}\hline\noalign{\smallskip}
+		\end{tabular}
+	\end{center}
+\end{table}
 
 
 
