@@ -188,21 +188,22 @@ Observe that multiple and conflicting optimality criteria call for a
 \end{figure}\label{fig:framenetwork}
 
 We developed a modular multi-objective software framework (see
-  Fig.~\ref{fig:framenetwork}) where the core functionality is decoupled from
-  the ``forward solver'' and the optimizer.
+  Fig.~\ref{fig:framenetwork}) where the core functionality of the optimizer is decoupled from
+  the ``beam dynamics'' but fully integrated in the OPAL \cite{opal} framework. 
 To that end, we use a master/slave mechanism where a master process governs a
-  set of slave processes given some computational tasks to complete.
+  set of slave processes given some computational tasks (beam dynamics simulation) to complete.
 This separation allows to easily interchange optimizer algorithms, forward
   solvers and optimization problems.
 A ``pilot'' coordinates all efforts between the optimization algorithm and the
-  forward solver.
+  beam dynamics task. In the sequel we will also use the notion of ``forward solver'' to indicate 
+  the beam dynamics task.
 This forms a robust and general framework for massively parallel
   multi-objective optimization.
 Currently the framework offers one concrete optimization algorithm, an
-  evolutionary algorithm employing a \textsc{NSGAII} selector \cite{pisa}.
+  evolutionary algorithm employing a \textsc{NSGA-II} selector \cite{pisa}.
 Normally, simulation based approaches are plagued by the trade-of between
   level of detail and time to solution.
-We address this problem by using forward solvers with different time and
+We address this problem later in Section~(\ref{awa:subsection:test}) by using forward solvers with different time and
   resolution complexity.
 
 The framework discussed here, incorporates the following three contributions:
