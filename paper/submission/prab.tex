@@ -1,0 +1,1035 @@
+\documentclass[%
+preprint,
+%superscriptaddress,
+%groupedaddress,
+%unsortedaddress,
+%runinaddress,
+%frontmatterverbose, 
+preprint,
+linenumbers,
+%showpacs,preprintnumbers,
+%nofootinbib,
+%nobibnotes,
+%bibnotes,
+amsmath,amssymb,
+aps,
+%pra,
+%prb,
+%rmp,
+prstab,
+%prstper,
+%floatfix,
+]{revtex4-1}
+
+\usepackage{dcolumn}% Align table columns on decimal point
+\usepackage{bm}% bold math
+%\usepackage{todonotes}
+\usepackage{siunitx}
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\usepackage{fancyvrb}
+\usepackage{booktabs}
+%\usepackage{cite}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{url}
+%\usepackage{footmisc}
+%\usepackage{multicol}
+%\usepackage{color}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,snakes,backgrounds}
+\usetikzlibrary{mindmap,trees}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{plotmarks}
+\usepackage{listings}
+\newcounter{lstmain}
+\setcounter{lstmain}{1}
+
+\usepackage{graphicx,xcolor,enumitem}
+%\usepackage{cuted}
+\newcommand{\lsnote}[1]{\textsf{{\color{violet}{ LS note:}   #1 }}}
+
+\lstnewenvironment{code}[1][]
+{ \vspace{0.3cm}\footnotesize{\textsc{Code Listing \thelstmain: #1}}
+  \hspace{0.1cm} \hrulefill
+  \lstset{language=C++, basicstyle=\ttfamily\scriptsize,
+    keywordstyle=\color{blue}\bfseries,commentstyle=\color{mygreen},
+    stringstyle=\color{red}
+  }
+}
+{
+  \hrule \vspace{0.3cm}
+  \addtocounter{lstmain}{1}
+}
+
+\lstnewenvironment{codeln}[1][]
+{\textbf{Code Listing} \hspace{1cm} \hrulefill \lstset{language=C++, basicstyle=\ttfamily\scriptsize, numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt, keywordstyle=\color{blue}\bfseries,commentstyle=\color{mygreen}, stringstyle=\color{red}}}
+{\hrule\smallskip}
+
+\lstnewenvironment{smallcode}[1][]
+{\lstset{language=C++, basicstyle=\ttfamily\scriptsize, keywordstyle=\color{myblue}\bfseries,commentstyle=\color{mygreen}, stringstyle=\color{red}}}
+{\smallskip}
+
+\xdefinecolor{mygreen}{RGB}{0,220,0}
+\xdefinecolor{myblue}{RGB}{26,150,255}
+
+\usepackage{array}
+\newcolumntype{C}{ >{\centering\arraybackslash} m{2.5cm} }
+\newcolumntype{D}{ >{\centering\arraybackslash} m{3cm} }
+
+\newcommand{\nrnote}[1]{\textsf{{\color{blue}{ NN note:}   #1 }}}
+\newcommand{\lsedit}[1]{\textsf{{\color{violet}{ ls note:}   #1 }}}
+\begin{document}
+
+
+\title{A Parallel General Purpose Multi-Objective Optimization Framework,
+  with Application To Electron Beam Dynamics}
+%\thanks{A footnote to the article title}%
+
+
+
+\author{N. Neveu}
+\altaffiliation[Also at ]{Argonne National Laboratory, USA}%Lines break automatically or can be forced with \\
+
+\author{L. Spentzouris}
+\affiliation{Illinois Institute of Technology, Chicago, IL}
+
+\author{A. Adelmann}
+\email{andreas.adelmann@psi.ch}
+\author{Y. Ineichen }
+%\email{yves.ineichen@gmail.com}
+\author{A. Kolano}
+\altaffiliation[Also at ]{
+	University of Huddersfield, West Yorkshire, United Kingdom and  CERN, Genf}
+\author{C. Metzger-Kraus}
+\affiliation{
+	PSI, Villigen, Switzerland}%
+
+\author{C. Bekas}
+\author{A. Curioni}
+
+\affiliation{IBM Research, Zurich, Switzerland }%
+
+\author{P. Arbenz}
+\affiliation{%
+	Department of Computer Science, ETH Zurich, Switzerland}%
+
+\date{\today}% It is always \today, today,
+%  but any date may be explicitly specified
+
+
+\begin{abstract}
+Particle accelerators are invaluable tools for research in the basic and
+  applied sciences, in fields such as materials science, chemistry,
+  the biosciences, particle physics, nuclear physics and medicine.
+The design, commissioning, and operation of accelerator facilities is a
+  non-trivial task, due to the large number of control parameters and the
+  complex interplay of several conflicting design goals.
+We propose to tackle this problem by means of multi-objective optimization
+  algorithms which also facilitate a parallel deployment.
+In order to compute solutions in a meaningful time frame a fast 
+  and scalable software framework is required.
+In this paper, we present the implementation of such a general-purpose
+  framework for simulation-based multi-objective optimization methods that
+  allows the automatic investigation of optimal sets of machine parameters.
+The implementation is based on a master/slave paradigm, employing several
+  masters that govern a set of slaves executing simulations and performing
+  optimization tasks.
+Using evolutionary algorithms and \textsc{OPAL}~simulations as optimizer and
+  forward solver in our framework, validation experiments and first
+  results of multi-objective optimization problems in the domain of beam
+  dynamics is presented.
+  
+\end{abstract}
+
+
+\pacs{Valid PACS appear here}% PACS, the Physics and Astronomy
+% Classification Scheme.
+%\keywords{Suggested keywords}%Use showkeys class option if keyword
+%display desired
+\maketitle
+
+
+\section{INTRODUCTION} \label{sec:introduction}
+
+Particle accelerators play a significant role in many aspects of science and
+  technology.
+Fields, such as material science, chemistry, the biosciences, particle
+  physics, nuclear physics and medicine depend on reliable and effective
+  particle accelerators, both as research but as well as practical tools.
+Achieving the required performance in the design, commissioning, and operation
+  of accelerator facilities is a complex and versatile problem.
+Today, tuning machine parameters, e.g. bunch charge, emission time and
+  various parameters of beamline elements, is most commonly done manually by
+  running simulation codes to scan the parameter space.
+This approach is tedious, time consuming and can be error prone.
+In order to be able to reliably identify optimal configurations of
+  accelerators we propose to solve large multi-objective design optimization
+  problems to automate the investigation for an optimal set of tuning
+  parameters.
+Observe that multiple and conflicting optimality criteria call for a
+  multi-objective approach.
+
+\begin{figure}%[h!]
+%\begin{center}%\normalsize
+	\scalebox{0.8}{
+	\pgfdeclarelayer{background}
+	\pgfsetlayers{background,main}
+	\begin{tikzpicture}[text=black]%[scale=0.05]%, transform shape]
+	\input{figures/opt-framework_code.tex}
+	\end{tikzpicture}
+}
+%\end{center}
+\caption{Multi-objective framework: the pilot (master) solves the
+	optimization problem specified in the input file by coordinating optimizer
+	algorithms and workers running forward solves.}
+\label{fig:framenetwork}
+\end{figure}
+
+A modular multi-objective software framework was developed (see
+ Fig.~\ref{fig:framenetwork}) where the core functionality of the optimizer is decoupled from
+ the ``beam dynamics'' but fully integrated in the OPAL \cite{opal} framework. 
+To that end, we use a master/slave mechanism where a master process governs a
+ set of slave processes given some computational tasks (beam dynamics simulation) to complete.
+This separation allows easy interchange of optimization algorithms, forward
+  solvers and optimization problems.
+A ``pilot'' coordinates all efforts between the optimization algorithm and the
+  beam dynamics task. In the sequel we will also use the notion of ``forward solver'' to indicate the beam dynamics task.
+This forms a robust and general framework for massively parallel
+  multi-objective optimization.
+Currently the framework offers one concrete optimization algorithm, an
+  evolutionary algorithm employing a \textsc{NSGA-II} selector \cite{pisa}.
+Normally, simulation based approaches are plagued by the trade-of between
+  level of detail and time to solution.
+This problem is addressed later in Section~(\ref{awa:subsection:test}) by using forward solvers with different time and
+  resolution complexity.
+
+The framework discussed here, incorporates the following three contributions:
+%
+\begin{enumerate}
+  \item Implementation of a scalable optimization algorithm capable of
+        approximating Pareto fronts in high dimensional spaces,
+  \item design and implementation of a modular framework that is simple to use
+        and deploy on large scale computational resources, and
+  \item demonstrating the usefulness of the proposed framework on a real world
+        application in the domain of particle accelerators,
+        with the optimization problem set as 
+        the high charge photoinjector at the Argonne Wakefield Accelerator (AWA). 
+\end{enumerate}
+
+The next section introduces the notation of multi-objective optimization
+theory and describes the first implemented optimizer.
+In Section~\ref{sec:framework} the implementation of the framework is discussed.
+We introduce the employed forward-solver in Section~\ref{sec:forward-solver}.
+A validation and a proof of concept application in the two beam dynamics problems 
+mentioned above is discussed in Section~\ref{sec:experiments}.
+
+
+\section{MULTI-OBJECTIVE OPTIMIZATION} \label{sec:optimization}
+
+Optimization problems deal with finding one or more feasible solutions
+  corresponding to extreme values of objectives.
+If more than one objective is present in the optimization problem this is called
+  a multi-objective optimization problem (MOOP).
+A MOOP is defined as
+%
+\begin{align}
+  \text{ min} \quad & \quad f_m({\bf x}), ~& m &= 1, \dots, M, \label{eq:moop:obj}\\
+  \text{s.t.} \quad & \quad g_j({\bf x}) \geq 0, & j &= 0, \dots, J,
+  \label{eq:moop:constr}\\
+  \quad & \quad  x_i^L \leq {\bf x}=x_i \leq x_i^U,& i &=0, \dots, n
+  \label{eq:moop:dvar} \text{,}
+\end{align}
+%
+where $\bf f$ denotes the objectives (\ref{eq:moop:obj}),
+  $\bf g$ the constraints (\ref{eq:moop:constr}),
+  and $\bf x$ the design variables (\ref{eq:moop:dvar}).
+
+Often, conflicting objectives are encountered, and this complicates the concept of
+  optimality.
+To illustrate this, let us consider the problem of buying a car.
+Naturally, we try to bargain the lowest price for the best performance,
+  e.g.\ maximal horsepower or minimal fuel consumption.
+This can be formulated as MOOP (\ref{eq:car-moop}).
+%
+\begin{equation}
+  \begin{array}{cl}
+  \min          & \quad \left[ \text{price}, -\text{performance} \right]^T \\
+    \text{s.t.} & \quad \text{low}_\text{pr} \leq \text{price} \leq \text{high}_\text{pr}\\
+                & \quad \text{low}_\text{pe} \leq \text{performance} \leq \text{high}_\text{pe}
+  \end{array}
+  \label{eq:car-moop}
+\end{equation}
+
+\begin{figure}
+  \begin{center}
+    \begin{tikzpicture}[scale=1.3, transform shape]
+      \input{figures/car-trade-off}
+    \end{tikzpicture}
+  \end{center}
+  \caption{Two competing objectives can not be optimal at the same time.
+    Red dots represent Pareto optimal points, while the green square $x_4$ is
+    dominated (exhibits a worse price per performance ratio than e.g. $x_2^*$)
+    by all points on the blue curve (Pareto front).
+  }
+  \label{fig:tradeoff}
+\end{figure}
+
+In general, it is not possible to get the maximal performance for the lowest
+  price and a trade-off decision between performance and price has to be
+  reached (see Fig.~\ref{fig:tradeoff}).
+Since not every choice is equally profitable for the buyer (for example, car
+  $x_4$ costs as much as $x_2^*$ but offers less performance), we pick
+  trade-offs (red points) that are essentially ``equally optimal'' in both
+  conflicting objectives, meaning, we cannot improve one point without hurting
+  at least one other solution.
+This is known as \textit{Pareto optimality}.
+The set of Pareto optimal points (blue curve) forms the Pareto front or
+  surface.
+All points on this surface are considered to be Pareto optimal.
+
+Once the shape of the Pareto front has been determined, the buyer can
+  \textit{specify preference}, balancing the features by observing the
+  effect on the optimality criteria, converging to the preferred solution.
+This is called \textit{a posteriori} preference specification since 
+  a solution is selected after all possible trade-offs have been presented to us.
+An alternative is to specify preference \textit{a priori}, e.g. by
+  weighting (specifying preference before solving the problem) and combining
+  all objectives into one and applying a single-objective method to solve the
+  problem (yielding only one solution).
+In many situations preference is not known \textit{a priori} and an
+  \textit{a posteriori} preference specification helps conveying a deeper
+  understanding of the solution space.
+The Pareto front can be explored and the impact of a trade-off decision then
+  becomes visible.
+
+Sampling Pareto fronts is far from trivial.
+A number of approaches have been proposed,
+  e.g.\ evolutionary algorithms~\cite{deb:09},
+  simulated annealing~\cite{kigv:83},
+  swarm methods~\cite{keeb:95},
+  and many more~\cite{domc:96,cati:02,kara:05,hoss:09}.
+In the next section, we briefly introduce the theory of evolutionary algorithms
+  used in the present work.
+
+
+\subsection{Evolutionary Algorithms}
+
+Evolutionary algorithms are loosely based on nature's evolutionary
+  principles to guide a population of individuals towards an improved solution
+  by honoring the ``survival of the fittest'' principle.
+This ``simulated'' evolutionary process preserves entropy (or diversity in
+  biological terms) by applying genetic operators, such as mutation and
+  crossover, to remix the fittest individuals in a population.
+Maintaining diversity is a crucial feature for the success of all evolutionary
+  algorithms.
+
+In general, a generic evolutionary algorithm consists of the following
+  components:
+%
+\begin{itemize}
+  \item \textit{Genes}: traits defining an individual,
+  \item \textit{Fitness}: a mapping from genes to a fitness value for each
+    individual,
+  \item \textit{Selector}: selecting the $k$ fittest individuals of a
+    population based on some sort of ordering,
+  \item \textit{Variator}: recombination (mutations and crossover) operators
+    for offspring generation.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \scalebox{1}{
+    \begin{tikzpicture}[scale=0.8, transform shape, text=black]
+    \input{figures/ga_explained_big.tex}
+    \end{tikzpicture}
+	}
+  \caption{Schematic view of interplay between selector and variator. The
+  selector ranks all individuals in the population according to fitness and
+  subsequently the variator uses the fittest individuals to produces new
+  offspring. Finally, the new children are reintroduced in the population.}
+  \label{fig:varsel}
+\end{figure}
+
+Applied to multi-objective optimization problems, genes correspond to
+  design variables.
+The fitness of an individual is loosely related to the value of the objective
+  functions for the corresponding genes.
+Figure~\ref{fig:varsel} schematically depicts the connection of the
+  components introduced above.
+The process starts with an initially random population of individuals, each
+  individual with a unique set of genes and corresponding fitness,
+  representing one location in the search space.
+In a next step the population is processed by the selector
+  determining the $k$ fittest individuals according to their fitness values.
+While the $k$ fittest individuals are passed to the variator, the
+  remaining $n-k$ individuals are eliminated from the population.
+The \textsc{Variator} mates and recombines the $k$ fittest individuals to
+  generate new offspring.
+After evaluating the fitness of all the freshly born individuals a
+  \textit{generation} cycle has completed and the process can start anew.
+
+Since there already exist plenty of implementations of evolutionary algorithms,
+  it was decided to incorporate the PISA library \cite{pisa} into our
+  framework.
+One of the advantages of PISA is that it separates variator from selector,
+  rendering the library expandable and configurable.
+Implementing a variator was enough to use PISA in our framework and
+  retain access to all available PISA selectors.
+As shown in Fig.~\ref{fig:varsel}, the selector is in charge of ordering a
+  set of $d$-dimensional vectors and selecting the $k$ fittest individuals
+  currently in the population.
+The performance of a selector depends on the number of objectives and the
+  surface of the search space.
+So far, the NSGA-II selector \cite{dpam:02} has been used and exhibits satisfactory
+  convergence performance.
+
+The task of the variator is to generate offspring and ensure diversity in the
+  population.
+The variator can start generating offspring once the fitness of every
+  individual of the population has been evaluated.
+This explicit synchronization point defines an obvious bottleneck for parallel
+  implementations of evolutionary algorithms.
+In the worst case some MPI processes are taking a long time to compute the
+  fitness of the last individual in the pool of individuals to evaluate.
+During this time all other resources are idle and wait for the result of
+  this one individual in order to continue to generate and evaluate offspring.
+To counteract this effect, the selector is already called when two individuals
+  have finished evaluating their fitness, lifting the boundaries between
+  generations and evaluating the performance of individuals.
+New offspring will be generated and MPI processes can immediately return to
+  work on the next fitness evaluation.
+By calling the selector more frequently (already after two offspring
+  individuals have been evaluated) results in better populations since bad
+  solutions are rejected earlier.
+On the other hand, calling the selector more often is computationally more
+  expensive.
+
+Our variator implementation uses the master/slave architecture, presented in
+  the next section, to run as many function evaluations as possible in parallel.
+Additionally, various crossover and mutation policies are available for tuning
+  the algorithm to the optimization problem.
+
+
+
+\section{THE FRAMEWORK} \label{sec:framework}
+
+Simulation based multi-objective optimization problems are omnipresent in
+  research and industry.
+The simulation and optimization problems arising in such problems are in
+  general very big and computationally demanding.
+This motivated us to design a massively parallel general purpose framework.
+The key traits of such a design can be summarized as:
+%
+\begin{itemize}
+  \item support any multi-objective optimization method,
+  \item support any function evaluator: simulation code or measurements,
+  \item offer a general description/specification of objectives, constraints
+        and design variables,
+  \item run efficiently in parallel on current large-scale high-end clusters
+        and supercomputers.
+\end{itemize}
+%
+
+\subsection{Related Work}
+
+Several similar frameworks, e.g.~\cite{fide:09,lems:09,lbjt:07,dnld:06}, have
+  been proposed.
+Commonly these frameworks are tightly coupled to an optimization algorithm,
+  e.g.\ only providing evolutionary algorithms as optimizers.
+Users can merely specify optimization problems, but cannot change the
+  optimization algorithm.
+Our framework follows a more general approach, providing a user-friendly way
+  to introduce new or choose from existing built-in multi-objective
+  optimization algorithms.
+Tailoring the optimization algorithm to the optimization problem at hand is
+  an important feature due to the many different characteristics of
+  optimization problems that should be handled by such a general framework.
+As an example, it is shown how \textsc{Pisa} \cite{pisa}, an existing evolutionary
+  algorithm library, was integrated with ease.
+Similarly, other multi-objective algorithms could be incorporated and
+  used to solve optimization problems.
+
+The framework presented in \cite{lems:09} resembles our implementation the
+  most, aside from their tight coupling with an evolutionary algorithm
+  optimization strategy.
+The authors propose a plug-in based framework employing an island
+  parallelization model, where multiple populations are evaluated concurrently
+  and independently up to a point where some number of individuals of the
+  population are exchanged.
+This is especially useful to prevent the search algorithm to get stuck in
+  a local minimum.
+A set of default plug-ins for genetic operators, selectors and other
+  components of the algorithms are provided by their framework.
+User-based plug-ins can be incorporated into the framework by implementing a
+  simple set of functions.
+
+%Unfortunately, the island parallelization approach is not well suited for
+  %running search algorithms in the massively parallel environment.
+%The decision how many processors are assigned to an island is non-trivial.
+%\todo{PA: what are roles?}
+%Parallel performance is sensitive to placement and assignment of roles to
+  %processors of such frameworks and therefore should be considered carefully.
+%Especially the master thread on an island (used to exchange individuals
+  %between the islands and aggregate solutions) can be overwhelmed with
+  %messages from slaves evaluating individuals.
+%This creates hotspots on the network and as a result the network performance
+  %suffers.
+
+Additionally, as with simulation based multi-objective optimization, we can
+  exploit the fact that both the optimizer and simulation part of the process
+  use a certain amount of resources.
+The ratio of work between optimizer and simulation costs can be reflected in
+  the ratio of number of processors assigned to each task.
+This not only provides users with  great flexibility in using any simulation
+  or optimizer, but renders influencing the role assignment easy as well.
+
+
+\subsection{Components}
+
+The basic assumption in simulation-based optimization is that a
+  call to an expensive simulation software component present in the
+  constraints or objectives is needed.
+The framework is divided in three exchangeable components, as shown in
+  Fig.~\ref{fig:opt-framework-layout}, to encapsulate the major behavioral
+  patterns of the framework.
+%
+\begin{figure}
+  \centering
+  \scalebox{0.85}{
+  \begin{tikzpicture}[text=black]
+  \input{figures/opt-framework-layout.tex}
+  \end{tikzpicture}
+}
+  
+
+  \caption{Schematic view of messages passed within the network between the
+    three roles.
+  The dashed cyan path describes a request (job $j_1$) sent from $O_i$ to the
+  \textsc{Pilot} being handled by $W_j$. Subsequently the result $r_k$ is
+  returned to the requesting \textsc{Optimizer} ($O_i$). The work $W_j$ are beam dynamics 
+  simulation within OPAL.}
+  \label{fig:opt-framework-layout}
+\end{figure}
+
+%
+The \textsc{Pilot} component acts as a bridge between the optimizer and
+  forward solvers, providing the necessary functionality to handle passing
+  requests and results between the \textsc{Optimizer} and the
+  \textsc{Simulation} modules.
+The framework was implemented in \texttt{C++}, utilizing features like template
+  parameters to specify the composition of the framework (shown in Listing 1).
+
+%\noindent\begin{minipage}{0.48\textwidth}
+%\noindent
+\begin{code}[Assembling the optimizer \\ from components]
+typedef InputFileParser	Input_t;
+typedef PisaVariator	Opt_t;
+typedef OpalSimulation	Sim_t;
+
+typedef Pilot< Input_t, Opt_t, Sim_t > Pilot_t;
+\end{code}
+%\end{minipage}
+The framework provides ``default'' implementations that can be controlled via
+  command line options.
+Due to its modular design, all components can be completely customized.
+
+Every available MPI process will take up one of the three available roles (see
+  Fig.~\ref{fig:framenetwork}):  one process acts as \textsc{Pilot}, the
+  remaining processes are divided amongst \textsc{Worker} and
+  \textsc{Optimizer} roles.
+Both, the \textsc{Worker} and the \textsc{Optimizer} can consist of multiple
+  MPI processes to exploit parallelism.
+As shown in Fig.~\ref{fig:opt-framework-layout} the \textsc{Pilot} is used
+  to coordinate all ``information requests'' between the \textsc{Optimizer}
+  and the \textsc{Worker}.
+An information request is a job that consists of a set of design variables
+  (e.g.~the genes of an individual) and a type of information it requests
+  (e.g.~function evaluation or derivative).
+The \textsc{Pilot} keeps checking for idle \textsc{Worker} and assigns jobs
+  in the queue to any free \textsc{Worker}.
+Once the \textsc{Worker} has computed and evaluated the request its results
+  are returned to the \textsc{Optimizer} that originally requested the
+  information.
+
+After a process gets appointed a role it starts a polling loop asynchronously
+  checking for appropriate incoming requests.
+To that end a \textsc{Poller} interface helper class has been introduced.
+The \textsc{Poller} interface consists of an infinite loop that checks
+  periodically for new MPI messages.
+Upon reception a new message is immediately forwarded to the appropriate
+  handler: the \texttt{onMessage()} method.
+The method is called with the \texttt{MPI\_Status} of the received message and
+  a \texttt{size\_t} value specifying different values depending on the value
+  of the \texttt{MPI\_Tag}.
+The \textsc{Poller} interface allows the implementation of special methods
+  (denoted \textit{hooks}) determining the behavior of the polling process,
+  e.g.\ for actions that need to be taken after a message has been handled.
+Every \textsc{Poller} terminates the loop upon receiving a special MPI tag.
+
+
+\subsection{Implementing an Optimizer}
+
+All \textsc{Optimizer} implementations have to respect the API shown in
+Listing 2.
+
+%\noindent\begin{minipage}{0.48\textwidth}
+\begin{code}[Optimizer API]
+virtual void initialize() = 0;
+
+// Poller hooks
+virtual void setupPoll() = 0;
+virtual void prePoll() = 0;
+virtual void postPoll() = 0;
+virtual void onStop() = 0;
+virtual bool onMessage(MPI_Status status,
+                       size_t length) = 0;
+\end{code}
+%\end{minipage}
+
+All processors running an \textsc{Optimizer} component call the
+  \texttt{initialize} entry point after role assignment in the
+  \textsc{Pilot}.
+The implementation of \texttt{initialize} must set up and start the poller and
+  the optimization code.
+Since an optimizer derives from the \texttt{Poller} interface, predefined
+  hooks can be used to determine the polling procedure.
+Hooks can be implemented as empty methods, but the \texttt{onMessage}
+  implementation should reflect the optimization part of the protocol for
+  handling events from the \textsc{Pilot}.
+A special set of communicator groups serves as communication channels to the
+  \textsc{Pilot} and its job queue and if existing to processes supporting the
+  \textsc{Optimizer} component.
+
+
+\subsection{Implementing a Forward Solver}
+
+In most cases forward solver implementations are simple wrappers to run
+  an existing ``external'' simulation code using a set of design variables as
+  input. In case of the OPAL integration, basically the \texttt{main} function is
+  playing the role of the ``forward solver''. Underlying the general nature of our approach, 
+  in a similar project, the described methods are used for cavity shape optimisation based on \cite{ARBENZ2008381}. 
+As for the \textsc{Optimizer} component there exists a base class, labeled
+  \texttt{Simulation} as common basis for all \textsc{Simulation}
+  implementations.
+In addition, this component also inherits from the \texttt{Worker} class,
+  already implementing the polling protocol for default worker types.
+As shown in the API in Listing 3, the \texttt{Worker} class expects an
+  implementation to provide implementations for those three methods.
+
+\begin{code}[Simulation API]
+virtual void run() = 0;
+virtual void collectResults() = 0;
+virtual reqVarContainer_t getResults() = 0;
+\end{code}
+
+First, upon receiving a new job, the \texttt{Worker} will call the
+  \texttt{run} method on the \textsc{Simulation} implementation.
+This expects the \textsc{Simulation} implementation to run the simulation in a
+  \textit{blocking} fashion, meaning the method call blocks and does not return
+  until the simulation has terminated.
+Subsequently, the \texttt{Worker} calls \texttt{collectResults}, where the
+  \textsc{Simulation} prepares the result data, e.g. parsing output files,
+  and stores the requested information in a \texttt{reqVarContainer\_t} data
+  structure.
+Finally, the results obtained with \texttt{getResults} are sent to the
+  \textsc{Pilot}.
+As before, the serialized data is exchanged using MPI point-to-point
+  communication using a specific set of communicators.
+
+
+\subsection{Specifying the Optimization Problem}
+
+We aimed at an easy and expressive way for users to specify multi-objective
+  optimization problems.
+Following the principle of keeping metadata (optimization and simulation
+  input data) together, we decided to embed the optimization problem
+  specification in the simulation input file by prefixing it with special
+  characters, e.g. as annotations prefixed with a special character.
+In some cases it might not be possible to annotate the simulation input file.
+By providing an extra input file parser, optimization problems can be read
+  from stand-alone files.
+
+To allow arbitrary constraints and objective expressions, such as
+%
+%{0.2cm}
+\begin{Verbatim}[fontsize=\scriptsize]
+  name: OBJECTIVE,
+        EXPR="5 * average(42.0, "measurement.dat") + ENERGY";
+\end{Verbatim}
+%\vspace{0.2cm}
+%
+\noindent
+  An expression parser using Boost Spirit~\cite{boost} was implemented.
+In addition to the parser, we need an evaluator able to evaluate an expression,
+  given a parse tree and variable assignments to an actual value.
+Expressions arising in multi-objective optimization problems usually evaluate
+  to booleans or floating point values.
+The parse tree, also denoted abstract syntax tree (AST), is constructed
+  recursively while an expression is parsed.
+Upon evaluation, all unknown variables are replaced with values, either
+  obtained from simulation results or provided by other subtrees in the AST.
+In this stage, the AST can be evaluated bottom-up and the desired result is
+  returned after processing the root of the tree.
+
+To improve the expressive power of objectives and constraints, a
+  simple mechanism to define and call custom functions in expressions was introduced.
+Using simple functors, e.g. as the one shown in Listing 4 to compute an
+  average over a set of data points, enriches expressions with custom
+  functions.
+Custom function implementations overload the \texttt{()} parenthesis operator.
+The function arguments specified in the corresponding expression are stored in
+  a \texttt{std::vector} of Boost variants~\cite{boost2} that can be
+  booleans, strings or floating point values.
+
+\begin{code}[Simple Average Functor]
+struct avg {
+
+    double operator()(
+      client::function::arguments_t args) const {
+
+        double limit = boost::get<double>(args[0]);
+        std::string filename =
+          boost::get<std::string>(args[1]);
+
+        double sum = 0.0;
+        for(int i = 0; i < limit; i++)
+            sum += getDataFromFile(filename, i);
+
+        return sum / limit;
+    }
+};
+\end{code}
+
+All custom functions are registered with expression objects.
+This is necessary to ensure that expressions know how they can resolve
+  function calls in their AST.
+As shown in Listing 5 this is done by creating a collection of Boost
+  functions~\cite{boost3} corresponding to the
+  available custom functions in expressions and passing this to the
+  \textsc{Pilot}.
+
+%\noindent\begin{minipage}{\textwidth}
+\begin{code}[Creating function pointer for registering functor]
+functionDictionary_t funcs;
+client::function::type ff;
+ff = average();
+funcs.insert(std::pair<std::string, 
+		client::function::type> 
+       		("my_average_name", ff));
+\end{code}
+%\end{minipage}
+
+A set of default operators, corresponding to a mapping to \texttt{C} math
+  functions, is included in the dictionary by default.
+This enables an out of source description of optimization problems containing
+  only simple math primitives.
+
+
+\subsection{Parallelization} \label{sec:parallelization}
+
+The parallelization is defined by a mapping of the roles introduced above to
+  available cores.
+Command-line options allow the user to steer the number of processors used in
+  worker and optimizer groups.
+Here, we mainly use the command-line options to steer the number of processors
+  running a forward solver.
+
+One major disadvantage of the master/slave implementation model is the fast
+  saturation of the network links surrounding the master node.
+In \cite{bctg:09} authors observe an exponential increase in hot-spot latency
+  with increasing number of workers that are attached to one master process.
+Clearly, the limiting factor is the number of outgoing links of a node in the
+  network topology and already for a few workers the links surrounding a
+  master process are subject to congestions.
+This effect is amplified further by large message sizes.
+
+To that end we implemented a solution propagation based on rumor networks 
+(see \cite{bgps:06,ayss:09}) using only one-sided communication.
+This limits the number of messages sent over the already heavily used links
+  surrounding the master node and at the same time helps to prevent the use of
+  global communication.
+Using information about the interconnection network topology and the
+  application communication graph the task of assigning roles helps to further
+  improve the parallel performance.
+
+
+
+\section{FORWARD SOLVER} \label{sec:forward-solver}
+
+The framework contains a wrapper implementing the API mentioned in
+  Listing 3 for using \textsc{OPAL} \cite{opal} as the forward solver.
+\textsc{OPAL} provides different trackers for cyclotrons and linear
+  accelerators with satisfactory parallel performance \cite{akir:09}.
+
+With access to the \textsc{OPAL} forward solver the framework is able to
+  tackle a multitude of optimization problems arising in the domain of
+  particle accelerators.
+  The framework is also integrated into \textsc{OPAL} so that users can 
+  define optimization problems within an input file, requiring no 
+  additional knowledge or installation of the API to use it.
+
+% AA: this is too much for Phys Rev. AB  
+% By abiding to the API from Listing 3 it becomes trivial to add new forward
+% solvers to the framework (see Appendix A).
+
+If the objectives and constraints are simple arithmetical expressions, the
+  \texttt{FunctionEvaluator} simulator can be used.
+Using functors and the default expression primitives already powerful
+  multi-objective optimization problems can be specified, i.e.\ the benchmark
+  problem presented in \cite{hbwh:05}:
+%
+
+%\begin{strip}
+	\begin{widetext}
+		\begin{align} \label{eqn:bench}
+		\text{min} & \left[ 1 - \exp \left( -1 \left(
+		\left(x_1 - \frac{1}{\sqrt{3}} \right)^2 +
+		\left(x_2 - \frac{1}{\sqrt{3}} \right)^2 +
+		\left(x_3 - \frac{1}{\sqrt{3}} \right)^2 \right)\right), \right. \\
+		\vspace{3em} 
+		& \left. 1 - \exp \left( -1 \left(
+		\left(x_1 + \frac{1}{\sqrt{3}} \right)^2 +
+		\left(x_2 + \frac{1}{\sqrt{3}} \right)^2 +
+		\left(x_3 + \frac{1}{\sqrt{3}} \right)^2 \right)\right) \right]^T \nonumber \\
+		\vspace{3em} \nonumber \\
+		\text{s.t.} \quad & \quad -1 \le x_i \le 1, \quad i=1,2,3 \nonumber
+		\text{.} \nonumber
+		\end{align}
+	\end{widetext}
+%\end{strip}
+
+
+
+%
+Using the default expression primitives this can be stated in an input file
+  as:
+%
+%\vspace{0.2cm}
+
+\begin{flushleft}
+\begin{Verbatim}[fontsize=\scriptsize]
+d1: DVAR, VARIABLE="x1", LOWERBOUND="-1.0", UPPERBOUND="1.0";
+d2: DVAR, VARIABLE="x2", LOWERBOUND="-1.0", UPPERBOUND="1.0";
+d3: DVAR, VARIABLE="x3", LOWERBOUND="-1.0", UPPERBOUND="1.0";
+
+obj1: OBJECTIVE,
+EXPR="1- exp(-1 * (sq(x1 - 1/sqrt(3)) 
++ sq(x2 - 1/sqrt(3)) + sq(x3 - 1/sqrt(3))))";
+obj2: OBJECTIVE,
+EXPR="1- exp(-1 * (sq(x1 + 1/sqrt(3)) 
++ sq(x2 + 1/sqrt(3)) + sq(x3 + 1/sqrt(3))))";
+
+objs:    OBJECTIVES = (obj1, obj2);
+dvars:   DVARS = (d1, d2, d3);
+constrs: CONSTRAINTS = ();
+opt: OPTIMIZE, OBJECTIVES=objs, DVARS=dvars, CONSTRAINTS=constrs;
+\end{Verbatim}
+\end{flushleft}
+%\vspace{0.2cm}
+
+
+
+\input{theor-experiment} 
+
+
+
+\section{CONCLUSIONS} \label{sec:conclusions}
+
+A general-purpose framework for solving multi-objective
+  optimization problems was presented.
+Its modular design simplifies the application to simulation-based optimization
+  problems for a wide range of problems and allows to exchange the
+  optimization algorithm.
+%In a recent work, we successfully implemented and integrated another
+  %optimization algorithm, originally presented in~\cite{pesc:11}, into our
+ % framework.
+The flexibility of being able to adapt both ends of the optimization
+  process, the forward solver and the optimization algorithm simultaneously
+  not only leads to broad applicability but it facilitates the ability to
+  tailor the optimization strategy to the optimization problem as well.
+
+%This first study shows that the framework is ready to tackle problems arising
+%  in the domain of beam dynamics.
+%
+%Interestingly, the computation of a good approximation of the Pareto front is
+%  already feasible on a small cluster using only a modest number of MPI
+%  processes.
+%  
+%For 1000 generations consisting of 2048 feasible and 8354 infeasible function
+%  evaluations (simulations) the optimizer needed $845$ minutes on the
+%  \textsc{Felsim} cluster on $16$ processes.
+%
+%When we double the number of processes to $32$ (\textsc{Felsim} allows a
+%  maximum of $64$ processes per job) the runtime improves to $302$ minutes (2048
+%  accepted and 5426 infeasible individuals).
+%Notice that the runtime can vary due to the random nature of the process.
+%Nevertheless we see a reasonable speeduo when using more cores to solve the
+%  optimization problem. %and the parallel performance will be further evaluated
+%  in a forthcoming publication.
+%The number of individuals is the only limiting factor.
+The framework was integrated into OPAL, and used 
+to study a beam dynamics problem at the AWA.
+A scan of time step and hyper parameters was done to determine computational settings.
+Then a full scale physics optimization was performed.
+Optimization of the 3D beam size and energy spread was accomplished.
+The TBA beam line presented is currently being installed at the AWA.
+Once installation is complete, 
+the results shown here will guide future experiments at the AWA.
+%This problem also took advantage of the frameworks massively parallel capabilities by
+%running on 2624 processes on Bebop at LCRC.
+
+In contrast to approaches that are tightly coupled to the optimization
+  algorithm, the range of possible applications is much wider.
+Even in cases where the mathematical model of the forward solver is not known
+  exactly, fixed or on the real time measurements can be used to guide the
+  search for the Pareto optimal solutions.
+Finally, combining the presented multi-objective optimization framework with
+  a physicist long standing experience in the field provides a solid basis
+  for better understanding and improving the decision making process in the
+  design and operation of particle accelerators.
+
+ 
+
+
+\section{ACKNOWLEDGMENT}
+
+The authors thank the AWA team for contributing to the
+  formulation of optimization problems. 
+  We gratefully acknowledge the computing resources provided on Bebop,
+  a HPC cluster operated by the LCRC at ANL.
+  Thanks to Scott Doran for providing CAD drawings of the AWA beam lines.
+  This work was partly supported by the 
+  U.S. Department of Energy, Office of Science, under 
+  contract number DE-AC02-06CH11357 and grant number DE-SC0015479. 
+
+% AA: this is too much for Phys Rev. AB  
+
+% \appendix
+
+%\section{Forward Solver Implementation}
+%
+%A simple implementation, e.g.\ using a Python forward solver, is given below
+%  in Listing 6.
+%We assume the Python script executes a simulation and dumps results in the
+%  \textsc{SDDS} file format~\cite{borl:00}.
+%Utility classed are used to parse the result data and fill the appropriate
+%  structures returned to the optimizer algorithm.
+%
+%\begin{code}[Simple Simulation Wrapper]
+%#include <map>
+%#include <string>
+%#include <vector>
+%
+%#include "Util/Types.h"
+%#include "Util/CmdArguments.h"
+%#include "Simulation/Simulation.h"
+%
+%#include "boost/smart_ptr.hpp"
+%
+%class SimpleSimulation : public Simulation {
+%
+%public:
+%
+%    SimpleSimulation(Expressions::Named_t objectives,
+%                     Expressions::Named_t constraints,
+%                     Param_t params, std::string name, MPI_Comm comm,
+%                     CmdArguments_t args);
+%
+%    ~SimpleSimulation();
+%
+%    /// Calls simulation through Python wrapper and returns when simulation
+%    /// has either failed or finished.
+%    void run() {
+%        // user implements wrappers
+%        prepare_input_file();
+%        run_python_simulation();
+%    }
+%
+%    /// Parse SDDS stat file and build up requested variable dictionary.
+%    void collectResults(){
+%
+%        Expressions::Named_t::iterator it;
+%        for(it = objectives_.begin(); it != objectives_.end(); it++) {
+%
+%            Expressions::Expr_t *objective = it->second;
+%
+%            // find out which variables we need in order to evaluate the
+%            // objective
+%            variableDictionary_t variable_dictionary;
+%            std::set<std::string> req_vars = objective->getReqVars();
+%
+%            if(req_vars.size() != 0) {
+%
+%                boost::scoped_ptr<SDDSReader> sddsr(new SDDSReader(fn));
+%
+%                try {
+%                    sddsr->parseFile();
+%                } catch(OptPilotException &e) {
+%                    std::cout << "Exception while parsing SDDS file: "
+%                        << e.what() << std::endl;
+%                    break;
+%                }
+%
+%                // get all the required variable values from the stat file
+%                foreach(std::string req_var, req_vars) {
+%                    if(variable_dictionary.count(req_var) == 0) {
+%
+%                        try {
+%                            double value = 0.0;
+%                            sddsr->getValue(1 /*atTime*/, req_var, value);
+%                            variable_dictionary.insert(
+%                                std::pair<std::string, double>(req_var, value));
+%                        } catch(OptPilotException &e) {
+%                            std::cout << "Exception while getting value "
+%                                      << "from SDDS file: " << e.what()
+%                                      << std::endl;
+%                        }
+%                    }
+%                }
+%            }
+%
+%            // and evaluate the expression using the built dictionary of
+%            // variable values
+%            Expressions::Result_t result =
+%                objective->evaluate(variable_dictionary);
+%
+%            std::vector<double> values;
+%            values.push_back(boost::get<0>(result));
+%            bool is_valid = boost::get<1>(result);
+%
+%            reqVarInfo_t tmps = {EVALUATE, values, is_valid};
+%            requestedVars_.insert(
+%                std::pair<std::string, reqVarInfo_t>(it->first, tmps));
+%
+%        }
+%    }
+%
+%    /// returns container containing all requested variables with results
+%    reqVarContainer_t getResults() { return requestedVars_; }
+%
+%private:
+%
+%    /// holds solutions returned to the optimizer
+%    reqVarContainer_t requestedVars_;
+%
+%    Expressions::Named_t objectives_;
+%    Expressions::Named_t constraints_;
+%
+%    MPI_Comm comm_;
+%};
+%
+%#endif
+%\end{code}
+
+
+
+\bibliographystyle{abbrv}
+\bibliography{paper}
+
+\end{document}
+
+
