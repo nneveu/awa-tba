@@ -93,10 +93,10 @@ Minimizing beam sizes here will enable capture and further focusing before space
 This will also enable cleaner transport through downstream elements.
 %\vspace{-1em}
 
-\def \gunheight {25}
+\def \gunheight {25}  %25} %double sided number
 \def \quadheight {35}
-\def \quadleft {127}
-\def \kickerleft {160}
+\def \quadleft {115}  %127} %double sided number
+\def \kickerleft {145}  %160} % two sided number
 \def \leftarrow{10}
 \def \bottomofarrows {29}
 \def \topofarrows {34}
@@ -106,7 +106,7 @@ This will also enable cleaner transport through downstream elements.
 	{\includegraphics[width=\textwidth]{figures/awa-drawing}};
 	\node[fill=white, inner sep=2pt] (txt2) at (0,\gunheight) {\large Gun};
 	\node[fill=white, inner sep=2pt] (txt2) at (20,\gunheight) {\large Accelerating Cavities};
-	\node[fill=white, inner sep=2pt] (txt2) at (\quadleft,\quadheight) {\large Quadrupoles};
+	\node[fill=white, inner sep=2pt] (txt2) at (\quadleft-5,\quadheight) {\large Quadrupoles};
 	\draw [blue, ->, line width=1] (\quadleft+\leftarrow,\topofarrows) -- (\quadleft+\leftarrow, \bottomofarrows);
 	\node[fill=white, inner sep=2pt] (txt2) at (\kickerleft,20) {\large $s_1$};
 	\node[fill=white, inner sep=2pt] (txt2) at (\kickerleft+8,20) {\large $s_2$};
@@ -119,14 +119,14 @@ This will also enable cleaner transport through downstream elements.
 		All hardware in this drawing is currently installed. 
 	Note locations $s_1$ and $s_2$, before and after the kicker.}
 	\label{awa-linac}
-	\vspace{-7em}
+	%\vspace{-7em}
 \end{figure*}
 
 \def \septheight {65}
-\def \bottomarrow {57}
+\def \bottomarrow {55} %57}
 \def \kleft {13}
-\def \sleft {41.5}
-\def \sheight {47}
+\def \sleft {38}%41.5}
+\def \sheight {45}%47}
 \def \beam {35}
 \begin{figure*}
 	\begin{tikzpicture}[every node/.style={anchor=south west,inner sep=0pt},x=1mm, y=1mm,]   
@@ -134,7 +134,7 @@ This will also enable cleaner transport through downstream elements.
 	{\includegraphics[width=\textwidth]{figures/tba_dogleg}};
 	\node[fill=white, inner sep=2pt] (txt2) at (3,\sheight) {\large $s_1$};
 	\node[fill=white, inner sep=2pt] (txt2) at (20,\sheight) {\large $s_2$};
-	\node[fill=white, inner sep=2pt] (txt2) at (46,45) {\large $s_3$};
+	\node[fill=white, inner sep=2pt] (txt2) at (41,40) {\large $s_3$}; %(46,45)
 	\node[fill=white, inner sep=2pt] (txt2) at (33,\septheight) {\large Septum};
 	\draw [blue, ->, line width=1] (\sleft,\septheight) -- (\sleft, \bottomarrow);	
 	\node[fill=white, inner sep=2pt] (txt2) at (7,\septheight) {\large Kicker};
