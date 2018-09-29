@@ -189,21 +189,22 @@ Observe that multiple and conflicting optimality criteria call for a
 \end{figure}
 
 A modular multi-objective software framework was developed (see
-  Fig.~\ref{fig:framenetwork}) where the core functionality is decoupled from
-  the ``forward solver'' and the optimizer.
+ Fig.~\ref{fig:framenetwork}) where the core functionality of the optimizer is decoupled from
+ the ``beam dynamics'' but fully integrated in the OPAL \cite{opal} framework. 
 To that end, we use a master/slave mechanism where a master process governs a
-  set of slave processes given some computational tasks to complete.
+ set of slave processes given some computational tasks (beam dynamics simulation) to complete.
 This separation allows easy interchange of optimization algorithms, forward
   solvers and optimization problems.
 A ``pilot'' coordinates all efforts between the optimization algorithm and the
-  forward solver.
+  beam dynamics task. In the sequel we will also use the notion of ``forward solver'' to indicate 
+  the beam dynamics task.
 This forms a robust and general framework for massively parallel
   multi-objective optimization.
 Currently the framework offers one concrete optimization algorithm, an
   evolutionary algorithm employing a \textsc{NSGA-II} selector \cite{pisa}.
 Normally, simulation based approaches are plagued by the trade-of between
   level of detail and time to solution.
-We address this problem by using forward solvers with different time and
+We address this problem later in Section~(\ref{awa:subsection:test}) by using forward solvers with different time and
   resolution complexity.
 
 The framework discussed here, incorporates the following three contributions:
@@ -510,7 +511,8 @@ We divide the framework in three exchangeable components, as shown in
     three roles.
   The dashed cyan path describes a request (job $j_1$) sent from $O_i$ to the
   \textsc{Pilot} being handled by $W_j$. Subsequently the result $r_k$ is
-  returned to the requesting \textsc{Optimizer} ($O_i$).}
+  returned to the requesting \textsc{Optimizer} ($O_i$). The work $W_j$ are beam dynamics 
+  simulation within OPAL.}
   \label{fig:opt-framework-layout}
 \end{figure}
 
@@ -606,9 +608,11 @@ A special set of communicator groups serves as communication channels to the
 
 \subsection{Implementing a Forward Solver}
 
-In most cases \textsc{Simulation} implementations are simple wrappers to run
+In most cases forward solver implementations are simple wrappers to run
   an existing ``external'' simulation code using a set of design variables as
-  input.
+  input. In case of the OPAL integration, basically the \texttt{main} function is
+  playing the role of the ``forward solver''. Underlying the general nature of our approach, 
+  in a similar project, we use the described methods for cavity shape optimisation based on \cite{ARBENZ2008381}. 
 As for the \textsc{Optimizer} component there exists a base class, labeled
   \texttt{Simulation} as common basis for all \textsc{Simulation}
   implementations.
