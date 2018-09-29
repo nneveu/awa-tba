@@ -116,7 +116,8 @@ This will also enable cleaner transport through downstream elements.
 	\node[fill=white, inner sep=2pt] (txt2) at (50,0) {\large Beam Direction};
 	\end{tikzpicture}
 	\caption{Side view of the high charge linac at the AWA. 
-		All hardware in this drawing is currently installed.}
+		All hardware in this drawing is currently installed. 
+	Note locations $s_1$ and $s_2$, before and after the kicker.}
 	\label{awa-linac}
 	\vspace{-7em}
 \end{figure*}
@@ -144,7 +145,9 @@ This will also enable cleaner transport through downstream elements.
 	\vspace{-12em}
 	\caption{Continuation of the high charge beam line layout at the AWA, top view. 
 		This is the proposed two beam acceleration section. 
-		Only the kicker in this drawing is installed}
+		Only the kicker in this drawing is installed. 
+	Note $s_3$, the entrance to the fifth quadrupole on the beam line.
+	This is the optimization location.}
 	\label{awa-tba}
 \end{figure*}
 %
@@ -274,12 +277,15 @@ as shown in Table \ref{extable}.
 \end{table}
 
 
-The maximum number of individuals per generation was fixed at 80, 
+The maximum number of individuals per generation was fixed at 80. 
+This number was chosen based on the node architecture, and the 
+to prevent a prohibitive computational cost.  
 Each experiment was allowed to run for twenty four hours, with 
 a maximum generation limit of 100. 
 We reduced the six objectives to four, 
 and shortened the simulation time by moving the objectives further 
-upstream to $s_1$ and $s_2$, the locations before and after the kicker.  
+upstream to $s_1$ and $s_2$, the locations before and after the kicker, 
+see Fig.~\ref{awa-tba}.  
 
 
 The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)$, $\text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
@@ -331,20 +337,20 @@ TEMPLATEDIR="tmpl",
 
 After collection of the data for all four experiments, several metrics
 were compared, including number of generations completed in twenty four hours and
-Pareto fronts at $s_1$ and $s_2$.
+Pareto fronts at $s_1$ and $s_2$, see Fig.~\ref{awa-linac}.
 From Table \ref{extable}, we clearly see ex-3 is significantly 
 slower, as it evaluated only 53 generations 
 compared to the experiment with the maximum number, ex-1 at 96 generations.
 Perhaps this trade off would be acceptable if the Pareto front was significantly 
 improved, but from Fig. \ref{expareto}, we can see this is not the case.
-Similar arguments can be made for ex-2, which evaluated about 15 less generations
-with no clear benefit in either Pareto front.
-The Pareto fronts at $s_1$, are nearly identical. We could expect
+Similar arguments can be made for ex-2, which evaluated about 15 less generations.
+The Pareto fronts at $s_2$, are nearly identical. We could expect
 this trend would continue given more time. 
-When looking at the Pareto front at $s_2$, only ex-4 has a slight 
-edge over the others.
+When looking at the Pareto front at $s_1$, only ex-4 has a slightly 
+larger range compared to the others.
 With ex-2 and ex-3 eliminated due to evaluation time, 
-and a slightly better Pareto front at $s_2$ for ex-4, the hyper parameters in ex-4 were chosen as the default values for subsequent runs.
+and a slightly better Pareto front at $s_1$ for ex-4, 
+the hyper parameters in ex-4 were chosen as the default values for subsequent runs.
 
 
 \begin{figure}
@@ -383,13 +389,13 @@ we define the objectives and input parameters as:
 \text{min}  \quad & \text{rms}_{x}, \quad \text{rms}_{y} \label{eq:awa:p1}\\
 & \text{rms}_{px}, \quad \text{rms}_{py}, \label{eq:awa:p2}\\
 & \text{rms}_{s}, \quad dE \label{eq:awa:p4} \\
-\text{constraints} \quad & rms_x < 0.1 \, [m] |_{s=s_1}\label{eq:awa:c1}\\
-\quad & rms_y < 0.1 [m] |_{s=s_1}\, \label{eq:awa:c2}\\
-\quad & |rms_y - rms_x | < 0.005 \, [m] |_{s=s_1}\label{eq:awa:c3}\\
-\text{subject to} \quad & q = 40 \left[\text{nC}\right] \label{eq:awa:firstconstr}\\
-\quad & \text{Volt}_{\text{Gun}} = 64\left[\text{MV/m}\right] \label{eq:awa:lastconstr}\\
-\quad & \text{Volt}_{\text{Linac}} = 24 \, \text{or} \, 25\left[\text{MV/m}\right] \\
-\quad & R_x = R_y = 9 \left[\text{mm}\right] \label{eq:awa:firstdvar}\\
+\text{constraints} \quad & rms_x < 0.1 \, (m) |_{s=s_1}\label{eq:awa:c1}\\
+\quad & rms_y < 0.1\, (m) |_{s=s_1}\, \label{eq:awa:c2}\\
+\quad & |rms_y - rms_x | < 0.005 \, (m) |_{s=s_1}\label{eq:awa:c3}\\
+\text{subject to} \quad & q = 40 \, (nC) \label{eq:awa:firstconstr}\\
+\quad & \text{Volt}_{\text{Gun}} = 64 \, \, (\text{MV/m}) \label{eq:awa:lastconstr}\\
+\quad & \text{Volt}_{\text{Linac}} = 24 \, \text{or} \, 25\,\, (\text{MV/m}) \\
+\quad & R_x = R_y = 9 \, (mm) \label{eq:awa:firstdvar}\\
 \quad & \phi_{\text{gun}} =-20^\circ \label{eq:awa:gphidvar}\\
 \quad & \phi_{\text{linac}} =-20^\circ \label{eq:awa:lastdvar}
 \end{align}
