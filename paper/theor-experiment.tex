@@ -404,15 +404,14 @@ we define the objectives and input parameters as:
 
 The first four objectives, parameters (\ref{eq:awa:p1}) to (\ref{eq:awa:p2}),
 minimize the transverse ($rms_{x,y}$) beam size and transverse momentum ($rms_{px,py}$)
-at the location of interest in the beam line ($s_3$).
-%Where $s_3$ is the longitudinal entrance of the fifth quadrupole. 
+at the location of interest in the beam line ($s_3$, see Fig.~\ref{awa-tba}). 
 Minimizing the beam size at this location is essential to 
 to preventing loss of particles by scraping; 
 which ensures better transmission through the wakefield structures downstream. 
 Less divergence in the beam (lower transverse momentum spread) 
 reduces growth of transverse beam size after the focal point (location of min beam size).
 This reduces halo by ensuring the beam is not over focused through a hard waist.
-The momentum spread is also critical to preventing large growth during transport in bending elements. 
+The momentum spread is also critical to preventing large growth during transport. 
 All of these factors help with transmission downstream. 
 
 The next two objectives in parameter (\ref{eq:awa:p4}) minimize the 
@@ -428,8 +427,7 @@ However, it is important to not over-constrain the problem, which would prevent
 the algorithm from converging.
 The difference constraint, Eq.~\ref{eq:awa:c3}, is used to favor nearly round beams.
 This prevents one dimension from becoming disproportionately large compared to the other.
-At the AWA, there is some room in the beam pipe to allow the y dimension to grow, but round beams 
-are preferred for easier data analysis.
+At the AWA, there is some room in the beam pipe to allow the y dimension to grow, but round beams are preferred.
 
 Equations (\ref{eq:awa:firstconstr}) to
 (\ref{eq:awa:lastdvar}) define the charge, gun voltage, linac voltages, 
@@ -489,7 +487,7 @@ QUIT;
 \vspace{0.2cm}
 
 Design variables include the currents in two gun solenoids (IBF and IM), 
-and four quadrupole strengths (KQ1-KQ2). The objectives include
+and four quadrupole strengths (KQ1-KQ4). The objectives include
 beam size (transverse and longitudinal), transverse momentum, and energy spread as
 defined in Eqs. (\ref{eq:awa:p1}) to (\ref{eq:awa:p4}). 
 The location at the entrance of the kicker is $s_1=16.45$~meters, 
@@ -502,9 +500,10 @@ This location is where the beam should be captured and focused through subsequen
 All simulations for this experiment were carried out on Bebop a
 high performance computing (HPC)
 cluster provided by the Laboratory Computing Resource Center (LCRC)
-at Argonne National Laboratory (ANL). We used Intel Knights Landing 
+at Argonne National Laboratory (ANL). Intel Knights Landing 
 (KNL) processors at 1.3 GHz with 128 GB of memory 
-and 64 cores per node. There are 352 compute nodes available on 
+and 64 cores per node were used for all runs. 
+There are 352 compute nodes available on 
 Bebop, with a total of 22,528 cores. All jobs were run and compared 
 on 8 cores each, which allowed 8 jobs per node on the KNLs.
 This in combination with the number of nodes available 
@@ -519,7 +518,7 @@ The initial number of individuals was fixed at 656,
 and the minimum number individuals in later generations was fixed at 328. 
 These numbers were in part based on the architecture of the KNL's. 
 Since each simulation takes 8 cores, and there are 64 cores per KNL node, 
-we wanted a large population size that would fit evenly on these resources. 
+a large population size that would fit evenly on these resources was chosen. 
 Again, the location of optimization is $s_3=19.4$ [m]. 
 \begin{figure}
 	\begin{center}		
@@ -548,20 +547,19 @@ Again, the location of optimization is $s_3=19.4$ [m].
 
 As expected, the x dimension is impacted by the bending elements, and unable to reach 
 the small beam sizes seen in the y dimension. This suggest suggests objectives in the x 
-dimension will drive design variable choices used in operations. 
+dimension will drive design variable choices used during operations. 
 However, it is still necessary to 
 include the y dimension in the optimization. Early optimization tests showed the y dimension 
 can easily grow out of control if it is not included in the objectives.
 Those results are not shown here due to the unfeasible nature of the solutions 
 (i.e. $rms_y$ larger than the beam pipe).
 In the case of bunch length, there are not many options to choose from.
-Ignoring the extreme value on the right, Fig.~\ref{fig:pareto1} shows the 
-range of optimal bunch lengths fall between 1.39 and 1.5 mm.
+
 
 With these observations in mind, several beam parameters corresponding to
 options on the Pareto Front in Fig.~\ref{fig:pareto1} were plotted and compared. 
 A select result is shown in Fig.~\ref{fig:stat}.  
-The maximum beam sizes are well below the beam pipe aperture limits as shown in Fig.~\ref{fig:stat} (b).
+The maximum beam sizes are well below the beam pipe aperture limits as shown in Fig.~\ref{fig:stat}.
 The solution is nearly round, which will increase changes of keeping the beam nearly round
 as it travels to the last triplet in Fig.~\ref{awa-tba}.
 Overall this solution is satisfactory, and meets all requirements at the AWA.
