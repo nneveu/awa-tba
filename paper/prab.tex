@@ -527,9 +527,9 @@ The framework was implemented in \texttt{C++}, utilizing features like template
 %\noindent\begin{minipage}{0.48\textwidth}
 %\noindent
 \begin{code}[Assembling the optimizer \\ from components]
-typedef InputFileParser 	Input_t;
-typedef PisaVariator        Opt_t;
-typedef OpalSimulation      Sim_t;
+typedef InputFileParser	Input_t;
+typedef PisaVariator	Opt_t;
+typedef OpalSimulation	Sim_t;
 
 typedef Pilot< Input_t, Opt_t, Sim_t > Pilot_t;
 \end{code}
@@ -845,9 +845,9 @@ A general-purpose framework for solving multi-objective
 Its modular design simplifies the application to simulation-based optimization
   problems for a wide range of problems and allows to exchange the
   optimization algorithm.
-In a recent work, we successfully implemented and integrated another
-  optimization algorithm, originally presented in~\cite{pesc:11}, into our
-  framework.
+%In a recent work, we successfully implemented and integrated another
+  %optimization algorithm, originally presented in~\cite{pesc:11}, into our
+ % framework.
 The flexibility of being able to adapt both ends of the optimization
   process, the forward solver and the optimization algorithm simultaneously
   not only leads to broad applicability but it facilitates the ability to
