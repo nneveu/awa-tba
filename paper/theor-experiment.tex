@@ -203,15 +203,15 @@ are calculated correctly, but we see discrepancies in the transverse
 (rms$_x$ and $\epsilon_x$) for low fidelity results. This discrepancy is 
 what led to the decision to adjust the time steps w.r.t. beam line elements. 
 In the linac and drift sections $dT=\num{1E-11}$ was used. 
-A time step of $dT=\num{1E-12}$ was used near sensitive elements such as the quadrupoles, kicker, and septum. 
-
+Near sensitive elements such as the quadrupoles, kicker, and septum, 
+a time step of $dT=\num{1E-12}$ was used.
 The resulting simulations are low fidelity in most places, but closely approximate 
 the mid fidelity simulations for metrics of interest, as shown in 
 Fig.~\ref{tstep}.  Mid fidelity simulations used steps of  $dT=\num{1E-12}$ everywhere.
 The average run time of each simulation with the adjusted time steps was 1.6~minutes.
 In comparison, the mid fidelity simulation ran for 18~minutes.
 Note, a smaller time step, \num{1E-13}, is always used in the gun where the 
-beam is low energy and changing rapidly.
+beam has low energy and changing rapidly.
 %A summary of the parameters used is listed in Table \ref{fidelity}. 
 
 \begin{figure}%[h]
@@ -247,7 +247,7 @@ These parameters include gene mutation probability, mutation probability,
 recombination probability, number of individuals, 
 and number of generations to complete. 
 Given the beam line in Fig.~\ref{awa-linac},
-four small optimization experiments were done with various NSGA-II parameters. 
+four small optimization experiments were done with various hyper parameters. 
 Similar to the time step scan, 
 the goal of this exercise was to determine which set of optimization
 parameters strongly influence the results, 
