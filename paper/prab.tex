@@ -726,7 +726,7 @@ funcs.insert(std::pair<std::string,
 
 A set of default operators, corresponding to a mapping to \texttt{C} math
   functions, is included in the dictionary by default.
-This enables an out of source description of optimization problem containing
+This enables an out of source description of optimization problems containing
   only simple math primitives.
 
 
@@ -739,8 +739,6 @@ Command-line options allow the user to steer the number of processors used in
 Here, we mainly use the command-line options to steer the number of processors
   running a forward solver.
 
-The parallelization will be explained and benchmarked in detail in a
-  forthcoming publication.
 One major disadvantage of the master/slave implementation model is the fast
   saturation of the network links surrounding the master node.
 In \cite{bctg:09} authors observe an exponential increase in hot-spot latency
@@ -750,8 +748,8 @@ Clearly, the limiting factor is the number of outgoing links of a node in the
   master process are subject to congestions.
 This effect is amplified further by large message sizes.
 
-To that end we implemented a solution propagation based on rumor networks (see
-  e.g.\ \cite{bgps:06,ayss:09}) using only one-sided communication.
+To that end we implemented a solution propagation based on rumor networks 
+(see \cite{bgps:06,ayss:09}) using only one-sided communication.
 This limits the number of messages sent over the already heavily used links
   surrounding the master node and at the same time helps to prevent the use of
   global communication.
@@ -767,8 +765,6 @@ The framework contains a wrapper implementing the API mentioned in
   Listing 3 for using \textsc{OPAL} \cite{opal} as the forward solver.
 \textsc{OPAL} provides different trackers for cyclotrons and linear
   accelerators with satisfactory parallel performance \cite{akir:09}.
-Recently we introduced a reduced envelope model \cite{iabc:12} into
-  \textsc{OPAL} reducing time to solution by several orders of magnitude.
 
 With access to the \textsc{OPAL} forward solver the framework is able to
   tackle a multitude of optimization problems arising in the domain of
@@ -800,9 +796,9 @@ Using functors and the default expression primitives already powerful
 		\left(x_1 + \frac{1}{\sqrt{3}} \right)^2 +
 		\left(x_2 + \frac{1}{\sqrt{3}} \right)^2 +
 		\left(x_3 + \frac{1}{\sqrt{3}} \right)^2 \right)\right) \right]^T \nonumber \\
-		\vspace{3em} \\
+		\vspace{3em} \nonumber \\
 		\text{s.t.} \quad & \quad -1 \le x_i \le 1, \quad i=1,2,3 \nonumber
-		\text{.}
+		\text{.} \nonumber
 		\end{align}
 	\end{widetext}
 %\end{strip}
