@@ -22,7 +22,7 @@ prstab,
 
 \usepackage{dcolumn}% Align table columns on decimal point
 \usepackage{bm}% bold math
-\usepackage{todonotes}
+%\usepackage{todonotes}
 \usepackage{siunitx}
 \usepackage{pifont}% http://ctan.org/pkg/pifont
 \newcommand{\cmark}{\ding{51}}%
@@ -35,7 +35,7 @@ prstab,
 \usepackage{url}
 %\usepackage{footmisc}
 %\usepackage{multicol}
-\usepackage{color}
+%\usepackage{color}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{tikz}
@@ -185,21 +185,22 @@ Observe that multiple and conflicting optimality criteria call for a
 \caption{Multi-objective framework: the pilot (master) solves the
 	optimization problem specified in the input file by coordinating optimizer
 	algorithms and workers running forward solves.}
-\end{figure}\label{fig:framenetwork}
+\label{fig:framenetwork}
+\end{figure}
 
-We developed a modular multi-objective software framework (see
+A modular multi-objective software framework was developed (see
   Fig.~\ref{fig:framenetwork}) where the core functionality is decoupled from
   the ``forward solver'' and the optimizer.
 To that end, we use a master/slave mechanism where a master process governs a
   set of slave processes given some computational tasks to complete.
-This separation allows to easily interchange optimizer algorithms, forward
+This separation allows easy interchange of optimization algorithms, forward
   solvers and optimization problems.
 A ``pilot'' coordinates all efforts between the optimization algorithm and the
   forward solver.
 This forms a robust and general framework for massively parallel
   multi-objective optimization.
 Currently the framework offers one concrete optimization algorithm, an
-  evolutionary algorithm employing a \textsc{NSGAII} selector \cite{pisa}.
+  evolutionary algorithm employing a \textsc{NSGA-II} selector \cite{pisa}.
 Normally, simulation based approaches are plagued by the trade-of between
   level of detail and time to solution.
 We address this problem by using forward solvers with different time and
@@ -211,20 +212,16 @@ The framework discussed here, incorporates the following three contributions:
   \item Implementation of a scalable optimization algorithm capable of
         approximating Pareto fronts in high dimensional spaces,
   \item design and implementation of a modular framework that is simple to use
-        and deploy on large scale computation resources, and
+        and deploy on large scale computational resources, and
   \item demonstrating the usefulness of the proposed framework on a real world
-        application in the domain of particle accelerators.
+        application in the domain of particle accelerators,
+        with the optimization problem set as 
+        the high charge photoinjector at the Argonne Wakefield Accelerator (AWA). 
 \end{enumerate}
 
-Here, we will focus on a real world application, the a high charge photoinjector 
-  at the Argonne Wakefield Accelerator (AWA). 
-  
-  %Both of which have an immediate and a
-  %long-range impact, by optimizing important parameters for rf photoinjectors. 
-
 The next section introduces the notation of multi-objective optimization
-  theory and describes the first implemented optimizer.
-In Section~\ref{sec:framework} we discuss the implementation of the framework.
+theory and describes the first implemented optimizer.
+In Section~\ref{sec:framework} the implementation of the framework is discussed.
 We introduce the employed forward-solver in Section~\ref{sec:forward-solver}.
 A validation and a proof of concept application in the two beam dynamics problems 
 mentioned above is discussed in Section~\ref{sec:experiments}.
@@ -235,7 +232,7 @@ mentioned above is discussed in Section~\ref{sec:experiments}.
 
 Optimization problems deal with finding one or more feasible solutions
   corresponding to extreme values of objectives.
-If more than one objective is present in the optimization problem we call this
+If more than one objective is present in the optimization problem this is called
   a multi-objective optimization problem (MOOP).
 A MOOP is defined as
 %
@@ -251,7 +248,7 @@ where $\bf f$ denotes the objectives (\ref{eq:moop:obj}),
   $\bf g$ the constraints (\ref{eq:moop:constr}),
   and $\bf x$ the design variables (\ref{eq:moop:dvar}).
 
-Often, we encounter conflicting objectives complicating the concept of
+Often, conflicting objectives are encountered, and this complicates the concept of
   optimality.
 To illustrate this, let us consider the problem of buying a car.
 Naturally, we try to bargain the lowest price for the best performance,
@@ -294,7 +291,7 @@ The set of Pareto optimal points (blue curve) forms the Pareto front or
   surface.
 All points on this surface are considered to be Pareto optimal.
 
-Once the shape of the Pareto front has been determined the buyer can
+Once the shape of the Pareto front has been determined, the buyer can
   \textit{specify preference}, balancing the features by observing the
   effect on the optimality criteria, converging to the preferred solution.
 This is called \textit{a posteriori} preference specification since we select
@@ -387,7 +384,7 @@ As shown in Fig.~\ref{fig:varsel}, the selector is in charge of ordering a
   currently in the population.
 The performance of a selector depends on the number of objectives and the
   surface of the search space.
-So far, we used an NSGA-II selector \cite{dpam:02} exhibiting satisfactory
+So far, the NSGA-II selector \cite{dpam:02} has been used and exhibits satisfactory
   convergence performance.
 
 The task of the variator is to generate offspring and ensure diversity in the
@@ -421,7 +418,7 @@ Additionally, various crossover and mutation policies are available for tuning
 \section{THE FRAMEWORK} \label{sec:framework}
 
 Simulation based multi-objective optimization problems are omnipresent in
-  research and the industry.
+  research and industry.
 The simulation and optimization problems arising in such problems are in
   general very big and computationally demanding.
 This motivated us to design a massively parallel general purpose framework.
@@ -522,21 +519,19 @@ The \textsc{Pilot} component acts as a bridge between the optimizer and
   forward solvers, providing the necessary functionality to handle passing
   requests and results between the \textsc{Optimizer} and the
   \textsc{Simulation} modules.
-
-We implemented the framework in \texttt{C++}, utilizing features like template
+The framework was implemented in \texttt{C++}, utilizing features like template
   parameters to specify the composition of the framework (shown in Listing 1).
 
 %\noindent\begin{minipage}{0.48\textwidth}
 %\noindent
 \begin{code}[Assembling the optimizer \\ from components]
-typedef InputFileParser Input_t;
+typedef InputFileParser 	Input_t;
 typedef PisaVariator        Opt_t;
 typedef OpalSimulation      Sim_t;
 
 typedef Pilot< Input_t, Opt_t, Sim_t > Pilot_t;
 \end{code}
 %\end{minipage}
-
 The framework provides ``default'' implementations that can be controlled via
   command line options.
 Due to its modular design, all components can be completely customized.
@@ -565,7 +560,7 @@ To that end a \textsc{Poller} interface helper class has been introduced.
 The \textsc{Poller} interface consists of an infinite loop that checks
   periodically for new MPI messages.
 Upon reception a new message is immediately forwarded to the appropriate
-  handler, the \texttt{onMessage()} method.
+  handler: the \texttt{onMessage()} method.
 The method is called with the \texttt{MPI\_Status} of the received message and
   a \texttt{size\_t} value specifying different values depending on the value
   of the \texttt{MPI\_Tag}.
@@ -619,7 +614,7 @@ As for the \textsc{Optimizer} component there exists a base class, labeled
   implementations.
 In addition, this component also inherits from the \texttt{Worker} class,
   already implementing the polling protocol for default worker types.
-As shown in the API in Listing 3 the \texttt{Worker} class expects an
+As shown in the API in Listing 3, the \texttt{Worker} class expects an
   implementation to provide implementations for those three methods.
 
 \begin{code}[Simulation API]
@@ -634,7 +629,7 @@ This expects the \textsc{Simulation} implementation to run the simulation in a
   \textit{blocking} fashion, meaning the method call blocks and does not return
   until the simulation has terminated.
 Subsequently, the \texttt{Worker} calls \texttt{collectResults}, where the
-  \textsc{Simulation} prepares the result data, e.g., parsing output files,
+  \textsc{Simulation} prepares the result data, e.g. parsing output files,
   and stores the requested information in a \texttt{reqVarContainer\_t} data
   structure.
 Finally, the results obtained with \texttt{getResults} are sent to the
@@ -650,7 +645,7 @@ We aimed at an easy and expressive way for users to specify multi-objective
 Following the principle of keeping metadata (optimization and simulation
   input data) together, we decided to embed the optimization problem
   specification in the simulation input file by prefixing it with special
-  characters, e.g., as annotations prefixed with a special character.
+  characters, e.g. as annotations prefixed with a special character.
 In some cases it might not be possible to annotate the simulation input file.
 By providing an extra input file parser, optimization problems can be read
   from stand-alone files.
@@ -665,8 +660,8 @@ To allow arbitrary constraints and objective expressions, such as
 %\vspace{0.2cm}
 %
 \noindent
-  we implemented an expression parser using Boost
-%  Spirit\footnote{\url{http://boost-spirit.com/}}.
+  we implemented an expression parser using Boost Spirit\footnotemark \footnotetext{test}
+  	%http://boost-spirit.com/}.
 In addition to the parser, we need an evaluator able to evaluate an expression,
   given a parse tree and variable assignments to an actual value.
 Expressions arising in multi-objective optimization problems usually evaluate
