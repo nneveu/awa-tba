@@ -1,0 +1,158 @@
+\path (0.0, 4.0) node (population) [draw, text centered,
+    text width=19.5em, fill=red, fill opacity=0.1, minimum height=6em,
+    rounded corners, very thick, draw=red, text opacity=1.0]
+    {};
+\path (0.0, 4.8) node {\textsc{Population}};
+
+\draw [dashed, very thick, draw=gray!90!white]
+  (-0.2,3.6) circle (14pt)
+  node {$\mathcal{I}_1$};
+\draw [dashed, very thick, draw=gray!90!white]
+  (1.2,3.9) circle (14pt)
+  node {$\mathcal{I}_k$};
+\draw [dashed, very thick, draw=gray!90!white]
+  (2.4,4.2) circle (14pt)
+  node {$\mathcal{I}_2$};
+\draw [dashed, very thick, draw=gray!90!white]
+  (-1.4,4.3) circle (14pt)
+  node {$\mathcal{I}_3$};
+\draw [dashed, very thick, draw=gray!90!white]
+  (-2.7,3.8) circle (14pt)
+  node {$\mathcal{I}_4$};
+
+
+\path (population.south)+(-2.0, -3.0) node (selector) [draw, text centered,
+    text width=10.5em, fill=orange, fill opacity=0.1, minimum height=15em,
+    rounded corners, very thick, draw=orange, text opacity=1.0]
+    {};
+\path (-2.0, 1.7) node {\textsc{Selector}};
+\path (-2.0, 1.0) node
+  {1. $\mathcal{I}_4$};
+\path (-2.0, 0.5) node
+  {2. $\mathcal{I}_k$};
+\path (-2.0, 0.0) node
+  {3. $\mathcal{I}_2$};
+\path (-2.0, -0.5) node
+  {4. $\mathcal{I}_3$};
+\draw [thick,brown!90!white]
+  (-3.4,-0.74) rectangle (-0.6,-0.76);
+\path (-2.0, -1.0) node
+  {5. $\mathcal{I}_1$};
+\path (-2.0, -1.5) node
+  {$\ldots$};
+\path (-2.0, -2.0) node
+  {$n$. $\mathcal{I}_n$};
+
+
+\draw [very thick,gray,decorate,decoration={brace,amplitude=3pt},
+       xshift=-0pt,yshift=-0pt]
+      (-1.5, 1.1)  -- (-1.5, 0.4)
+      node {};
+\path[->, very thick] (-1.3,0.75) edge (1.1, 1.1);
+
+\draw [very thick,gray,decorate,decoration={brace,amplitude=3pt},
+       xshift=-0pt,yshift=-0pt]
+      (-1.5, 0.1)  -- (-1.5, -0.6)
+      node {};
+\path[->, very thick] (-1.3,-0.25) edge (1.1, -0.25);
+
+\draw [very thick,gray,decorate,decoration={brace,amplitude=3pt},
+       xshift=-0pt,yshift=-0pt]
+      (-1.5, -0.9)  -- (-1.5, -2.1)
+      node[right, xshift=0pt, yshift=10pt] {removed};
+
+
+\path (selector.east)+(3.0, 0.0) node (variator) [draw, text centered,
+    text width=11.5em, fill=brown, fill opacity=0.1, minimum height=12em,
+    rounded corners, very thick, draw=brown, text opacity=1.0]
+    {};
+\path (3.0, 1.7) node {\textsc{Variator}};
+\path (1.1, 1.1) node[right]
+  {$\mathcal{I}_4 \cdot \mathcal{I}_k = \mathcal{I}_{n+1}$: };
+
+\draw [thick, brown!90!white, fill=green, opacity=0.4]
+  (1.8,0.4) rectangle (2.0,0.8);
+\draw [thick, brown!90!white, fill=green, opacity=0.4] (1.8,0.4)
+  rectangle (1.6,0.8);
+\draw [thick, brown!90!white, fill=green, opacity=0.4] (1.6,0.4)
+  rectangle (1.4,0.8);
+\draw [thick, brown!90!white, fill=green, opacity=0.4] (1.4,0.4)
+  rectangle (1.2,0.8);
+\draw [very thick] (2.2,0.6) circle (2pt);
+
+\draw [thick, brown!90!white, fill=cyan, opacity=0.4]
+  (3.0,0.4) rectangle (3.2,0.8);
+\draw [thick, brown!90!white, fill=cyan, opacity=0.4]
+  (2.8,0.4) rectangle (3.0,0.8);
+\draw [thick, brown!90!white, fill=cyan, opacity=0.4]
+  (2.6,0.4) rectangle (2.8,0.8);
+\draw [thick, brown!90!white, fill=cyan, opacity=0.4]
+  (2.4,0.4) rectangle (2.6,0.8);
+\draw (3.4,0.55) node {$=$};
+
+\draw [thick, brown!90!white, fill=yellow, opacity=0.4]
+  (4.2,0.4) rectangle (4.4,0.8);
+\draw [thick, brown!90!white, fill=cyan, opacity=0.4]
+  (4.0,0.4) rectangle (4.2,0.8);
+\draw [thick, brown!90!white, fill=green, opacity=0.4]
+  (3.8,0.4) rectangle (4.0,0.8);
+\draw [thick, brown!90!white, fill=green, opacity=0.4]
+  (3.6,0.4) rectangle (3.8,0.8);
+
+
+\path (1.1, -0.25) node[right]
+  {$\mathcal{I}_2 \cdot \mathcal{I}_3 = \mathcal{I}_{n+2}$: };
+
+\begin{scope}[
+     yshift=-38]
+\draw [thick, brown!90!white, fill=orange, opacity=0.4]
+  (1.8,0.4) rectangle (2.0,0.8);
+\draw [thick, brown!90!white, fill=orange, opacity=0.4] (1.8,0.4)
+  rectangle (1.6,0.8);
+\draw [thick, brown!90!white, fill=orange, opacity=0.4] (1.6,0.4)
+  rectangle (1.4,0.8);
+\draw [thick, brown!90!white, fill=orange, opacity=0.4] (1.4,0.4)
+  rectangle (1.2,0.8);
+\draw [very thick] (2.2,0.6) circle (2pt);
+
+\draw [thick, brown!90!white, fill=magenta, opacity=0.4]
+  (3.0,0.4) rectangle (3.2,0.8);
+\draw [thick, brown!90!white, fill=magenta, opacity=0.4]
+  (2.8,0.4) rectangle (3.0,0.8);
+\draw [thick, brown!90!white, fill=magenta, opacity=0.4]
+  (2.6,0.4) rectangle (2.8,0.8);
+\draw [thick, brown!90!white, fill=magenta, opacity=0.4]
+  (2.4,0.4) rectangle (2.6,0.8);
+\draw (3.4,0.55) node {$=$};
+
+\draw [thick, brown!90!white, fill=magenta, opacity=0.4]
+  (4.2,0.4) rectangle (4.4,0.8);
+\draw [thick, brown!90!white, fill=magenta, opacity=0.4]
+  (4.0,0.4) rectangle (4.2,0.8);
+\draw [thick, brown!90!white, fill=yellow, opacity=0.4]
+  (3.8,0.4) rectangle (4.0,0.8);
+\draw [thick, brown!90!white, fill=orange, opacity=0.4]
+  (3.6,0.4) rectangle (3.8,0.8);
+\end{scope}
+
+% individuals to selector
+\path[->, very thick]
+  (-0.4, 3.3) edge [bend left, out=0, in=-130] (selector.north);
+\path[very thick] (-1.4, 4.0) edge [bend left, out=0, in=-130] (-1.4, 2.75);
+\path[very thick] (-2.5, 3.5) edge [bend left, out=0, in=-190] (-1.4, 2.75);
+\path[very thick] (1.0, 3.6) edge [bend left, out=30, in=130] (-1.4, 2.75);
+\path[very thick] (2.2, 3.9) edge [bend left, out=20, in=130] (-1.4, 2.75);
+
+
+\path[->, very thick, dashed]
+  (4.4, 0.85) edge [bend right] (3.65, 3.5);
+\draw [dashed, very thick, draw=gray!90!white]
+  (3.95,2.5) circle (14pt)
+  node {$\mathcal{I}_{n+1}$};
+
+\path[->, very thick, dashed]
+  (4.4, -0.45) edge [bend right] (3.65, 4.5);
+\draw [dashed, very thick, draw=gray!90!white]
+  (4.4,4.15) circle (14pt)
+  node {$\mathcal{I}_{n+2}$};
+
