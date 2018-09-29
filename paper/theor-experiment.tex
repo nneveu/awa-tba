@@ -62,14 +62,14 @@ The hypervolume of the reference solution ($0.6575$) for our benchmark was
 \end{center}
 \end{table}
 
-From Table~\ref{tbl:bench_rms_error} we deduce that we achieved satisfactory
+Table~\ref{tbl:bench_rms_error} shows satisfactory
   convergence to the sampled reference Pareto front after 1000 (plus the
   additional 100 evaluations for the initial population) function evaluations.
 
 
 
 \subsection{AWA Photoinjector Optimization} \label{awaproblem}
-Next we apply the optimization framework to a high charge beam line
+Next the optimization framework is applied to a high charge beam line
  at the Argonne Wakefield Accelerator (AWA) facility. 
 The goal of this optimization is to produce beams of electrons that meet 
 design specifications; this includes number of particles (charge), energy, and particle distribution (characterized by beam sizes and energy spread).
@@ -83,9 +83,9 @@ experiments performed at AWA \cite{gai_power_jing_2012,JING201872},
 which motivates this work. 
 Prior experimental results were limited by beam size when the beam passed through small aperture 
 wakefield structures located downstream. 
-In an attempt to maximize charge transmission in upcoming experiments
-we optimize magnet strengths of the solenoids and quadrupoles leading into the 
-TBA section of the beam line, shown in Fig.~\ref{awa-tba}.
+In an attempt to maximize charge transmission in upcoming experiments,
+magnet strengths of the solenoids and quadrupoles leading into the 
+TBA section of the beam line were optimized, shown in Fig.~\ref{awa-tba}.
 The simulation model includes from the gun to the septum.
 The optimization location is chosen as the  
 entrance to the first quadrupole on the dog leg ($s_3$), see Fig.~\ref{awa-tba}.
@@ -151,12 +151,12 @@ This will also enable cleaner transport through downstream elements.
 %\vspace{-1em}
 
 In addition to addressing the challenge of producing an optimized beam, 
-we chose this model to demonstrate the ability of the framework to tackle large problems.
+this model was chosen to demonstrate the ability of the framework to tackle large problems.
 Six design variables and objectives were used, along with three constraints.
 The objectives include transverse and longitudinal beam sizes, 
 transverse momentum, and longitudinal energy spread. 
 The design variables include the two gun solenoids and 
-the first four quadrupoles settings. 
+the first four quadrupoles strengths. 
 This problem encompasses high dimensionality 
 and nonlinear effects such as space charge. There is no existing information
 that accurately predicts optimized parameters for this beam line. 
@@ -171,7 +171,7 @@ maintaining the physics of interest.
 The grid size $16 \times 16 \times 32$ was chosen, 
 and parallelized in the x and y directions.
 After comparing several options (1,000, 10,000, 20,000, 50,000, 100,000) 
-with a small time step, the number of particles was fixed at ten thousand.
+with a small time step, the number of particles was fixed at 10,000.
 Next several time steps were explored, see Table~\ref{timestep}.
 The largest steps were too big to resolve the beam parameters accurately.
 See low fidelity plot in Fig.~\ref{tstep} for $dT=$\num{5E-11} results.  
@@ -196,8 +196,8 @@ See low fidelity plot in Fig.~\ref{tstep} for $dT=$\num{5E-11} results.
 	\end{center}
 \end{table}
 
-In the drifts and linac tanks, $dT=\num{1E-11}$ was sufficient, 
-but not acceptable near the quadrupoles. 
+In the drifts and linac tanks, $dT=\num{1E-11}$ was sufficient. 
+However, it was not acceptable near the quadrupoles. 
 For all models, the longitudinal parameters (rms$_s$ and energy) 
 are calculated correctly, but we see discrepancies in the transverse 
 (rms$_x$ and $\epsilon_x$) for low fidelity results. This discrepancy is 
