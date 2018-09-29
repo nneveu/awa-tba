@@ -664,8 +664,7 @@ To allow arbitrary constraints and objective expressions, such as
 %\vspace{0.2cm}
 %
 \noindent
-  we implemented an expression parser using Boost Spirit\footnotemark \footnotetext{test}
-  	%http://boost-spirit.com/}.
+  we implemented an expression parser using Boost Spirit~\cite{boost}.
 In addition to the parser, we need an evaluator able to evaluate an expression,
   given a parse tree and variable assignments to an actual value.
 Expressions arising in multi-objective optimization problems usually evaluate
@@ -684,8 +683,7 @@ Using simple functors, e.g., as the one shown in Listing 4 to compute an
   functions.
 Custom function implementations overload the \texttt{()} parenthesis operator.
 The function arguments specified in the corresponding expression are stored in
-  a \texttt{std::vector} of Boost
-%  variants\footnote{\url{www.boost.org/doc/html/variant.html}} that can be
+  a \texttt{std::vector} of Boost variants~\cite{boost2} that can be
   booleans, strings or floating point values.
 
 \begin{code}[Simple Average Functor]
@@ -711,7 +709,7 @@ All custom functions are registered with expression objects.
 This is necessary to ensure that expressions know how they can resolve
   function calls in their AST.
 As shown in Listing 5 this is done by creating a collection of Boost
-%  functions\footnote{\url{www.boost.org/libs/function/}} corresponding to the
+  functions~\cite{boost3} corresponding to the
   available custom functions in expressions and passing this to the
   \textsc{Pilot}.
 
