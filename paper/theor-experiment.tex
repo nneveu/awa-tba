@@ -16,13 +16,13 @@ In this section a numerical results of the validation benchmark and
   \label{fig:hypervolume}
 \end{figure}
 
-To ensure that the optimizer works correctly we solved the benchmark
-  problem (\ref{eqn:bench}).
+To ensure that the optimizer works correctly the benchmark
+  problem (\ref{eqn:bench}) was solved.
 To that end, we use a metric for comparing the quality of a Pareto
   front.
 Given a point in the Pareto set, we compute the $m$ dimensional volume (for
   $m$ objectives) of the dominated space, relative to a chosen origin.
-We visualize this for $2$ objectives in Fig.~\ref{fig:hypervolume}.
+This is visualized for $2$ objectives in Fig.~\ref{fig:hypervolume}.
 For further information and details of the implementation see~\cite{whbb:12}.
 Figure~\ref{fig:pisa_bench} and the corresponding hypervolume values in
   Table~\ref{tbl:bench_rms_error}, show expected convergence.
@@ -202,7 +202,7 @@ See low fidelity plot in Fig.~\ref{tstep} for $dT=$\num{5E-11} results.
 In the drifts and linac tanks, $dT=\num{1E-11}$ was sufficient. 
 However, it was not acceptable near the quadrupoles. 
 For all models, the longitudinal parameters (rms$_s$ and energy) 
-are calculated correctly, but we see discrepancies in the transverse 
+are calculated correctly, but discrepancies are seen in the transverse 
 (rms$_x$ and $\epsilon_x$) for low fidelity results. This discrepancy is 
 what led to the decision to adjust the time steps w.r.t. beam line elements. 
 In the linac and drift sections $dT=\num{1E-11}$ was used. 
@@ -342,9 +342,9 @@ From Table \ref{extable}, we clearly see ex-3 is significantly
 slower, as it evaluated only 53 generations 
 compared to the experiment with the maximum number, ex-1 at 96 generations.
 Perhaps this trade off would be acceptable if the Pareto front was significantly 
-improved, but from Fig. \ref{expareto}, we can see this is not the case.
+improved, but from Fig. \ref{expareto}, but this is not the case.
 Similar arguments can be made for ex-2, which evaluated about 15 less generations.
-The Pareto fronts at $s_2$, are nearly identical. We could expect
+The Pareto fronts at $s_2$, are nearly identical. It is expected
 this trend would continue given more time. 
 When looking at the Pareto front at $s_1$, only ex-4 has a slightly 
 larger range compared to the others.
