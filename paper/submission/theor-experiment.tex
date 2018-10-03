@@ -271,49 +271,51 @@ see Fig.~\ref{awa-tba}.
 
 The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)$, $\text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
 The OPAL input file for ex-3 is given as an example to show how optimization and design variables are defined:
-%
 
 %\vspace{0.2cm}
-\begin{Verbatim}[fontsize=\scriptsize]
-OPTION, ECHO=FALSE;
-OPTION, INFO=TRUE;
+\begin{samepage}
+	\begin{Verbatim}[fontsize=\scriptsize]
+	OPTION, ECHO=FALSE;
+	OPTION, INFO=TRUE;
+	
+	TITLE, STRING="ANL Optimization";
+	
+	dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=200.0, UPPERBOUND=500.0;
+	dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
+	dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-30.0, UPPERBOUND=0.0;
+	dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
+	
+	// Quad values
+	dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	
+	rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.5))";
+	emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.5))";
+	
+	rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.5))";
+	emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.5))";
+	
+	c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',16.5))<1.0e-1";
+	c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5))<1.0e-1";
+	
+	
+	OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl",
+	OUTPUT="optLinac_40nC",
+	OUTDIR="results",
+	OBJECTIVES = {rmss1, emitx1, rmss2, emitx2},
+	DVARS = {dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7},
+	CONSTRAINTS = {c1, c2},
+	INITIALPOPULATION=80,
+	MAXGENERATIONS=100,
+	NUM_MASTERS=1,
+	NUM_COWORKERS=8,
+	SIMTMPDIR="tmp",
+	TEMPLATEDIR="tmpl",
+	\end{Verbatim}
+\end{samepage}
 
-TITLE, STRING="ANL Optimization";
-
-dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=200.0, UPPERBOUND=500.0;
-dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
-dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-30.0, UPPERBOUND=0.0;
-dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
-
-// Quad values
-dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0;
-dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
-dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
-dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
-
-rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.5))";
-emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.5))";
-
-rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.5))";
-emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.5))";
-
-c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',16.5))<1.0e-1";
-c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5))<1.0e-1";
-
-
-OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl",
-OUTPUT="optLinac_40nC",
-OUTDIR="results",
-OBJECTIVES = {rmss1, emitx1, rmss2, emitx2},
-DVARS = {dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7},
-CONSTRAINTS = {c1, c2},
-INITIALPOPULATION=80,
-MAXGENERATIONS=100,
-NUM_MASTERS=1,
-NUM_COWORKERS=8,
-SIMTMPDIR="tmp",
-TEMPLATEDIR="tmpl",
-\end{Verbatim}
 %\vspace{0.2cm}
 
 After collection of the data for all four experiments, several metrics
@@ -418,52 +420,53 @@ The AWA
 design variables, objectives, and constraints in the OPAL input file as shown in
 the following code: %equations (\ref{eq:awa:p1}) to (\ref{eq:awa:lastdvar}). 
 %\vspace{0.2cm}
-\begin{Verbatim}[fontsize=\scriptsize]
-
-// Gun variables 
-dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=300.0, UPPERBOUND=500.0;
-dv1: DVAR, VARIABLE="IM",     LOWERBOUND=180.0, UPPERBOUND=280.0;
-
-// Quad variables 
-dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0;
-dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
-dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
-dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
-
-//Objectives
-de3: OBJECTIVE,EXPR="fabs(statVariableAt('dE',19.4))";
-rmss3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',19.4))";
-rmsx3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',19.4))";
-rmsy3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',19.4))";
-rmspx3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_px',19.4))";
-rmspy3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_py',19.4))";
-
-//Kicker apeture
-c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',16.5))<0.1";
-c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5))<0.1";
-c3: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5)
-			-statVariableAt('rms_x',16.5))<0.005";
-
-OPTIMIZE, INPUT="tmpl/optLinac-40nC.tmpl",
-OUTPUT="optLinac-40nC",
-OUTDIR="results",
-OBJECTIVES = {rmss3, rmsx3, rmsy3, rmspx3, rmspy3, de3},
-DVARS = {dv0, dv1, dv4, dv5, dv6, dv7},
-CONSTRAINTS = {c1, c2, c3},
-INITIALPOPULATION=656,
-MAXGENERATIONS=200,
-NUM_MASTERS=1,
-NUM_COWORKERS=8,
-SIMTMPDIR="tmp",
-TEMPLATEDIR="tmpl",
-FIELDMAPDIR="fieldmaps",
-NUM_IND_GEN=328,
-GENE_MUTATION_PROBABILITY=0.01,
-MUTATION_PROBABILITY=0.01,
-RECOMBINATION_PROBABILITY=0.09;
-QUIT;
-\end{Verbatim}
-\vspace{0.2cm}
+\begin{samepage}
+	\begin{Verbatim}[fontsize=\scriptsize]
+	
+	// Gun variables 
+	dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=300.0, UPPERBOUND=500.0;
+	dv1: DVAR, VARIABLE="IM",     LOWERBOUND=180.0, UPPERBOUND=280.0;
+	
+	// Quad variables 
+	dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	
+	//Objectives
+	de3: OBJECTIVE,EXPR="fabs(statVariableAt('dE',19.4))";
+	rmss3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',19.4))";
+	rmsx3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_x',19.4))";
+	rmsy3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_y',19.4))";
+	rmspx3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_px',19.4))";
+	rmspy3: OBJECTIVE,EXPR="fabs(statVariableAt('rms_py',19.4))";
+	
+	//Constraints
+	c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',16.5))<0.1";
+	c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5))<0.1";
+	c3: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5)
+	-statVariableAt('rms_x',16.5))<0.005";
+	
+	OPTIMIZE, INPUT="tmpl/optLinac-40nC.tmpl",
+	OUTPUT="optLinac-40nC",
+	OUTDIR="results",
+	OBJECTIVES = {rmss3, rmsx3, rmsy3, rmspx3, rmspy3, de3},
+	DVARS = {dv0, dv1, dv4, dv5, dv6, dv7},
+	CONSTRAINTS = {c1, c2, c3},
+	INITIALPOPULATION=656,
+	MAXGENERATIONS=200,
+	NUM_MASTERS=1,
+	NUM_COWORKERS=8,
+	SIMTMPDIR="tmp",
+	TEMPLATEDIR="tmpl",
+	FIELDMAPDIR="fieldmaps",
+	NUM_IND_GEN=328,
+	GENE_MUTATION_PROBABILITY=0.01,
+	MUTATION_PROBABILITY=0.01,
+	RECOMBINATION_PROBABILITY=0.09;
+	QUIT;
+	\end{Verbatim}
+\end{samepage}
 
 Design variables include the currents in two gun solenoids (IBF and IM), 
 and four quadrupole strengths (KQ1-KQ4). The objectives include
@@ -513,7 +516,7 @@ Again, the location of optimization is $s_3=19.4$ [m].
 \end{figure}
  
 As expected, the x dimension is impacted by the bending elements, and unable to reach 
-the small beam sizes seen in the y dimension. This suggest suggests objectives in the x 
+the small beam sizes seen in the y dimension. This suggest objectives in the x 
 dimension will drive design variable choices used during operations. 
 However, it is still necessary to 
 include the y dimension in the optimization. Early optimization tests showed the y dimension 
