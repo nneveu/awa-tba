@@ -1,0 +1,523 @@
+\documentclass{article}
+\usepackage{latexsym}
+\usepackage{color}
+\setlength{\parskip}{3mm}
+\setlength{\parindent}{0pt}
+
+\newcommand{\TODO}[1]{\color{green}\noindent[{\bf TODO: #1}]\color{black}}
+\newcommand{\atline}[1]{\color{red} Lines: #1\color{blue}}
+\begin{document}
+\title {Paper  \#ZW10157}
+\author {N. Neveu, et. al}
+
+\maketitle
+Dear reviewers and editors,
+
+Thank you for considering the manuscript.
+We appreciate the constructive criticism. It helped improve the quality of this manuscript.
+
+We have carefully answered all your questions and implemented your suggestions to the best of our knowledge.\ The details can be found in the following pages.
+
+With the best regards  \\[3mm]
+ 
+Nicole Neveu, et. al
+
+\pagebreak
+
+{\bf Problems with the manuscript:}
+
+Figure(s) [10,11]
+Please remove background grid and/or shading from your figures.
+
+* Please provide a figure file (.ps, .eps, .pdf, .jpg, or .png format)
+that does not require tikz commands in the text source file to
+display properly. Figure files should be self-contained and we do
+not support the tikz format in the production process. We will also
+need a revised text source file.
+
+{\bf My response:} {\color{blue} The grid has been removed from Figures 10 and 11.
+PDF versions of the tikz pictures have been made. All updated figures are provided 
+along with an updated source file.}
+
+
+{\bf Referee A (Remarks to Author)}
+
+1) Remove the sections of code from the text. This adds no value to
+the paper and should be left for a User’s Manual.
+
+{\bf My response:} {\color{blue} The code sections are now removed.}
+
+
+2) Provide a stronger physics basis for the AWA optimization. Why is
+this problem of beam squeeze challenging enough to warrant solution
+with such a massively capable solver? Could the same solution have
+been arrived at with something simpler? Describe the important
+component of physics that come into play in the beam squeeze, whatever
+they are – space charge, etc. After all, this is primarily a physics
+journal so the physics context for the application needs to be clear.
+
+{\bf My response:} {\color{blue} XXXXX.}
+
+
+
+REFEREE B - ZW10157
+
+First, optimization systems based on PISA have been in use in
+accelerator design since 2005, and NSGA-II’s use dates from that time
+too. References to early PISA-based systems and NSGAII applications
+are missing from the authors’ reference list, and the authors must
+correct this. Three groups of references are provided to assist in
+addressing these omissions: 1) early PISAbased systems; 2) a small
+sample of NSGA-II applications and implementations (there are MANY
+more as the NSGA-II algorithm is easy to understand and fairly
+straight forward to implement); and 3) a survey of accelerator physics
+and genetic and evolutionary application usage as of 2013.
+
+1) References for 4 PISA-based optimization systems:
+
+I.V. Bazarov and C.K. Sinclair. "Multivariate optimization of a high
+brightness dc gun photoinjector," Phys. Rev. ST Accel. Beams 8,
+034202, 2005
+
+Y.C. Chao et al. "TRIUMF-VECC Electron Linac Beam Dynamics
+Optimization," ICAP09, San Francisco, 2009, THPSC012
+
+A. Hofler et al. "Optimizing SRF Gun Cavity Profiles in a Genetic
+Algorithm Framework," ICAP09, San Francisco, 2009, THPSC020
+
+M. Marchetto et al. "Beam Dynamics Optimization of the TRIUMF ELINAC
+Injector," PAC09, Vancouver, BC, Canada, 2009, TH6PFP097
+
+A. Hofler and P. Evtushenko. “Optimizing RF Gun Cavity Geometry within
+an Automated Injector Design System,” NAPAC11, New York, 2011, TUODS6
+
+I.V. Bazarov et al., "Comparison of dc and superconducting rf
+photoemission guns for high brightness high average current beam
+production", Phys. Rev. ST Accel. Beams 14, 072001, 2011
+
+A. Hofler, “Optimization Framework for a Radio Frequency Gun Based
+Injector,” Ph.D. thesis, Old Dominion University, Norfolk, Virginia,
+USA, 2012
+
+C. Gong and Y.C. Chao, "The TRIUMF Optimization Platform and
+Application to the E-LINAC Injector", ICAP2012, Rostock-Warnemunde,
+Germany, 2012, TUABI1
+
+A. Hofler et al., "Innovative applications of genetic algorithms to
+problems in accelerator physics", Phys. Rev. ST Accel. Beams 16,
+010101, 2013
+
+B. Terzic et al., "Simultaneous optimization of the cavity heat load
+and trip rates in linacs using a genetic algorithm", Phys. Rev. ST
+Accel. Beams 17, 101003, 2014
+
+C. Gong, A Novel Optimization Platform and Its Applications to the
+TRIUMF Energy Recovery Linac, Ph.D. thesis, The University of
+Columbia, October 2015
+
+C. Gong and Y.C. Chao, "The TRIUMF Optimization Platform and
+Application to the E-LINAC Injector", ICAP2015, Shanghai, China, 2015,
+THCWC4
+
+C. Gulliford et al., "Multiobjective optimizations of a novel
+cryocooled dc gun based ultrafast electron diffraction beam line",
+Phys. Rev. Accel. Beams 19, 093402, 2016
+
+C. Gulliford et al., "Multiobjective optimization design of an rf gun
+based electron diffraction beam line", Phys. Rev. Accel. Beams 20,
+033401, 2017
+
+2) Optimization systems using NSGA-II (a few example references):
+
+L. Emery. PAC 2005, Knoxville, TN, USA, May 2005, RPPP047
+
+M. Borland et al. PAC 2009, Vancouver, BC, Canada, May 2009, TH6PFP062
+
+Pulsar Physics. General Particle Tracer, http://www.pulsar.nl/gpt
+
+3) Survey with various references showing GA/EA usage in Accelerator
+Physics: A. Hofler. “Genetic Algorithms and Their Applications in
+Accelerator Physics,” NAPAC2013, Pasadena, CA, USA, 2013, THTB1
+
+{\bf My response:} {\color{blue} XXXXX.}
+
+
+
+
+
+Second, due to the thoroughness and success of Bazarov and Sinclair’s
+optimization (PRSTAB 2005 provided above), genetic and evolutionary
+algorithm-based optimizations are standard practice in accelerator
+design, and researchers are now looking at ways to use machine
+learning and AI techniques in accelerator design and optimization.
+Manual parameter scans, as mentioned in Section I lines 17-19, are
+useful, but they are by no means the sole optimization technique in
+use today. The statement made in lines 17-19 was true prior to 2005
+but not now. The authors should consider providing a different and
+more compelling motivator to encourage users to consider the system
+they have developed.
+
+{\bf My response:} {\color{blue} XXXXX.}
+
+Third, several of the features of this system are available is
+existing systems but are not acknowledged:
+
+- parallel/distributed computation: the survey article mentioned above
+provides references to several examples
+
+- Section II lines 115-125 blurring generations: APISA and General
+Particle Tracer’s optimization system start evaluating the next
+generation before all individuals in the present generation complete,
+too.
+
+- Section III subsection D lines 229-231 Geometry optimization. With
+PISA-based systems, Bazarov and Hofler have done this (see PISA-based
+reference list). Others have performed geometry optimization with
+different GA/EA based systems (again the survey reference mentions
+several.)
+
+{\bf My response:} {\color{blue} XXXXX.}
+
+That said, a general-purpose optimization system is a useful addition
+to the design tools for accelerators. The way to entice prospective
+users through PRAB is to introduce the system with a very brief
+general overview and then focus on the results obtained using the
+system. The detailed discussion of the design and implementation with
+code snippets should be provided as Supplemental Material. PRAB is not
+a computer journal. Salient implementation or design points if
+necessary can be summarized in short Appendices; the main discussion
+of the paper should be the optimization results not the details of the
+implementation and design. For example, in the main text, it is
+reasonable to say that the optimization system provides a flexible and
+extensible meta-language for setting up optimization problems (covered
+in detail in Section III subsection E) and then direct the reader to
+an Appendix or the Supplemental Material for the details provided in
+Section III subsection E. Bear in mind, though, that several of the
+PISA-based systems mentioned above, also, provide expression
+capabilities and should be referenced. The one presented here is more
+flexible and has the advantage of being easily extended. Both are
+distinguishing features. The authors need to emphasize what
+differentiates their system from 13+ years of development in the area
+of GA/EA-based optimization in accelerator design and then demonstrate
+that the results produced are exemplary or could not have been
+produced otherwise. Or they should focus on how their system advances
+the application of the target AWA machine (the Gulliford references
+use this approach).
+
+Following are comments/suggestions/questions organized by paper
+section.
+
+Abstract:
+
+In this paper, we present the implementation of such a general-purpose
+framework for simulation-based multi-objective optimization methods
+that allows the automatic investigation of optimal sets of machine
+parameters. The implementation is based on a master/slave paradigm,
+employing several masters that govern a set of slaves executing
+simulations and performing optimization tasks. -> In this paper, we
+present a general-purpose framework for simulation-based
+multi-objective optimization methods that allows the automatic
+investigation of optimal sets of machine parameters.
+
+The high charge beam line at the Argonne Wakefield Accelerator
+Facility was used as the beam dynamics model. The 3D beam size,
+transverse momentum, and energy spread were optimized. Please state
+the significance of the optimization. Is the solution found better
+than the original design? Then provide a comparison with the baseline
+solution as Bazarov and Sinclair did in their 2005 paper. Is it the
+first such solution for the AWA? Then make that clear. Has this
+solution been used in the machine? Then provide a comparison between
+prediction and operational experience.
+
+Section I
+
+line 35: trade of -> trade off
+
+{\bf My response:} {\color{blue} This typo is corrected in the updated manuscript.}
+
+Section II
+
+lines 53-74. The car example is from Deb’s book but not cited. This
+example can probably be removed as EA/GA methodology is established
+practice now.
+
+Section III
+
+subsection A
+
+Needs to be updated to reflect developments in accelerator physics.
+
+subsections B-F
+
+Replace with a brief overview and put the details in Supplemental
+Material
+
+Section VI
+
+Code and input file details should be in Supplemental Material
+
+Section V
+
+subsection B
+
+Code and input file details should be in Supplemental Material
+
+subsubsection 3
+
+line 427 to to -> to
+
+{\bf My response:} {\color{blue} This typo is corrected in the updated manuscript.}
+
+subsubsection 4
+
+FIGS. 11/12 The discussed case in FIG. 12 is not on either front in
+FIG. 11. Explain why a nonfront solution is used otherwise the
+optimization exercise is moot.
+
+TABLE IV is provided and not discussed. Are these the settings for the
+solution in FIG. 12? The table’s title is confusing. If the table
+contents are input parameters for an optimization, shouldn’t they have
+ranges of values? If the values are a selected solution, shouldn’t the
+title state that directly?
+
+{\it Your manuscript, "On Uncertainty Quantification in Particle Accelerator Modelling," has completed this round of review. The AE and first two reviewers are positive about the main concept of the article - UQ for charged particle accelerators - but have issues with the paper. The manuscript is a narrow in its focus on UQ and the tie to particle accelerator applications is difficult to follow. 
+
+The AE's suggestion to better motivate the use UQ methods is a good one. I like the suggestion of the AE and reviewer 2 to focus on a particular application of using a charged particle accelerator, describing the details so that a general audience can understand, and clearly motivating the need for UQ. This will give you the opportunity to show how UQ makes the science better. If the application is very compelling, there is not a need to be using novel UQ methodology. In this case, it's the application that is novel. A genuine example/application, involving real data, would help help make the case for the need for UQ in this area. }
+
+{\bf My response: }{\color{blue} In the revised version I added a contribution to an ongoing design effort (DAE$\delta$ALUS/IsoDAR) where UQ was used. For this the new section 5 is introduced and the section 4 is renamed to {\em APPLICATION OF THE UQ FRAMEWORK to a MODEL PROBLEM}. I also elaborate more in detail why the 
+particular selection of a Cyclotron, is a very general example of a particle accelerator (\atline{281-299}), that justifies the general title and, hopefully refute the claim, that the paper has a  narrow scope.}
+
+
+{\bf Associate Editor (Remarks to the Author): }
+
+{\it The authors appear to have the goal of providing a broad paper illustrating issues pertaining to uncertainty quantification to the community of scientists modeling particle accelerators. This is a laudatory and timely goal.
+Unfortunately, by trying to achieve this breadth, the authors provided a discussion of surrogate models and sensitivity analysis that is fairly standard in the UQ community without adequately demonstrating its novelty for particle accelerator modeling or more general applications. The first and second reviewers both note that the necessity for computing a PCE surrogate, which can be used for subsequent sensitivity analysis, needs to be better motivated for this application. Moreover, statements that the framework provides a template for other computationally intensive applications need to be mollified or better motivated. Both reviewers also note that the discussion regarding extrapolation needs to be better motivated.}
+
+{\bf My response: }{\color{blue}  In section 3 (\atline{281-299}), I added a  discussion of the general Hamiltonian that is the base of the selected Cyclotron as an example.\ This will better motivate the choice of the example.}
+
+
+{\it The second reviewer discusses two possible directions in which a revision might be considered. The first would be to more adequately introduce UQ to the community of particle accelerator models. The second would be to focus the scope while addressing the concerns raised by all three reviewers. The latter is closer to the present scope of the paper. }
+
+{\bf My response: }{\color{blue} I modify the paper according the second direction} 
+
+{\it If the authors choose to revise the paper by providing a more focused case study, I would encourage them to devote more details illustrating the techniques for a specific application where they can more completely relate the mathematics and statistics to relevant physics. }
+
+{\bf My response:} {\color{blue}I indeed add a more focused case study in section 5.}
+
+
+{\bf Referee \#1 (Remarks to the Author): }
+
+{\it The work presented in the manuscript lacks a development or findings that have impact on either theory of UQ and its application. Discussion of the UQ approach and associated methods is not new, and numerical results presented are of demonstration value and well expected. The technical content boils down to construction of PC-based surrogate models. In demonstrating the surrogate construction approach, it is important to establish a range of applicability (e.g., depending on physics model properties/ nonlinearity, dependency of parameters). 
+
+The "claim to present a problem that can be recognised as a template for many high intensity modelling attempts, and beyond" is poorly substantiated. The demonstration is performed for a fairly limited case, with three uncertain independent parameters. Furthermore, the physics problem is largely treated as black box. 
+}
+
+{\bf My response: }{\color{blue} I motived the {\it general nature} of the presented model problem at \atline{281-299}. I did not elaborate more on the physics of the model problem, but hope to achieve a better understanding of the physics problem by 
+introducing the new section 5.}
+
+
+{\it  The first figure (Fig 1) is perhaps the most important one in the manuscript, as it points to a (potential) novelty of the work presented; (in option 2) when the high fidelity model u* in D* is used to construct surrogate models. 
+
+The last figure (Fig 12) shows the numerical result, that the surrogate models predict several "extrapolation" points (it is unclear are those outside the high-fidelity domain D*). Unfortunately, the figures are either too general (Fig 1) or implicit (Fig 12) for a reader to relate the two, and appreciate how far is the "extrapolation". If the physics remains in the same regime, there is no surprise that the surrogate models can capture the "extrapolation". For example, it would be useful to provide a clear demonstration of performance and limitations of the surrogate model in the domain beyond D*. }
+
+{\bf My response: }{\color{blue}  Also due to other comments, I will not use the term "extrapolation" but instead I use "prediction". I also partially rewrite 2.1 to accommodate your suggestions \atline{107-131}. \\
+
+
+Option 1: the red points in figure 12 would correspond to x in Fig 1, hence a point outside the training set and found to be a desired/optimal working point. With the surrogate model
+we are doing (work in progress) multi objective optimisation in order to find such points.
+
+Option 2: In a similar way I map out D* with the help of the cheep surrogate model, such that the D* is sufficiently small to be accessible with expensive high fidelity simulations. 
+
+In case the surrogate model is sufficiently close to the high fidelity model, option 2 does need not to be considered. In the new section 5, figure 17 is showing such a case. 
+
+
+
+} 
+
+
+
+{\bf Referee \#2 (Remarks to the Author): }
+
+{\it Overall Summary: 
+This paper describes 
+* how a response surface can be constructed using polynomial chaos, 
+* how sensitivity (Sobol') inidicies can be computed from this, and 
+* a stylized example that applies these methods to analize a cyclotron 
+model.
+
+While the title is broad, the actual focus of the paper is pretty narrow, 
+focusing on PCE-based sensitivity analysis and response surface 
+building. Also, the details, purpose, and motivation of the sylized 
+example are not brought out very well. I can envision a paper that would 
+be important for introducing UQ to the particle accelerator community 
+eventually coming from this manuscript, but it's a long way off now. 
+}
+
+{\bf My response: }{\color{blue} I motived the {\it general nature} of the presented model problem at \atline{281-299}\ and added section 5, where this Ansatz is
+used in an ongoing physics design effort. }
+
+{\it
+
+A successful revision of this paper would have to go into one of two 
+directions. It could either try to be a paper that a) intoduces UQ to this 
+community of particle accerator modelers, or (b) it could be a focused case 
+study, with some note about how such approaches could be used in other 
+particle accelerator applicatios. I think the paper is much closer to (b) 
+in its current form. A general paper would be quite an undertaking since 
+it would have to survey potential problems in accelerator science as well 
+as survey UQ methods for sensitivity analysis, inverse problems, optimal 
+design / control, etc. If (b) is the appropriate route, then a real 
+example would be great. }
+
+{\bf My response: }{\color{blue} I follow direction b) and added a real example in section 5. }
+
+Comments: 
+
+{\it I like the general idea of demonstrating the utility of modern UQ 
+methods for the application area of charged particle accelerators. I think 
+such a paper could be very influential. However I think the paper has 
+some key issues that need to be corrected: 
+
+The details of the stylized problem are not well laid out. Because of this 
+I'm not very clear on why a response surface is being generated, on why 
+sensitivity inidicies are being calculated, and what advantage was gained 
+by the effort described in the paper. I'm sure there is an advantage; it's 
+just not brought out effectively. For example, why are the controllable 
+parameters assigned independent uniform distributions? I would have 
+expected that you'd want to set these parameters so that the resulting 
+beam properties are good for some future experiment or data collection. 
+As it stands now, I can't follow the goal of this example. 
+}
+
+{\bf My response: }{\color{blue} 
+
+I added in section 5 an example of a real design study that should better motivate the gain 
+by the effort described. Just before 3.1 \atline{300-310},  I also address more carefully  the 
+benefits of surrogate models and sensitivity analysis.
+
+We use uniform distribution to construct the response surface in order to best 
+represent the variability of the selected physics parameters. All of them can be
+varied in the real accelerator according to an uniform distribution.
+
+} 
+
+{\it 
+The UQ methodology focuses solely on the (non-intrusive) PCE approach 
+to emulate the code output (QoI's) and to produce sensitivity indicies. 
+So it seems to focus on a specific approach to propagate uncertainty from 
+inputs to outputs. That's fine, but the title "UQ in particle accelerator 
+modeling" implies something much broader. A title that indicates this focus 
+would be more appropriate. }
+
+{\bf My response: }{\color{blue} I agree the promises in reading the title is too much, the title is adjusted to {\bf On Non-Intrusive Uncertainty Quantification and Surrogate Model Construction in Particle Accelerator Modelling}}
+
+
+{\it 
+Also, a more focused paper could essentially 
+be a case study, so that the general introductions to UQ and particle 
+accelerator modeling could be altered to focus on a specific problem 
+where the goals of the effort are more concrete. If you go down this 
+path, then an actual example would be great. 
+}
+
+{\bf My response: }{\color{blue} I added a real example in the new section 5} 
+
+{\it 
+If you want to make this a more general paper as the title suggests, 
+then a much broader survey of problems and UQ methods will be needed. 
+For example, are there interesting inverse problems or control 
+problems in this field that UQ could be applied to? Could such features 
+be brought out in a stylized problem? 
+}
+
+{\bf My response: }{\color{blue} At this point I would like to avoid inverse problems. This I think is 
+a perfect subject for future work, and will be mentioned in the outlook  \atline{633-635}} 
+
+Specific comments 
+
+{\it 
+To assess the quality of the response surface, I think it'll be more 
+appropriate to use "holdout" model runs, and compare the accuracy of the 
+response surface to these model runs. All of the figures 4-9 seem to 
+be using the training data to show the quality of the PC-based response 
+surface. Maybe you could use something like a collection of 100 model 
+runs at inputs chosen uniformly over the input space for this. 
+}
+
+{\bf My response: }{\color{blue} In the design example of section 5 I use a hold out model of $N_{rs} = 100$ uniform samples over the model parameter domain. I mention in 4.6 (\atline{497-499}) that a random sample of  $N_{rs} = 100$ was used to verify the accuracy of the response surface.} 
+
+{\it 
+The "extrapolation" points are difficult for me to understand. Are these 
+just prediction of the code response? Are they extrapolations because 
+the inputs are far away from the training set? [I doubt this because 
+polynomials would be crummy for this purpose]. If they're just "prediction" 
+points used for a holdout test of the response surface? If so, I think 
+the term "extrapolation" is unwarrented. 
+}
+{\bf My response: }{\color{blue} I agree the "extrapolation" could imply points outside of the domain of $\mathbf{\lambda}$. The title of 4.7 is changed to "Predictions"} 
+
+{\it 
+The work of Lee et al. (2006) seems to be dealing with estimation 
+and uncertainties in a charged particle accelerator. How does this 
+relate to this paper? Some mention of the distinction should be 
+given. 
+Lee, Herbert KH, et al. "Inferring particle distribution in a 
+proton accelerator experiment." Bayesian Analysis 1.2 (2006): 249-264. 
+}
+
+{\bf My response: }{\color{blue} Lee et al. treating a classical inverse problem, by using an emulator $\mathcal{M}$, measurements (projections of the distribution) and 
+infer initial conditions (initial distributions).  While, in principe, with the UQ Ansatz inverse problems can be covered, I will not yet open this box. I will distinct Lee et al in the introduction \atline{53-62}.} 
+
+
+{\it 
+For Fig 12, are the 95\% uncertainties of the response surface are computed 
+using an assumption of independent, identically distributed errors for 
+the difference between the response surface surrogate and the actual 
+code? I suspect so, but this is not an appropriate assumption - the 
+errors are going to be very structured as a function of xi. I'd be tempted 
+to go without this plot since it is trying to advertise something that I 
+don't think is correct. Standard regression uncertainties all assume 
+iid errors which are not the case here when one is using a polynomial surface 
+to approximate a smooth model response. 
+}
+
+{\bf My response: }{\color{blue} From my surrogate model I can calculate the 95 CL.
+In Fig 12 I simply show that predictions red points (before I called them Extrapolation) are within 95 CL. The prediction are based on iid of the model parameters over the 
+full domain. 
+
+I think I do not understand what you mean with $\xi$ are very structured and what the implication is.
+
+At the moment I would like to stay with that figure.
+} 
+
+
+
+{\bf Referee \#3 (Remarks to the Author): }
+
+{\it The paper reflects some misunderstanding concerning fundamental probabilistic concepts. For instance, on one 129, reference is made to stochastic processes, when in reality these expansions are for random variables. }
+
+{\bf My response: }{\color{blue} I corrected this mistake and use the proper term random variable  \atline{137}.}
+
+
+{\it Also, on line 150-155, it is stated that intrusive methods are P times more computationally expensive than the non-intrusive methods. This is also incorrect. The P equations in intrusive methods are coupled. Non-intrusive methods involve solving deterministic equations a large number of times. The comparison, as given in the paper, is thus completely baseless.}
+
+{\bf My response: }{\color{blue}  I will only mention the need for modification and drop the statements w.r.t. explicit computational complexity, see  \atline{169-170} }
+
+{\it The procedure, as described in the paper has been automated and described in many other publications. The insight provided following the computations is lacking and hindered by lack of sufficient perspective on probabilistic models. }
+
+{\bf My response: }{\color{blue} The aim of this paper is to apply known methods/procedures to the field of charged particle
+accelerators. I significantly modified the paper along these lines.
+
+
+
+
+
+
+
+
+
+
+
+
+ \end{document}
+ 
