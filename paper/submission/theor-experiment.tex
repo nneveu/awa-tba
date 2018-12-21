@@ -272,6 +272,7 @@ see Fig.~\ref{awa-tba}.
 The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)$, $\text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
 The OPAL input file for ex-3 is given as an example to show how optimization and design variables are defined:
 
+\iffalse
 %\vspace{0.2cm}
 \begin{samepage}
 	\begin{Verbatim}[fontsize=\scriptsize]
@@ -315,7 +316,7 @@ The OPAL input file for ex-3 is given as an example to show how optimization and
 	TEMPLATEDIR="tmpl",
 	\end{Verbatim}
 \end{samepage}
-
+\fi
 %\vspace{0.2cm}
 
 After collection of the data for all four experiments, several metrics
@@ -340,15 +341,15 @@ the hyper parameters in ex-4 were chosen as the default values for subsequent ru
 	\centering
 	\begin{minipage}{0.49\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{figures/ex-pareto1}
+		\includegraphics[width=\textwidth]{figures/ex-pareto1-paperedit}
 		(a) Pareto fronts for ex-1 through ex-4 at $s_1$.
 		%\caption{(a) Pareto fronts at $s_1$.}
 		%\label{expareto1}
-		\vspace{2em}
+		%\vspace{2em}
 	\end{minipage}
 	\begin{minipage}{0.49\textwidth}
 		\centering
-		\includegraphics[width=\textwidth]{figures/ex-pareto2}
+		\includegraphics[width=\textwidth]{figures/ex-pareto2-paperedit}
 		(b) Pareto fronts for ex-1 through ex-4 at $s_2$.
 		%\caption{(b) Pareto fronts at $s_2$.}
 		%\label{expareto2}
@@ -420,6 +421,7 @@ The AWA
 design variables, objectives, and constraints in the OPAL input file as shown in
 the following code: %equations (\ref{eq:awa:p1}) to (\ref{eq:awa:lastdvar}). 
 %\vspace{0.2cm}
+\iffalse
 \begin{samepage}
 	\begin{Verbatim}[fontsize=\scriptsize]
 	
@@ -467,6 +469,7 @@ the following code: %equations (\ref{eq:awa:p1}) to (\ref{eq:awa:lastdvar}).
 	QUIT;
 	\end{Verbatim}
 \end{samepage}
+\fi 
 
 Design variables include the currents in two gun solenoids (IBF and IM), 
 and four quadrupole strengths (KQ1-KQ4). The objectives include
