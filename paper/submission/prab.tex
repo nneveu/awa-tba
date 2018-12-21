@@ -132,12 +132,10 @@ We propose to tackle this problem by means of multi-objective optimization
   algorithms which also facilitate a parallel deployment.
 In order to compute solutions in a meaningful time frame a fast 
   and scalable software framework is required.
-In this paper, we present the implementation of such a general-purpose
-  framework for simulation-based multi-objective optimization methods that
-  allows the automatic investigation of optimal sets of machine parameters.
-The implementation is based on a master/slave paradigm, employing several
-  masters that govern a set of slaves executing simulations and performing
-  optimization tasks.
+In this paper, we
+present a general-purpose framework for simulation-based
+multi-objective optimization methods that allows the automatic
+investigation of optimal sets of machine parameters.
 Using evolutionary algorithms as the optimizer and \textsc{OPAL} as the 
   forward solver, validation experiments and 
  results of multi-objective optimization problems in the domain of beam
@@ -252,6 +250,8 @@ where $\bf f$ denotes the objectives (\ref{eq:moop:obj}),
 
 Often, conflicting objectives are encountered, and this complicates the concept of
   optimality.
+  
+  \iffalse
 To illustrate this, let us consider the problem of buying a car.
 Naturally, we try to bargain the lowest price for the best performance,
   e.g.\ maximal horsepower or minimal fuel consumption.
@@ -280,14 +280,16 @@ This can be formulated as MOOP (\ref{eq:car-moop}).
   \label{fig:tradeoff}
 \end{figure}
 
+
 In general, it is not possible to get the maximal performance for the lowest
   price and a trade off decision between performance and price has to be
-  reached (see Fig.~\ref{fig:tradeoff}).
+  reached (see Fig.~\ref{fig:tradeoff}). 
 Since not every choice is equally profitable for the buyer (for example, car
   $x_4$ costs as much as $x_2^*$ but offers less performance), we pick
   trade offs (red points) that are essentially ``equally optimal'' in both
   conflicting objectives, meaning, we cannot improve one point without hurting
   at least one other solution.
+  \fi
 This is known as \textit{Pareto optimality}.
 The set of Pareto optimal points (blue curve) forms the Pareto front or
   surface.
