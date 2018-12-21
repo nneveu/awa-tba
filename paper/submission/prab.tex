@@ -204,7 +204,7 @@ This forms a robust and general framework for massively parallel
   multi-objective optimization.
 Currently the framework offers one concrete optimization algorithm, an
   evolutionary algorithm employing a \textsc{NSGA-II} selector \cite{pisa}.
-Normally, simulation based approaches are plagued by the trade-of between
+Normally, simulation based approaches are plagued by the trade off between
   level of detail and time to solution.
 This problem is addressed later in Section~(\ref{awa:subsection:test}) by using forward solvers with different time and
   resolution complexity.
@@ -281,11 +281,11 @@ This can be formulated as MOOP (\ref{eq:car-moop}).
 \end{figure}
 
 In general, it is not possible to get the maximal performance for the lowest
-  price and a trade-off decision between performance and price has to be
+  price and a trade off decision between performance and price has to be
   reached (see Fig.~\ref{fig:tradeoff}).
 Since not every choice is equally profitable for the buyer (for example, car
   $x_4$ costs as much as $x_2^*$ but offers less performance), we pick
-  trade-offs (red points) that are essentially ``equally optimal'' in both
+  trade offs (red points) that are essentially ``equally optimal'' in both
   conflicting objectives, meaning, we cannot improve one point without hurting
   at least one other solution.
 This is known as \textit{Pareto optimality}.
@@ -297,7 +297,7 @@ Once the shape of the Pareto front has been determined, the buyer can
   \textit{specify preference}, balancing the features by observing the
   effect on the optimality criteria, converging to the preferred solution.
 This is called \textit{a posteriori} preference specification since 
-  a solution is selected after all possible trade-offs have been presented to us.
+  a solution is selected after all possible trade offs have been presented to us.
 An alternative is to specify preference \textit{a priori}, e.g. by
   weighting (specifying preference before solving the problem) and combining
   all objectives into one and applying a single-objective method to solve the
@@ -305,7 +305,7 @@ An alternative is to specify preference \textit{a priori}, e.g. by
 In many situations preference is not known \textit{a priori} and an
   \textit{a posteriori} preference specification helps conveying a deeper
   understanding of the solution space.
-The Pareto front can be explored and the impact of a trade-off decision then
+The Pareto front can be explored and the impact of a trade off decision then
   becomes visible.
 
 Sampling Pareto fronts is far from trivial.
@@ -765,7 +765,7 @@ Using information about the interconnection network topology and the
 The framework contains a wrapper implementing the API mentioned in
   Listing 3 for using \textsc{OPAL} \cite{opal} as the forward solver.
 \textsc{OPAL} provides different trackers for cyclotrons and linear
-  accelerators with satisfactory parallel performance \cite{akir:09}.
+  accelerators with satisfactory parallel performance. % \cite{akir:09}.
 
 With access to the \textsc{OPAL} forward solver the framework is able to
   tackle a multitude of optimization problems arising in the domain of

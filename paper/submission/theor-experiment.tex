@@ -244,7 +244,7 @@ as shown in Table \ref{extable}.
 			The gene mutation probability was equal to the mutation probability (not shown) in all four experiments. 
 			The max number of individuals per generation was~80.}
 		\label{extable}
-		\begin{tabular*}{0.48\textwidth}{l @{\extracolsep{\fill}} C C D }
+		\begin{tabular*}{0.48\textwidth}{l @{\extracolsep{\fill}}| C | C | D }
 			\hline\noalign{\smallskip}
 			& Gene Mutation Probability & Recombination Probability & Number of completed generations \\
 			\noalign{\smallskip}\hline\noalign{\smallskip}
@@ -270,7 +270,9 @@ see Fig.~\ref{awa-tba}.
 
 
 The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)$, $\text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
-The OPAL input file for ex-3 is given as an example to show how optimization and design variables are defined:
+The OPAL input file for ex-3, and subsequent optimization runs in this paper, can be found at in following repository: 
+\url{https://github.com/nneveu/awa-tba}.
+%is given as an example to show how optimization and design variables are defined:
 
 \iffalse
 %\vspace{0.2cm}
@@ -370,14 +372,14 @@ we define the objectives and input parameters as:
 \begin{align}
 \text{min}  \quad & \text{rms}_{x}, \quad \text{rms}_{y} \label{eq:awa:p1}\\
 & \text{rms}_{px}, \quad \text{rms}_{py}, \label{eq:awa:p2}\\
-& \text{rms}_{s}, \quad dE \label{eq:awa:p4} \\
-\text{constraints} \quad & rms_x < 0.1 \, (m) |_{s=s_1}\label{eq:awa:c1}\\
-\quad & rms_y < 0.1\, (m) |_{s=s_1}\, \label{eq:awa:c2}\\
-\quad & |rms_y - rms_x | < 0.005 \, (m) |_{s=s_1}\label{eq:awa:c3}\\
-\text{subject to} \quad & q = 40 \, (nC) \label{eq:awa:firstconstr}\\
+& \text{rms}_{s}, \quad \text{dE} \label{eq:awa:p4} \\
+\text{constraints} \quad & \text{rms}_x < 0.1 \, (\text{m}) |_{s=s_1}\label{eq:awa:c1}\\
+\quad & \text{rms}_y < 0.1\, (m) |_{s=s_1}\, \label{eq:awa:c2}\\
+\quad & |\text{rms}_y - \text{rms}_x | < 0.005 \, (\text{m}) |_{s=s_1}\label{eq:awa:c3}\\
+\text{subject to} \quad & q = 40 \, (\text{nC}) \label{eq:awa:firstconstr}\\
 \quad & \text{Volt}_{\text{Gun}} = 64 \, \, (\text{MV/m}) \label{eq:awa:lastconstr}\\
 \quad & \text{Volt}_{\text{Linac}} = 24 \, \text{or} \, 25\,\, (\text{MV/m}) \\
-\quad & R_x = R_y = 9 \, (mm) \label{eq:awa:firstdvar}\\
+\quad & R_x = R_y = 9 \, (\text{mm}) \label{eq:awa:firstdvar}\\
 \quad & \phi_{\text{gun}} =-20^\circ \label{eq:awa:gphidvar}\\
 \quad & \phi_{\text{linac}} =-20^\circ \label{eq:awa:lastdvar}
 \end{align}
@@ -507,9 +509,9 @@ a large population size that would fit evenly on these resources was chosen.
 Again, the location of optimization is $s_3=19.4$ [m]. 
 \begin{figure}
 	\begin{center}		
-		\includegraphics[width=0.7\textwidth]{figures/paperedit_pareto_front_Q5_xy_vs_pxpy}
+		\includegraphics[width=0.65\textwidth]{figures/paperedit_pareto_front_Q5_xy_vs_pxpy}
 	\end{center} 
-		\caption{Pareto front comparing transverse beam sizes ($\sigma_{x,y}$) and transverse momentum ($\sigma_{px,py}$). The yellow star indicates the 
+		\caption{Pareto front comparing transverse beam sizes (rms$_{x,y}$) and transverse momentum (rms$_{px,py}$). The yellow star indicates the 
 		point plotted in Fig.~\ref{fig:stat}}
 	\label{fig:pareto1}
 \end{figure}
@@ -534,7 +536,7 @@ as it travels to the last triplet in Fig.~\ref{awa-tba}.
 Overall this solution is satisfactory, and meets all requirements at the AWA.
 
 \begin{figure}
-	\includegraphics[width=0.48\textwidth]{figures/xy-max-min-sigma-paper}
+	\includegraphics[width=0.65\textwidth]{figures/xy-max-min-sigma-paper}
 	\caption{Optimized beam sizes along high charge beam line. The gun is located at $s=0$, 
 	both x and y beam sizes are shown. The black line represents the relevant beam line aperture, while
 	the green line indicates the location of the optimization.}
@@ -542,7 +544,7 @@ Overall this solution is satisfactory, and meets all requirements at the AWA.
 \end{figure}
 \begin{table}%[h!]
 	\begin{center}
-		\caption{Input Parameters for large scale TBA optimization runs.}
+		\caption{Input Parameters for the optimized solution shown in Figures~\ref{fig:pareto1} and \ref{fig:stat}.}
 		\label{tab:designopt}   
 		\begin{tabular}{l|c|c}
 			\noalign{\smallskip}\hline\noalign{\smallskip}
