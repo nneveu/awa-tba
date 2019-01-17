@@ -21,7 +21,7 @@ It helped improve the quality of this manuscript.
 We have carefully answered all your questions and implemented your suggestions to the best of our knowledge.
 The details can be found in the following pages.
 
-With the best regards  \\[3mm]
+With the best regards,  \\[3mm]
  
 Nicole Neveu, et. al
 
@@ -48,7 +48,8 @@ along with an updated source file.}
 1) Remove the sections of code from the text. This adds no value to
 	the paper and should be left for a User’s Manual.
 
-{\bf Our response:} {\color{blue} The code examples in sections IV-V have been removed.}
+{\bf Our response:} {\color{blue} The code examples in sections IV-V have been removed.
+A link to the repository was provided, interested parties can see the code examples there.}
 
 
 2) Provide a stronger physics basis for the AWA optimization. Why is
@@ -59,11 +60,17 @@ component of physics that come into play in the beam squeeze, whatever
 they are – space charge, etc. After all, this is primarily a physics
 journal so the physics context for the application needs to be clear.
 
-{\bf Our response:} {\color{red} The AWA is a high charge charge accelerator. The strong non-linearities
-justifying the full 3D approach. At the same time AWA is a facility where many different accelerator research experiments take
-place. Therefore it is very desirable, and was one of the important research objectives, to come up with a precise, e.g. 3D
-model embedded into a multi-objective optimisation framework. The OPAL framework, differentiates itself, being massively paralle,
-full 3D and, and simple to use i.e.\ user friendly.}
+{\bf Our response:} {\color{blue} 
+	To address this concern, the following was added on lines XX-XX in the updated manuscript:
+	The AWA facility operates at both low and high charge charge (up to 100 nC). Strong non-linearities
+at high charge justify using a full 3D space charge approach. Finding optics solutions in this regime and 
+with the tight aperture constraints specific to two beam acceleration at the AWA is not trivial.  
+
+At the same time, AWA is a facility where many different accelerator research experiments take
+place. Therefore it is very desirable, and was an important research objective, to develop a precise, e.g. 3D
+model embedded into a multi-objective optimization framework. In this way, optimization of various 
+machine configurations can be done at different charge levels. While other codes such as GPT~\cite{gpt} and ELEGANT~\cite{borl:00}, also have integrated genetic optimization algorithms; the OPAL framework, differentiates itself by being open source (i.e. free to use), massively parallel, and fully 3D.
+}
 
 
 
@@ -79,7 +86,7 @@ straight forward to implement); and 3) a survey of accelerator physics
 and genetic and evolutionary application usage as of 2013.
 
 {\bf Our response:} {\color{blue} We agree that some references of import were missing and should have been included.
-	Especially the following: 
+	Especially the following: }
 	
 	I.V. Bazarov and C.K. Sinclair. "Multivariate optimization of a high
 	brightness dc gun photoinjector," Phys. Rev. ST Accel. Beams 8,
@@ -89,34 +96,35 @@ and genetic and evolutionary application usage as of 2013.
 	problems in accelerator physics", Phys. Rev. ST Accel. Beams 16,
 	010101, 2013
 	
-	We thank the reviewer for the list of references. 
-	References described or referenced by A. Hofler in the above were excluded from 
-	the bibliography. 
+{\bf Our response:} {\color{blue} 	We thank the reviewer for the list of references. 
+	Next, one by one in the list, we indicate which references were included in the updated bibliography: 
 }
 
 
-1) References for 4 PISA-based optimization systems:
+{\color{blue}{Included in updated bibliography (in addition to two references above):}}
 
-{\color{blue}{Included in updated bib:}}
+B. Terzic et al., "Simultaneous optimization of the cavity heat load
+and trip rates in linacs using a genetic algorithm", Phys. Rev. ST
+Accel. Beams 17, 101003, 2014
 
+C. Gulliford et al., "Multiobjective optimizations of a novel
+cryocooled dc gun based ultrafast electron diffraction beam line",
+Phys. Rev. Accel. Beams 19, 093402, 2016
 
-I.V. Bazarov and C.K. Sinclair. "Multivariate optimization of a high
-brightness dc gun photoinjector," Phys. Rev. ST Accel. Beams 8,
-034202, 2005
+C. Gulliford et al., "Multiobjective optimization design of an rf gun
+based electron diffraction beam line", Phys. Rev. Accel. Beams 20,
+033401, 2017
 
+M. Borland. ELEGANT: A flexible SDDS-compliant code for accelerator simulation, 2000-2018.
+{\color{blue}{(slightly updated this reference)}}
 
+Pulsar Physics. General Particle Tracer, http://www.pulsar.nl/gpt
 
-{\color{blue}{Exluded from bib, because  they are in A. Hofler 13':}}
+{\color{blue}{Exluded from updated bibliography, because  they are in A. Hofler 13':}}
 
 A. Hofler et al. "Optimizing SRF Gun Cavity Profiles in a Genetic
 Algorithm Framework," ICAP09, San Francisco, 2009, THPSC020 
 
-Y.C. Chao et al. "TRIUMF-VECC Electron Linac Beam Dynamics
-Optimization," ICAP09, San Francisco, 2009, THPSC012
-
-
-M. Marchetto et al. "Beam Dynamics Optimization of the TRIUMF ELINAC
-Injector," PAC09, Vancouver, BC, Canada, 2009, TH6PFP097
 
 A. Hofler and P. Evtushenko. “Optimizing RF Gun Cavity Geometry within
 an Automated Injector Design System,” NAPAC11, New York, 2011, TUODS6
@@ -129,17 +137,17 @@ A. Hofler, “Optimization Framework for a Radio Frequency Gun Based
 Injector,” Ph.D. thesis, Old Dominion University, Norfolk, Virginia,
 USA, 2012
 
+{\color{blue}{Excluded because of similarity to other references or scope of paper:}}
+
+Y.C. Chao et al. "TRIUMF-VECC Electron Linac Beam Dynamics
+Optimization," ICAP09, San Francisco, 2009, THPSC012
+
+M. Marchetto et al. "Beam Dynamics Optimization of the TRIUMF ELINAC
+Injector," PAC09, Vancouver, BC, Canada, 2009, TH6PFP097
+
 C. Gong and Y.C. Chao, "The TRIUMF Optimization Platform and
 Application to the E-LINAC Injector", ICAP2012, Rostock-Warnemunde,
 Germany, 2012, TUABI1
-
-A. Hofler et al., "Innovative applications of genetic algorithms to
-problems in accelerator physics", Phys. Rev. ST Accel. Beams 16,
-010101, 2013
-
-B. Terzic et al., "Simultaneous optimization of the cavity heat load
-and trip rates in linacs using a genetic algorithm", Phys. Rev. ST
-Accel. Beams 17, 101003, 2014
 
 C. Gong, A Novel Optimization Platform and Its Applications to the
 TRIUMF Energy Recovery Linac, Ph.D. thesis, The University of
@@ -149,27 +157,12 @@ C. Gong and Y.C. Chao, "The TRIUMF Optimization Platform and
 Application to the E-LINAC Injector", ICAP2015, Shanghai, China, 2015,
 THCWC4
 
-C. Gulliford et al., "Multiobjective optimizations of a novel
-cryocooled dc gun based ultrafast electron diffraction beam line",
-Phys. Rev. Accel. Beams 19, 093402, 2016
-
-C. Gulliford et al., "Multiobjective optimization design of an rf gun
-based electron diffraction beam line", Phys. Rev. Accel. Beams 20,
-033401, 2017
-
-2) Optimization systems using NSGA-II (a few example references):
-
 L. Emery. PAC 2005, Knoxville, TN, USA, May 2005, RPPP047
 
-M. Borland et al. PAC 2009, Vancouver, BC, Canada, May 2009, TH6PFP062
-
-Pulsar Physics. General Particle Tracer, http://www.pulsar.nl/gpt
-
-3) Survey with various references showing GA/EA usage in Accelerator
-Physics: A. Hofler. “Genetic Algorithms and Their Applications in
+A. Hofler. “Genetic Algorithms and Their Applications in
 Accelerator Physics,” NAPAC2013, Pasadena, CA, USA, 2013, THTB1
 
-
+\vspace{5em}
 
 
 
@@ -180,13 +173,10 @@ but not now. The authors should consider providing a different and
 more compelling motivator to encourage users to consider the system
 they have developed.
 
-{\bf Our response:} {\color{red} The statements on the lines  17-19 of our initial submission are misleading, as
-the referee correctly recognised. We replace them with the following:  
+{\bf Our response:} {\color{blue} The statements on the lines  17-19 of our initial submission are misleading, as
+the referee correctly recognized. We replace them with the following:  
 
-Despite the great success of on-line models, and various model dependent and model independent tuning and 
-optimisation techniques, in research facilities such as AWA empirical tuning is still one of the methods used. Due to the 
-non-linear problem mainly from space charge, simple and fast models are applicable only in a very 
-restricted manner. When it comes to multi-objective optimisation then the situation is even more complicated.
+Despite the success of on-line models in some facilities[ref here], and various model dependent and model independent tuning and optimization techniques, in research facilities like the AWA, empirical tuning by operators is still one of the common methods used. Due to the non-linear problem mainly from space charge, simple and fast models are applicable only in a very restricted manner. When it comes to multi-objective optimization, the situation is even more complicated.
 }
 
 Third, several of the features of this system are available in
@@ -206,7 +196,8 @@ reference list). Others have performed geometry optimization with
 different GA/EA based systems (again the survey reference mentions
 several.)
 
-{\bf Our response:} {\color{blue} XXXXX.}
+{\bf Our response:} {\color{blue} We hope we have addressed these comments with the additional references included above, correction of lines 17-19, 
+	and the additions provided in response to Referee A's remarks.}
 
 That said, a general-purpose optimization system is a useful addition
 to the design tools for accelerators. The way to entice prospective
@@ -217,14 +208,36 @@ code snippets should be provided as Supplemental Material. PRAB is not
 a computer journal. Salient implementation or design points if
 necessary can be summarized in short Appendices; the main discussion
 of the paper should be the optimization results not the details of the
-implementation and design. For example, in the main text, it is
+implementation and design. 
+
+{\bf Our response:} {\color{blue} 
+	Respectfully, we point out Referee A's comments that 
+	"Computing and algorithms" is listed under PRAB's scope. 
+	However, for those interested in physics and not implementation details (i.e. user of code not developer), 
+	we had hoped the AWA optimization problem would 
+	provide a meaningful and tangible use case for the framework.
+	It seems we did not present that part of the paper strongly enough. 
+	We hope some of the additions above have helped in this area.
+	However, would also like to keep some computational details for those who 
+	may be interested in code development specifically for accelerator optimization.
+}
+
+
+For example, in the main text, it is
 reasonable to say that the optimization system provides a flexible and
 extensible meta-language for setting up optimization problems (covered
 in detail in Section III subsection E) and then direct the reader to
 an Appendix or the Supplemental Material for the details provided in
 Section III subsection E. Bear in mind, though, that several of the
 PISA-based systems mentioned above, also, provide expression
-capabilities and should be referenced. The one presented here is more
+capabilities and should be referenced. 
+
+{\bf Our response:}{\color{blue} 	
+	We have removed all opal related code, and shortened these sections.
+	Additional references now point out ELEGANT and GPT have built in genetic optimization.
+}
+
+The one presented here is more
 flexible and has the advantage of being easily extended. Both are
 distinguishing features. The authors need to emphasize what
 differentiates their system from 13+ years of development in the area
@@ -233,6 +246,9 @@ that the results produced are exemplary or could not have been
 produced otherwise. Or they should focus on how their system advances
 the application of the target AWA machine (the Gulliford references
 use this approach).
+
+{\bf Our response:}{\color{blue} 	
+	We hope the additions above are addressing these issues. }
 
 Following are comments/suggestions/questions organized by paper
 section.
@@ -283,9 +299,9 @@ subsections B-F:
 Replace with a brief overview and put the details in Supplemental
 Material
 
-{\bf Our response: } {\color{red} This section has being shortened. However we would like to 
+{\bf Our response: } {\color{red} This section has been shortened. However we would like to 
 leave the existing description, in order to drive home the fact that the framework can be 
-easily extended with other optimisation algorithms. Something that you can not find in most of the 
+easily extended with other optimization algorithms. Something that you can not find in most of the 
 existing codes.}
 
 Section VI: 

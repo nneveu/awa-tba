@@ -174,15 +174,8 @@ Observe that multiple and conflicting optimality criteria call for a
   multi-objective approach.
 
 \begin{figure}%[h!]
-%\begin{center}%\normalsize
-	\scalebox{0.8}{
-	\pgfdeclarelayer{background}
-	\pgfsetlayers{background,main}
-	\begin{tikzpicture}[text=black]%[scale=0.05]%, transform shape]
-	\input{figures/opt-framework_code.tex}
-	\end{tikzpicture}
-}
-%\end{center}
+	\center
+\includegraphics[width=0.5\textwidth]{figures/opt-framework_code}
 \caption{Multi-objective framework: the pilot (master) solves the
 	optimization problem specified in the input file by coordinating optimizer
 	algorithms and workers running forward solves.}
@@ -250,46 +243,6 @@ where $\bf f$ denotes the objectives (\ref{eq:moop:obj}),
 
 Often, conflicting objectives are encountered, and this complicates the concept of
   optimality.
-  
-  \iffalse
-To illustrate this, let us consider the problem of buying a car.
-Naturally, we try to bargain the lowest price for the best performance,
-  e.g.\ maximal horsepower or minimal fuel consumption.
-This can be formulated as MOOP (\ref{eq:car-moop}).
-%
-\begin{equation}
-  \begin{array}{cl}
-  \min          & \quad \left[ \text{price}, -\text{performance} \right]^T \\
-    \text{s.t.} & \quad \text{low}_\text{pr} \leq \text{price} \leq \text{high}_\text{pr}\\
-                & \quad \text{low}_\text{pe} \leq \text{performance} \leq \text{high}_\text{pe}
-  \end{array}
-  \label{eq:car-moop}
-\end{equation}
-
-\begin{figure}
-  \begin{center}
-    \begin{tikzpicture}[scale=1.3, transform shape]
-      \input{figures/car-trade-off}
-    \end{tikzpicture}
-  \end{center}
-  \caption{Two competing objectives can not be optimal at the same time.
-    Red dots represent Pareto optimal points, while the green square $x_4$ is
-    dominated (exhibits a worse price per performance ratio than e.g. $x_2^*$)
-    by all points on the blue curve (Pareto front).
-  }
-  \label{fig:tradeoff}
-\end{figure}
-
-
-In general, it is not possible to get the maximal performance for the lowest
-  price and a trade off decision between performance and price has to be
-  reached (see Fig.~\ref{fig:tradeoff}). 
-Since not every choice is equally profitable for the buyer (for example, car
-  $x_4$ costs as much as $x_2^*$ but offers less performance), we pick
-  trade offs (red points) that are essentially ``equally optimal'' in both
-  conflicting objectives, meaning, we cannot improve one point without hurting
-  at least one other solution.
-  \fi
 This is known as \textit{Pareto optimality}.
 The set of Pareto optimal points (blue curve) forms the Pareto front or
   surface.
