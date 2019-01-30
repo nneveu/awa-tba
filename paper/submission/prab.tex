@@ -130,7 +130,7 @@ The design, commissioning, and operation of accelerator facilities is a
   complex interplay of several conflicting design goals.
 We propose to tackle this problem by means of multi-objective optimization
   algorithms which also facilitate a parallel deployment.
-In order to compute solutions in a meaningful time frame a fast 
+In order to compute solutions in a meaningful time frame, a fast 
   and scalable software framework is required.
 In this paper, we
 present a general-purpose framework for simulation-based
@@ -140,8 +140,9 @@ Using evolutionary algorithms as the optimizer and \textsc{OPAL} as the
   forward solver, validation experiments and 
  results of multi-objective optimization problems in the domain of beam
   dynamics are presented. The high charge beam line at the Argonne Wakefield 
-  Accelerator Facility was used as the beam dynamics model. The 3D beam size, 
-  transverse momentum, and energy spread were optimized.
+  Accelerator Facility was used as the beam dynamics model. 
+  Optimized solutions found by the framework were used to finish the design 
+  of a two beam acceleration experiment.
   
 \end{abstract}
 
@@ -162,16 +163,19 @@ Fields, such as material science, chemistry, the biosciences, particle
   particle accelerators, both as research but as well as practical tools.
 Achieving the required performance in the design, commissioning, and operation
   of accelerator facilities is a complex and versatile problem.
-Today, tuning machine parameters, e.g. bunch charge, emission time and
-  various parameters of beamline elements, is most commonly done manually by
-  running simulation codes to scan the parameter space.
-This approach is tedious, time consuming and can be error prone.
+
+Despite the success of on-line models in some facilities [ref here], 
+and various model dependent and model independent tuning and optimization techniques, 
+empirical tuning by operators a common method used at many research facilities.
+When the beam dynamics is non-linear, as is the case with space charge, 
+simple and fast models are applicable only in a very restricted manner. 
+When it comes to multi-objective optimization, the situation is even more complicated.
 In order to be able to reliably identify optimal configurations of
-  accelerators we propose to solve large multi-objective design optimization
-  problems to automate the investigation for an optimal set of tuning
-  parameters.
-Observe that multiple and conflicting optimality criteria call for a
-  multi-objective approach.
+  accelerators, we solve large multi-objective design optimization
+  problems to automate the investigation for an optimal set of tuning parameters.
+  This approach has been used in the past [] with much success.
+The difference here being the implementation and application to a novel
+problem at the Argonne Wakefield Accelerator Facility (AWA).
 
 \begin{figure}%[h!]
 	\center
@@ -240,29 +244,11 @@ A MOOP is defined as
 where $\bf f$ denotes the objectives (\ref{eq:moop:obj}),
   $\bf g$ the constraints (\ref{eq:moop:constr}),
   and $\bf x$ the design variables (\ref{eq:moop:dvar}).
-
 Often, conflicting objectives are encountered, and this complicates the concept of
-  optimality.
-This is known as \textit{Pareto optimality}.
-The set of Pareto optimal points (blue curve) forms the Pareto front or
+  optimality. \textit{Pareto optimality} is often used in such situations [].
+The set of Pareto optimal points forms the Pareto front or
   surface.
 All points on this surface are considered to be Pareto optimal.
-
-Once the shape of the Pareto front has been determined, the buyer can
-  \textit{specify preference}, balancing the features by observing the
-  effect on the optimality criteria, converging to the preferred solution.
-This is called \textit{a posteriori} preference specification since 
-  a solution is selected after all possible trade offs have been presented to us.
-An alternative is to specify preference \textit{a priori}, e.g. by
-  weighting (specifying preference before solving the problem) and combining
-  all objectives into one and applying a single-objective method to solve the
-  problem (yielding only one solution).
-In many situations preference is not known \textit{a priori} and an
-  \textit{a posteriori} preference specification helps conveying a deeper
-  understanding of the solution space.
-The Pareto front can be explored and the impact of a trade off decision then
-  becomes visible.
-
 Sampling Pareto fronts is far from trivial.
 A number of approaches have been proposed,
   e.g.\ evolutionary algorithms~\cite{deb:09},
@@ -350,7 +336,7 @@ The variator can start generating offspring once the fitness of every
   individual of the population has been evaluated.
 This explicit synchronization point defines an obvious bottleneck for parallel
   implementations of evolutionary algorithms.
-In the worst case some MPI processes are taking a long time to compute the
+In the worst case, some MPI processes are taking a long time to compute the
   fitness of the last individual in the pool of individuals to evaluate.
 During this time all other resources are idle and wait for the result of
   this one individual in order to continue to generate and evaluate offspring.
@@ -363,9 +349,9 @@ By calling the selector more frequently (already after two offspring
   individuals have been evaluated) results in better populations since bad
   solutions are rejected earlier.
 On the other hand, calling the selector more often is computationally more
-  expensive.
+  expensive. Note this capability is also present in GPT's~\cite{gpt} optimization system. 
 
-Our variator implementation uses the master/slave architecture, presented in
+The variator implementation uses the master/slave architecture, presented in
   the next section, to run as many function evaluations as possible in parallel.
 Additionally, various crossover and mutation policies are available for tuning
   the algorithm to the optimization problem.
@@ -423,18 +409,6 @@ A set of default plug-ins for genetic operators, selectors and other
   components of the algorithms are provided by their framework.
 User-based plug-ins can be incorporated into the framework by implementing a
   simple set of functions.
-
-%Unfortunately, the island parallelization approach is not well suited for
-  %running search algorithms in the massively parallel environment.
-%The decision how many processors are assigned to an island is non-trivial.
-%\todo{PA: what are roles?}
-%Parallel performance is sensitive to placement and assignment of roles to
-  %processors of such frameworks and therefore should be considered carefully.
-%Especially the master thread on an island (used to exchange individuals
-  %between the islands and aggregate solutions) can be overwhelmed with
-  %messages from slaves evaluating individuals.
-%This creates hotspots on the network and as a result the network performance
-  %suffers.
 
 Additionally, as with simulation based multi-objective optimization, we can
   exploit the fact that both the optimizer and simulation part of the process

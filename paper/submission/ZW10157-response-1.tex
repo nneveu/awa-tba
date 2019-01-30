@@ -69,7 +69,7 @@ with the tight aperture constraints specific to two beam acceleration at the AWA
 At the same time, AWA is a facility where many different accelerator research experiments take
 place. Therefore it is very desirable, and was an important research objective, to develop a precise, e.g. 3D
 model embedded into a multi-objective optimization framework. In this way, optimization of various 
-machine configurations can be done at different charge levels. While other codes such as GPT  and ELEGANT, also have integrated genetic optimization algorithms; the OPAL framework, differentiates itself by being open source (i.e. free to use), massively parallel, and fully 3D.
+machine configurations can be done at different charge levels. While other codes such as GPT [updated ref here] and ELEGANT [updated ref here], also have integrated genetic optimization algorithms; the OPAL framework, differentiates itself by being open source (i.e. free to use), massively parallel, and fully 3D.
 }
 
 
@@ -172,9 +172,20 @@ more compelling motivator to encourage users to consider the system
 they have developed.
 
 {\bf Our response:} {\color{blue} The statements on the lines  17-19 of our initial submission are misleading, as
-the referee correctly recognized. We replace them with the following:  
+the referee correctly recognized. We replace them with the following on lines 18-27 of the updated manuscript:  
 
-Despite the success of on-line models in some facilities[ref here], and various model dependent and model independent tuning and optimization techniques, in research facilities like the AWA, empirical tuning by operators is still one of the common methods used. Due to the non-linear problem mainly from space charge, simple and fast models are applicable only in a very restricted manner. When it comes to multi-objective optimization, the situation is even more complicated.
+Despite the success of on-line models in some facilities [ref here], 
+and various model dependent and model independent tuning and optimization techniques, 
+empirical tuning by operators a common method used at many research facilities.
+When the beam dynamics is non-linear, as is the case with space charge, 
+simple and fast models are applicable only in a very restricted manner. 
+When it comes to multi-objective optimization, the situation is even more complicated.
+In order to be able to reliably identify optimal configurations of
+accelerators, we solve large multi-objective design optimization
+problems to automate the investigation for an optimal set of tuning parameters.
+This approach has been used in the past [updated refs here] with much success.
+The difference here being the code implementation and the application to a novel
+problem at the Argonne Wakefield Accelerator Facility (AWA).
 }
 
 Third, several of the features of this system are available in
@@ -183,10 +194,14 @@ existing systems but are not acknowledged:
 - parallel/distributed computation: the survey article mentioned above
 provides references to several examples
 
+{\bf Our response:} {\color{blue} New references were added, as mentioned above.}
+
 - Section II lines 115-125 blurring generations: APISA and General
 Particle Tracer’s optimization system start evaluating the next
 generation before all individuals in the present generation complete,
 too.
+
+{\bf Our response:} {\color{blue} A line has been here added indicating this capability in GPT too.}
 
 - Section III subsection D lines 229-231 Geometry optimization. With
 PISA-based systems, Bazarov and Hofler have done this (see PISA-based
@@ -209,7 +224,7 @@ of the paper should be the optimization results not the details of the
 implementation and design. 
 
 {\bf Our response:} {\color{blue} 
-	Respectfully, we point out Referee A's comments that 
+	Respectfully, we point out Referee A's comment that 
 	"Computing and algorithms" is listed under PRAB's scope. 
 	However, for those interested in physics and not implementation details (i.e. user of code not developer), 
 	we had hoped the AWA optimization problem would 
@@ -263,10 +278,6 @@ investigation of optimal sets of machine parameters.
 
 {\bf Our Response:} {\color{blue} The suggested edit above has been incorporated into the updated manuscript. }
 
-The high charge beam line at the Argonne Wakefield Accelerator
-Facility was used as the beam dynamics model. The 3D beam size,
-transverse momentum, and energy spread were optimized. 
-
 Please state
 the significance of the optimization. Is the solution found better
 than the original design? Then provide a comparison with the baseline
@@ -274,6 +285,15 @@ solution as Bazarov and Sinclair did in their 2005 paper. Is it the
 first such solution for the AWA? Then make that clear. Has this
 solution been used in the machine? Then provide a comparison between
 prediction and operational experience.
+
+{\bf Our Response:} {\color{blue} This optimization was used for design of 
+an experiment. There is not an alternative base line, i.e. this is the 
+"first such solution for the AWA". They points have not been operationally measured yet.
+The following line was added to the abstract: 
+
+"Optimized solutions found by the framework were used to finish the design 
+of a two beam acceleration experiment."
+}
 
 Section I, line 35: trade of -$>$ trade off
 
