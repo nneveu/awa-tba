@@ -62,14 +62,6 @@ journal so the physics context for the application needs to be clear.
 
 {\bf Our response:} {\color{blue} 
 	To address this concern, the following was added on lines XX-XX in the updated manuscript:
-	The AWA facility operates at both low and high charge charge (up to 100 nC). Strong non-linearities
-at high charge justify using a full 3D space charge approach. Finding optics solutions in this regime and 
-with the tight aperture constraints specific to two beam acceleration at the AWA is not trivial.  
-
-At the same time, AWA is a facility where many different accelerator research experiments take
-place. Therefore it is very desirable, and was an important research objective, to develop a precise, e.g. 3D
-model embedded into a multi-objective optimization framework. In this way, optimization of various 
-machine configurations can be done at different charge levels. While other codes such as GPT [updated ref here] and ELEGANT [updated ref here], also have integrated genetic optimization algorithms; the OPAL framework, differentiates itself by being open source (i.e. free to use), massively parallel, and fully 3D.
 
 A hallmark of the AWA facility is the flexibility to swap physical
 components in the beamlines, which enables different, often novel,
@@ -144,7 +136,7 @@ M. Borland. ELEGANT: A flexible SDDS-compliant code for accelerator simulation, 
 
 Pulsar Physics. General Particle Tracer, http://www.pulsar.nl/gpt
 
-{\color{blue}{Exluded from updated bibliography, because  they are in A. Hofler 13':}}
+{\color{blue}{Exluded from updated bibliography, because they are in A. Hofler 13':}}
 
 A. Hofler et al. "Optimizing SRF Gun Cavity Profiles in a Genetic
 Algorithm Framework," ICAP09, San Francisco, 2009, THPSC020 
@@ -200,11 +192,11 @@ the referee correctly recognized. We replace them with the following on lines 18
 
 Despite the success of on-line models in some facilities [ref here], 
 and various model dependent and model independent tuning and optimization techniques, 
-empirical tuning by operators a common method used at many research facilities.
+empirical tuning by operators is a common method used at many research facilities.
 When the beam dynamics is non-linear, as is the case with space charge, 
 simple and fast models are applicable only in a very restricted manner. 
 When it comes to multi-objective optimization, the situation is even more complicated.
-In order to be able to reliably identify optimal configurations of
+In order to reliably identify optimal configurations of
 accelerators, we solve large multi-objective design optimization
 problems to automate the investigation for an optimal set of tuning parameters.
 This approach has been used in the past [updated refs here] with much success.
@@ -218,14 +210,14 @@ existing systems but are not acknowledged:
 - parallel/distributed computation: the survey article mentioned above
 provides references to several examples
 
-{\bf Our response:} {\color{blue} New references were added, as mentioned above.}
+{\bf Our response:} {\color{blue} New references were added, as detailed above.}
 
 - Section II lines 115-125 blurring generations: APISA and General
 Particle Tracer’s optimization system start evaluating the next
 generation before all individuals in the present generation complete,
 too.
 
-{\bf Our response:} {\color{blue} A line has been here added indicating this capability in GPT too.}
+{\bf Our response:} {\color{blue} A line XX has been added indicating this capability in GPT too.}
 
 - Section III subsection D lines 229-231 Geometry optimization. With
 PISA-based systems, Bazarov and Hofler have done this (see PISA-based
@@ -249,7 +241,7 @@ implementation and design.
 
 {\bf Our response:} {\color{blue} 
 	Respectfully, we point out Referee A's comment that 
-	"Computing and algorithms" is listed under PRAB's scope. 
+	``Computing and algorithms'' is listed under PRAB's scope. 
 	However, for those interested in physics and not implementation details (i.e. user of code not developer), 
 	we had hoped the AWA optimization problem would 
 	provide a meaningful and tangible use case for the framework.
@@ -312,7 +304,7 @@ prediction and operational experience.
 
 {\bf Our Response:} {\color{blue} This optimization was used for design of 
 an experiment. There is not an alternative base line, i.e. this is the 
-"first such solution for the AWA". They points have not been operationally measured yet.
+``first such solution for the AWA''. They points have not been operationally measured yet.
 The following line was added to the abstract: 
 
 "Optimized solutions found by the framework were used to finish the design 
