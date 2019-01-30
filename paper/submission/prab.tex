@@ -735,36 +735,6 @@ Using functors and the default expression primitives already powerful
 
 
 
-%
-Using the default expression primitives this can be stated in an input file
-  as:
-%
-%\vspace{0.2cm}
-\iffalse
-\begin{samepage}
-	\begin{flushleft}
-		\begin{Verbatim}[fontsize=\scriptsize]
-		d1: DVAR, VARIABLE="x1", LOWERBOUND="-1.0", UPPERBOUND="1.0";
-		d2: DVAR, VARIABLE="x2", LOWERBOUND="-1.0", UPPERBOUND="1.0";
-		d3: DVAR, VARIABLE="x3", LOWERBOUND="-1.0", UPPERBOUND="1.0";
-		
-		obj1: OBJECTIVE,
-		EXPR="1- exp(-1 * (sq(x1 - 1/sqrt(3)) 
-		+ sq(x2 - 1/sqrt(3)) + sq(x3 - 1/sqrt(3))))";
-		obj2: OBJECTIVE,
-		EXPR="1- exp(-1 * (sq(x1 + 1/sqrt(3)) 
-		+ sq(x2 + 1/sqrt(3)) + sq(x3 + 1/sqrt(3))))";
-		
-		objs:    OBJECTIVES = (obj1, obj2);
-		dvars:   DVARS = (d1, d2, d3);
-		constrs: CONSTRAINTS = ();
-		opt: OPTIMIZE, OBJECTIVES=objs, DVARS=dvars, CONSTRAINTS=constrs;
-		\end{Verbatim}
-	\end{flushleft}
-\end{samepage}
-\fi
-
-
 \input{theor-experiment} 
 
 
@@ -776,33 +746,11 @@ A general-purpose framework for solving multi-objective
 Its modular design simplifies the application to simulation-based optimization
   problems for a wide range of problems and allows to exchange the
   optimization algorithm.
-%In a recent work, we successfully implemented and integrated another
-  %optimization algorithm, originally presented in~\cite{pesc:11}, into our
- % framework.
 The flexibility of being able to adapt both ends of the optimization
   process, the forward solver and the optimization algorithm simultaneously
   not only leads to broad applicability but it facilitates
   tailoring the optimization strategy to the optimization problem as well.
 
-%This first study shows that the framework is ready to tackle problems arising
-%  in the domain of beam dynamics.
-%
-%Interestingly, the computation of a good approximation of the Pareto front is
-%  already feasible on a small cluster using only a modest number of MPI
-%  processes.
-%  
-%For 1000 generations consisting of 2048 feasible and 8354 infeasible function
-%  evaluations (simulations) the optimizer needed $845$ minutes on the
-%  \textsc{Felsim} cluster on $16$ processes.
-%
-%When we double the number of processes to $32$ (\textsc{Felsim} allows a
-%  maximum of $64$ processes per job) the runtime improves to $302$ minutes (2048
-%  accepted and 5426 infeasible individuals).
-%Notice that the runtime can vary due to the random nature of the process.
-%Nevertheless we see a reasonable speeduo when using more cores to solve the
-%  optimization problem. %and the parallel performance will be further evaluated
-%  in a forthcoming publication.
-%The number of individuals is the only limiting factor.
 The framework was integrated into OPAL, and used 
 to study a beam dynamics problem at the AWA.
 A scan of time step and hyper parameters was done to determine computational settings.
@@ -811,8 +759,6 @@ Optimization of the 3D beam size and energy spread was accomplished.
 The TBA beam line presented is currently being installed at the AWA.
 Once installation is complete, 
 the results shown here will guide future experiments at the AWA.
-%This problem also took advantage of the frameworks massively parallel capabilities by
-%running on 2624 processes on Bebop at LCRC.
 
 In contrast to approaches that are tightly coupled to the optimization
   algorithm, the range of possible applications is much wider.
