@@ -50,7 +50,6 @@ The hypervolume of the reference solution ($0.6575$) for our benchmark was
     evaluations    & & \\
     \noalign{\smallskip}\hline\noalign{\smallskip}
     100  &  0.859753 & $3.076 \times 10^{-1}$ \\
-   % \noalign{\smallskip}\hline\noalign{\smallskip}
     200  &  0.784943 & $1.938 \times 10^{-1}$ \\
     500  &  0.685183 & $4.210 \times 10^{-2}$ \\
     900  &  0.661898 & $6.689 \times 10^{-3}$ \\
@@ -203,8 +202,10 @@ as shown in Table \ref{extable}.
 			The gene mutation probability was equal to the mutation probability (not shown) in all four experiments. 
 			The max number of individuals per generation was~80.}
 		\label{extable}
-		\begin{tabular*}{0.48\textwidth}{l ccc}
-			& Gene Mutation Probability & Recombination Probability & Number of completed generations \\
+		\begin{tabular*}{0.48\textwidth}{l c|c|c}
+			& Gene Mutation \qquad& Recombination \qquad& Number of completed\vspace{-0.75em}\\
+			& Probability \qquad& Probability \qquad&  generations \\
+			\midrule
 			ex-1 &  0.1  & 0.9  &  96 \\
 			ex-2 &  0.3  & 0.7  &  81 \\
 			ex-3 &  0.8  & 0.2  &  53 \\
@@ -223,11 +224,9 @@ We reduced the six objectives to four,
 and shortened the simulation time by moving the objectives further 
 upstream to $s_1$ and $s_2$, the locations before and after the kicker, 
 see Fig.~\ref{awa-tba}.  
-
-
 The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)$, $\text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
-The OPAL input file for ex-3, and subsequent optimization runs in this paper, can be found at in following repository: 
-\url{https://github.com/nneveu/awa-tba}.
+The OPAL input file for these cases and all subsequent optimization runs in this paper, 
+can be found at in following repository: \url{https://github.com/nneveu/awa-tba}.
 
 After collection of the data for all four experiments, several metrics
 were compared, including number of generations completed in twenty four hours and
@@ -246,7 +245,6 @@ With ex-2 and ex-3 eliminated due to evaluation time,
 and a slightly better Pareto front at $s_1$ for ex-4, 
 the hyper parameters in ex-4 were chosen as the default values for subsequent runs.
 
-
 \begin{figure}
 	\centering
 	\begin{minipage}{0.49\textwidth}
@@ -264,8 +262,6 @@ the hyper parameters in ex-4 were chosen as the default values for subsequent ru
 	\caption{Comparison of Pareto fronts for initial optimization experiments, ex-1 through ex-4.}
 	\label{expareto}
 \end{figure}
-
-
 
 \subsubsection{TBA Optimization Problem}
 With computational and hyper parameters set, 
@@ -288,8 +284,6 @@ we define the objectives and input parameters as:
 \quad & \phi_{\text{gun}} =-20^\circ \label{eq:awa:gphidvar}\\
 \quad & \phi_{\text{linac}} =-20^\circ \label{eq:awa:lastdvar}
 \end{align}
-
-
 
 The first four objectives, parameters (\ref{eq:awa:p1}) to (\ref{eq:awa:p2}),
 minimize the transverse ($rms_{x,y}$) beam size and transverse momentum ($rms_{px,py}$)
@@ -389,12 +383,23 @@ The maximum beam sizes are well below the beam pipe aperture limits as shown in 
 The solution is nearly round, which will increase changes of keeping the beam nearly round
 as it travels to the last triplet in Fig.~\ref{awa-tba}.
 Overall this solution is satisfactory, and meets all requirements for the new TBA beamline at the AWA.
-The PETS (Power Extractor and Transfer Structure) is the physical device putting the tightest constraints on the beam parameters.  
-At this location the aperture diameter is \SI{17.6}{mm}, and the desired bunch length is \SI{1.5}{m}.  
-The optimization meets all requirements in general; and specifically at the PETS location, 
-the beam parameters are $\sigma_x=\sigma_y=2.5$mm, with aa bunch length of XXXXX. 
+A Power Extractor and Transfer Structure (PETS) will be located after the septum and quadrupoles in Fig.~\ref{awa-tba}.
+This device is putting the tightest constraints on the beam parameters.  
+The aperture diameter is \SI{17.6}{mm}, and bunch length should be below \SI{2}{mm}
+to facilitate large power extraction~\cite{PETSeq}.  
 
- Although the simulation results at the PETS location cannot yet be checked since the beamline is not yet completely installed, some checks have been possible for the partially completed beamline.  Simulations of the partial beamline have been done with good agreement to measurement.  For example, beam images were taken on the YAG screen located downstream of the kicker and the extracted beam sizes at different kicker angles compared to simulation.  Measurements showed an asymmetry between the x and y beam size that was also shown in simulation (see Fig. ).  This is likely due to the gun voltage since that had the most noticeable impact on the simulated asymmetry (the best match was at a gun voltage of 55 MV/m).  When it becomes possible to test the complete simulation solution, it is expected that there will not be perfect agreement with simulation; for example there may be errors in the fields of beamline elements.  However, the simulation can be a tool to track down the source of discrepancies, such as understanding the effect of the gun field on the beam symmetry.  More importantly, the optimization results should provide significant improvement in efficiency for achieving a good operational regime.
+The optimization results shown here were used in part to meet all TBA requirements. 
+After adjustments to include 3D rf field maps and CSR in the dipoles~\cite{neveuthesis}, 
+the max beamsizes at the PETS location were below \SI{10}{mm} with a bunch length of $rms_z=\SI{1.6}{mm}$. 
+Although the simulation results at the PETS location cannot yet be verified, since the beamline is not yet completely installed, 
+some checks have been possible for the partially completed beamline.  
+Simulations of the partial beamline have been done.
+For example, beam images were taken on the YAG screen located downstream of the kicker and 
+the extracted beam sizes at different kicker angles compared to simulation~\cite{neveuthesis}.  
+When it becomes possible to test the complete simulation solution, it is expected that there will not be perfect agreement with simulation;
+for example there may be errors in the fields of beamline elements.  However, the simulation can be a tool to track down the source of
+discrepancies, such as understanding the effect of the gun field on the beam symmetry.  
+More importantly, the optimization results should provide significant improvement in efficiency for achieving a good operational regime.
 
 \begin{figure}
 	\includegraphics[width=0.65\textwidth]{figures/xy-max-min-sigma-paper}
