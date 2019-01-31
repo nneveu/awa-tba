@@ -31,7 +31,7 @@ The hypervolume of the reference solution ($0.6575$) for our benchmark was
 
 \begin{figure}
   \centering
-    \includegraphics[width=0.7\linewidth]{figures/valid_front}
+    \includegraphics[width=0.6\linewidth]{figures/valid_front}
   \caption{Variator benchmark after $1100$ function evaluations using binary
            crossover and independent gene mutations (each gene mutates with
            probability $p=\frac{1}{2}$) on a population of $100$
@@ -46,7 +46,7 @@ The hypervolume of the reference solution ($0.6575$) for our benchmark was
   \label{tbl:bench_rms_error}
   \begin{tabular}{c|c|c}
     \hline\noalign{\smallskip}
-    tot.\ function  & hyper volume & relative error\\
+    tot.\ function  & hypervolume & relative error\\
     evaluations    & & \\
     \noalign{\smallskip}\hline\noalign{\smallskip}
     100  &  0.859753 & $3.076 \times 10^{-1}$ \\
@@ -143,9 +143,9 @@ See low fidelity plot in Fig.~\ref{tstep} for $dT=$\num{5E-11} results.
 		\caption{Checkmarks (\cmark) indicate desired beam parameters are resolved at that time step. 
 			An (\xmark) indicates the time step is too large, and results are nonphysical.}
 		\label{timestep}
-		\begin{tabular*}{0.48\textwidth}{cccc}
+		\begin{tabular*}{0.48\textwidth}{c|c|c|c}
 			\hline\noalign{\smallskip}
-			Time Step (dT) & Linac & Drift & Quadrupoles \\
+			Time Step, dT (s) \quad & Linac & Drift & Quadrupoles \\
 			\noalign{\smallskip}\hline\noalign{\smallskip}
 			$5 \times10^{-10}$  & \xmark & \xmark & \xmark \\
 			$1 \times10^{-10}$  & \xmark & \xmark & \xmark \\
@@ -372,7 +372,7 @@ Again, the location of optimization is $s_3=19.4$ [m].
 \end{figure}
  
 As expected, the x dimension is impacted by the bending elements, and unable to reach 
-the small beam sizes seen in the y dimension. This suggest objectives in the x 
+the small beam sizes seen in the y dimension. This suggests objectives in the x 
 dimension will drive design variable choices used during operations. 
 However, it is still necessary to 
 include the y dimension in the optimization. Early optimization tests showed the y dimension 
@@ -388,7 +388,13 @@ A select result is shown in Fig.~\ref{fig:stat}.
 The maximum beam sizes are well below the beam pipe aperture limits as shown in Fig.~\ref{fig:stat}.
 The solution is nearly round, which will increase changes of keeping the beam nearly round
 as it travels to the last triplet in Fig.~\ref{awa-tba}.
-Overall this solution is satisfactory, and meets all requirements at the AWA.
+Overall this solution is satisfactory, and meets all requirements for the new TBA beamline at the AWA.
+The PETS (Power Extractor and Transfer Structure) is the physical device putting the tightest constraints on the beam parameters.  
+At this location the aperture diameter is \SI{17.6}{mm}, and the desired bunch length is \SI{1.5}{m}.  
+The optimization meets all requirements in general; and specifically at the PETS location, 
+the beam parameters are $\sigma_x=\sigma_y=2.5$mm, with aa bunch length of XXXXX. 
+
+ Although the simulation results at the PETS location cannot yet be checked since the beamline is not yet completely installed, some checks have been possible for the partially completed beamline.  Simulations of the partial beamline have been done with good agreement to measurement.  For example, beam images were taken on the YAG screen located downstream of the kicker and the extracted beam sizes at different kicker angles compared to simulation.  Measurements showed an asymmetry between the x and y beam size that was also shown in simulation (see Fig. ).  This is likely due to the gun voltage since that had the most noticeable impact on the simulated asymmetry (the best match was at a gun voltage of 55 MV/m).  When it becomes possible to test the complete simulation solution, it is expected that there will not be perfect agreement with simulation; for example there may be errors in the fields of beamline elements.  However, the simulation can be a tool to track down the source of discrepancies, such as understanding the effect of the gun field on the beam symmetry.  More importantly, the optimization results should provide significant improvement in efficiency for achieving a good operational regime.
 
 \begin{figure}
 	\includegraphics[width=0.65\textwidth]{figures/xy-max-min-sigma-paper}
@@ -401,11 +407,11 @@ Overall this solution is satisfactory, and meets all requirements at the AWA.
 	\begin{center}
 		\caption{Input Parameters for the optimized solution shown in Figures~\ref{fig:pareto1} and \ref{fig:stat}.}
 		\label{tab:designopt}   
-		\begin{tabular}{ccc}
+		\begin{tabular}{lcc}
 			\toprule
-			\textbf{Design Variable} & \textbf{Unit}	&  \textbf{Value}  \\ 
+			\textbf{Design Variable} \qquad \qquad & \textbf{Unit}	\quad&  \textbf{Value}  \\ 
 			\midrule
-			{Buck Focusing Solenoid} & amps	& 478 \\
+			{Buck Focusing Solenoid} \qquad \qquad & amps	\quad & 478 \\
 			Matching Solenoid &	amps	& 197	  \\
 			Quadrupole 1& T-m		& -0.8	\\ 
 			Quadrupole 2& T-m		& 0.9	\\
