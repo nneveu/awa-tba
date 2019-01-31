@@ -1,4 +1,4 @@
-~\cite{hofler13,bazarov05,yrss:09,jefferson,gull1,gull2} \documentclass{article}
+\documentclass{article}
 \usepackage{latexsym}
 \usepackage{color}
 \setlength{\parskip}{3mm}
@@ -61,7 +61,34 @@ they are – space charge, etc. After all, this is primarily a physics
 journal so the physics context for the application needs to be clear.
 
 {\bf Our response:} {\color{blue} 
-	To address this concern, the following was added on lines 28-41 in the updated manuscript:
+	Several changes were made in the paper to address this concern. 
+	 abstract to explain the AWA problem. 
+	Here is the new abstract in it's entirety: 
+	
+	Particle accelerators are invaluable tools for research in the basic and applied sciences, such as materials science, chemistry,
+	the biosciences, particle physics, nuclear physics and medicine. The design, commissioning, and operation of accelerator facilities is a
+	non-trivial task, due to the large number of control parameters and the complex interplay of several conflicting design goals.
+	The Argonne Wakefield Accelerator facility has some unique challenges resulting from its purpose to carry out advanced accelerator R\&D.
+	Individual experiments often have challenging beam requirements, and the physical configuration of the beamlines is often changed
+	to accommodate the variety of supported experiments. The need for rapid deployment of different operational settings
+	further complicates the optimization work that must be done for multiple constraints and challenging operational regimes. 
+	One example of this is an independently staged two-beam acceleration experiment which requires the construction 
+	of an additional beamline (this is now in progress).  The high charge drive beam, well into the space charge regime, must be threaded
+	through small aperture (17.6mm) decelerating structures.  
+	In addition, the bunch length must be sufficiently short to maximize power generation in the decelerator.  
+	We propose to tackle this problem by means of multi-objective optimization algorithms which also facilitate a parallel deployment.
+	In order to compute solutions in a meaningful time frame, a fast and scalable software framework is required.
+	In this paper, we present a general-purpose framework for simulation-based
+	multi-objective optimization methods that allows the automatic investigation of optimal sets of machine parameters.
+	Using evolutionary algorithms as the optimizer and \textsc{OPAL} as the forward solver, validation experiments and 
+	results of multi-objective optimization problems in the domain of beam dynamics are presented. 
+	Optimized solutions for the new high charge drive beamline found by the framework were used to finish the design 
+	of a two beam acceleration experiment.
+	The selected solution along with the associated beam parameters is presented.
+	
+	
+	
+	The following was added on lines 28-41 in the updated manuscript:
 
 A hallmark of the AWA facility is the flexibility to swap physical
 components in the beamlines, which enables different, often novel,
@@ -305,10 +332,8 @@ prediction and operational experience.
 {\bf Our Response:} {\color{blue} This optimization was used for design of 
 an experiment. There is not an alternative base line, i.e. this is the 
 ``first such solution for the AWA''. The points have not been operationally measured yet.
-The following line was added to the abstract to address this: 
-
-``Optimized solutions found by the framework were used to finish the design 
-of a two beam acceleration experiment.''
+Several sentences were added to the abstract to explain this. 
+Please see new abstract used in response to Referee A, or updated manuscript.
 }
 
 Section I, line 35: trade of -$>$ trade off
