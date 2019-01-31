@@ -7,9 +7,7 @@ In this section a numerical results of the validation benchmark and
 
 \begin{figure}
     \centering
-    \begin{tikzpicture}[text=black]
-      \input{figures/hypervolume.tex}
-    \end{tikzpicture}
+      \includegraphics[width=0.4\linewidth]{figures/hypervolume}
   \caption{The hypervolume for a two-objective optimization problem
   corresponds to the shaded area formed by the dashed rectangles spanned by
   all points on the Pareto front and an arbitrary selected origin $p_o$.}
@@ -93,28 +91,8 @@ Minimizing beam sizes here will enable capture and further focusing before space
 This will also enable cleaner transport through downstream elements.
 %\vspace{-1em}
 
-\def \gunheight {25}  %25} %double sided number
-\def \quadheight {35}
-\def \quadleft {115}  %127} %double sided number
-\def \kickerleft {145}  %160} % two sided number
-\def \leftarrow{10}
-\def \bottomofarrows {29}
-\def \topofarrows {34}
 \begin{figure*}
-	\begin{tikzpicture}[every node/.style={anchor=south west,inner sep=0pt},x=1mm, y=1mm,]   
-	\node (fig1) at (0,0)
-	{\includegraphics[width=\textwidth]{figures/awa-drawing}};
-	\node[fill=white, inner sep=2pt] (txt2) at (0,\gunheight) {\large Gun};
-	\node[fill=white, inner sep=2pt] (txt2) at (20,\gunheight) {\large Accelerating Cavities};
-	\node[fill=white, inner sep=2pt] (txt2) at (\quadleft-5,\quadheight) {\large Quadrupoles};
-	\draw [blue, ->, line width=1] (\quadleft+\leftarrow,\topofarrows) -- (\quadleft+\leftarrow, \bottomofarrows);
-	\node[fill=white, inner sep=2pt] (txt2) at (\kickerleft,20) {\large $s_1$};
-	\node[fill=white, inner sep=2pt] (txt2) at (\kickerleft+8,20) {\large $s_2$};
-	\node[fill=white, inner sep=2pt] (txt2) at (\kickerleft,\quadheight) {\large Kicker};
-	\draw [blue, ->, line width=1] (\kickerleft+\leftarrow-3,\topofarrows) -- (\kickerleft+\leftarrow-3, \bottomofarrows);	
-	\draw [black, ->, line width=1] (0,-2) -- (100, -2);
-	\node[fill=white, inner sep=2pt] (txt2) at (50,0) {\large Beam Direction};
-	\end{tikzpicture}
+\includegraphics[width=0.9\linewidth]{figures/awa-drawing}
 	\caption{Side view of the high charge linac at the AWA. 
 		All hardware in this drawing is currently installed. 
 	Note locations $s_1$ and $s_2$, before and after the kicker.}
@@ -122,27 +100,8 @@ This will also enable cleaner transport through downstream elements.
 	%\vspace{-7em}
 \end{figure*}
 
-\def \septheight {65}
-\def \bottomarrow {55} %57}
-\def \kleft {13}
-\def \sleft {38}%41.5}
-\def \sheight {45}%47}
-\def \beam {35}
 \begin{figure*}
-	\begin{tikzpicture}[every node/.style={anchor=south west,inner sep=0pt},x=1mm, y=1mm,]   
-	\node (fig2) at (0,0)
-	{\includegraphics[width=\textwidth]{figures/tba_dogleg}};
-	\node[fill=white, inner sep=2pt] (txt2) at (3,\sheight) {\large $s_1$};
-	\node[fill=white, inner sep=2pt] (txt2) at (20,\sheight) {\large $s_2$};
-	\node[fill=white, inner sep=2pt] (txt2) at (41,40) {\large $s_3$}; %(46,45)
-	\node[fill=white, inner sep=2pt] (txt2) at (33,\septheight) {\large Septum};
-	\draw [blue, ->, line width=1] (\sleft,\septheight) -- (\sleft, \bottomarrow);	
-	\node[fill=white, inner sep=2pt] (txt2) at (7,\septheight) {\large Kicker};
-	\draw [blue, ->, line width=1] (\kleft,\septheight) -- (\kleft, \bottomarrow);
-	\draw [black, ->, line width=1] (0,\beam) -- (100,\beam);
-	\node[fill=white, inner sep=2pt] (txt2) at (50,\beam+2) {\large Beam Direction};
-	\end{tikzpicture}
-	\vspace{-12em}
+\includegraphics[width=0.9\linewidth]{figures/tba_dogleg2}
 	\caption{Continuation of the high charge beam line layout at the AWA, top view. 
 		This is the proposed two beam acceleration section. 
 		Only the kicker in this drawing is installed. 
@@ -184,7 +143,7 @@ See low fidelity plot in Fig.~\ref{tstep} for $dT=$\num{5E-11} results.
 		\caption{Checkmarks (\cmark) indicate desired beam parameters are resolved at that time step. 
 			An (\xmark) indicates the time step is too large, and results are nonphysical.}
 		\label{timestep}
-		\begin{tabular*}{0.48\textwidth}{c @{\extracolsep{\fill}} C c D }
+		\begin{tabular*}{0.48\textwidth}{cccc}
 			\hline\noalign{\smallskip}
 			Time Step (dT) & Linac & Drift & Quadrupoles \\
 			\noalign{\smallskip}\hline\noalign{\smallskip}
@@ -244,15 +203,12 @@ as shown in Table \ref{extable}.
 			The gene mutation probability was equal to the mutation probability (not shown) in all four experiments. 
 			The max number of individuals per generation was~80.}
 		\label{extable}
-		\begin{tabular*}{0.48\textwidth}{l @{\extracolsep{\fill}}| C | C | D }
-			\hline\noalign{\smallskip}
+		\begin{tabular*}{0.48\textwidth}{l ccc}
 			& Gene Mutation Probability & Recombination Probability & Number of completed generations \\
-			\noalign{\smallskip}\hline\noalign{\smallskip}
 			ex-1 &  0.1  & 0.9  &  96 \\
 			ex-2 &  0.3  & 0.7  &  81 \\
 			ex-3 &  0.8  & 0.2  &  53 \\
 			ex-4 &  0.01 & 0.09 &  95 \\
-			\noalign{\smallskip}\hline
 		\end{tabular*}
 	\end{center}
 \end{table}
@@ -445,11 +401,10 @@ Overall this solution is satisfactory, and meets all requirements at the AWA.
 	\begin{center}
 		\caption{Input Parameters for the optimized solution shown in Figures~\ref{fig:pareto1} and \ref{fig:stat}.}
 		\label{tab:designopt}   
-		\begin{tabular}{l|c|c}
-			\noalign{\smallskip}\hline\noalign{\smallskip}
-			%\rowcolor{blue!30} 
+		\begin{tabular}{ccc}
+			\toprule
 			\textbf{Design Variable} & \textbf{Unit}	&  \textbf{Value}  \\ 
-			\noalign{\smallskip}\hline\noalign{\smallskip}
+			\midrule
 			{Buck Focusing Solenoid} & amps	& 478 \\
 			Matching Solenoid &	amps	& 197	  \\
 			Quadrupole 1& T-m		& -0.8	\\ 
@@ -457,7 +412,7 @@ Overall this solution is satisfactory, and meets all requirements at the AWA.
 			Quadrupole 3 & T-m		& 0.8	\\
 			Quadrupole 4 & T-m		& -1.0	\\ 
 			Bunch Length & mm 		& 1.5	\\
-			\noalign{\smallskip}\hline\noalign{\smallskip}
+			\bottomrule
 		\end{tabular}
 	\end{center}
 \end{table}

@@ -1,56 +1,23 @@
-\documentclass[%
-%superscriptaddress,
-%groupedaddress,
-%unsortedaddress,
-%runinaddress,
-%frontmatterverbose, 
-preprint,
-linenumbers,
-%twocolumn,
-%showpacs,preprintnumbers,
-%nofootinbib,
-%nobibnotes,
-%bibnotes,
-amsmath,amssymb,
-aps,
-%pra,
-%prb,
-%rmp,
-prstab,
-%prstper,
-%floatfix,
-]{revtex4-1}
+\documentclass[preprint,linenumbers,amsmath,amssymb,aps,prstab]{revtex4-1}%
 
 \usepackage{dcolumn}% Align table columns on decimal point
 \usepackage{bm}% bold math
-%\usepackage{todonotes}
 \usepackage{siunitx}
 \usepackage{pifont}% http://ctan.org/pkg/pifont
 \newcommand{\cmark}{\ding{51}}%
 \newcommand{\xmark}{\ding{55}}%
 \usepackage{fancyvrb}
-\usepackage{booktabs}
-%\usepackage{cite}
-\usepackage{amsmath}
-\usepackage{amsfonts}
+%\usepackage{booktabs}
+%\usepackage{amsmath}
+%\usepackage{amsfonts}
 \usepackage{url}
-%\usepackage{footmisc}
-%\usepackage{multicol}
-%\usepackage{color}
-\usepackage{algorithm}
-\usepackage{algorithmic}
-\usepackage{tikz}
-\usetikzlibrary{shapes,arrows,snakes,backgrounds}
-\usetikzlibrary{mindmap,trees}
-\usetikzlibrary{decorations.pathreplacing}
-\usetikzlibrary{plotmarks}
+%\usepackage{algorithm}
+%\usepackage{algorithmic}
 \usepackage{listings}
 \newcounter{lstmain}
 \setcounter{lstmain}{1}
-
 \usepackage{graphicx,xcolor,enumitem}
-%\usepackage{cuted}
-\newcommand{\lsnote}[1]{\textsf{{\color{violet}{ LS note:}   #1 }}}
+\usepackage{booktabs}
 
 \lstnewenvironment{code}[1][]
 { \vspace{0.3cm}\footnotesize{\textsc{Code Listing \thelstmain: #1}}
@@ -76,20 +43,11 @@ prstab,
 \xdefinecolor{mygreen}{RGB}{0,220,0}
 \xdefinecolor{myblue}{RGB}{26,150,255}
 
-\usepackage{array}
-\newcolumntype{C}{ >{\centering\arraybackslash} m{2.5cm} }
-\newcolumntype{D}{ >{\centering\arraybackslash} m{3cm} }
 
-\newcommand{\nrnote}[1]{\textsf{{\color{blue}{ NN note:}   #1 }}}
-\newcommand{\lsedit}[1]{\textsf{{\color{violet}{ ls note:}   #1 }}}
 \begin{document}
-
 
 \title{A Parallel General Purpose Multi-Objective Optimization Framework,
   with Application To Electron Beam Dynamics}
-%\thanks{A footnote to the article title}%
-
-
 
 \author{N. Neveu}
 \altaffiliation[Also at ]{Argonne National Laboratory, USA}%Lines break automatically or can be forced with \\
@@ -123,7 +81,7 @@ prstab,
 
 \begin{abstract}
 Particle accelerators are invaluable tools for research in the basic and
-  applied sciences, in fields such as materials science, chemistry,
+  applied sciences, such as materials science, chemistry,
   the biosciences, particle physics, nuclear physics and medicine.
 The design, commissioning, and operation of accelerator facilities is a
   non-trivial task, due to the large number of control parameters and the
@@ -146,11 +104,6 @@ Using evolutionary algorithms as the optimizer and \textsc{OPAL} as the
   
 \end{abstract}
 
-
-\pacs{Valid PACS appear here}% PACS, the Physics and Astronomy
-% Classification Scheme.
-%\keywords{Suggested keywords}%Use showkeys class option if keyword
-%display desired
 \maketitle
 
 
@@ -160,22 +113,41 @@ Particle accelerators play a significant role in many aspects of science and
   technology.
 Fields, such as material science, chemistry, the biosciences, particle
   physics, nuclear physics and medicine depend on reliable and effective
-  particle accelerators, both as research but as well as practical tools.
+  particle accelerators, both as research and practical tools.
 Achieving the required performance in the design, commissioning, and operation
   of accelerator facilities is a complex and versatile problem.
-
-Despite the success of on-line models in some facilities [ref here], 
+Despite the success of on-line models in some facilities~\cite{xiaobiao}, 
 and various model dependent and model independent tuning and optimization techniques, 
-empirical tuning by operators a common method used at many research facilities.
+empirical tuning by operators is a common method used at many research facilities.
 When the beam dynamics is non-linear, as is the case with space charge, 
 simple and fast models are applicable only in a very restricted manner. 
 When it comes to multi-objective optimization, the situation is even more complicated.
 In order to be able to reliably identify optimal configurations of
   accelerators, we solve large multi-objective design optimization
   problems to automate the investigation for an optimal set of tuning parameters.
-  This approach has been used in the past [] with much success.
-The difference here being the implementation and application to a novel
+  This approach has been used in the past with much success~\cite{hofler13,bazarov05,yrss:09,jefferson,gull1,gull2}.
+The difference here being the implementation and application to a 
 problem at the Argonne Wakefield Accelerator Facility (AWA).
+
+A hallmark of the AWA facility is the flexibility to swap physical
+components in the beamlines, which enables different, often novel,
+accelerator research experiments to take place.  Not only do the
+physical machine components change, the beam characteristics also vary
+considerably to meet different needs.  The facility operates at both low
+and high charge (up to 100 nC), and at high charge strong nonlinearities
+require a full 3D space charge approach in simulations for modeling.  
+Finding optics solutions in this regime, especially when
+there are additional constraints such as the small aperture two-beam
+accelerating structures, is challenging even without the quick
+turnaround of the beamline configurations.  Therefore, it has been an
+important research objective to develop a precise, e.g. 3D model
+embedded into a multi-objective optimization framework that may be used
+as a flexible platform for optimization of changing machine
+configurations operated at different charge levels. While other codes,
+such as GPT~\cite{gpt} and ELEGANT~\cite{elegant}, also have
+integrated genetic optimization algorithms; the OPAL~\cite{opal} framework
+differentiates itself by being open source (i.e. free to use), massively
+parallel, and fully 3D.
 
 \begin{figure}%[h!]
 	\center
@@ -188,13 +160,13 @@ problem at the Argonne Wakefield Accelerator Facility (AWA).
 
 A modular multi-objective software framework was developed (see
  Fig.~\ref{fig:framenetwork}) where the core functionality of the optimizer is decoupled from
- the ``beam dynamics'' but fully integrated in the OPAL \cite{opal} framework. 
+ the ``beam dynamics'' but fully integrated in the OPAL framework. 
 To that end, we use a master/slave mechanism where a master process governs a
  set of slave processes given some computational tasks (beam dynamics simulation) to complete.
 This separation allows easy interchange of optimization algorithms, forward
   solvers and optimization problems.
 A ``pilot'' coordinates all efforts between the optimization algorithm and the
-  beam dynamics task. In the sequel we will also use the notion of ``forward solver'' to indicate the beam dynamics task.
+  beam dynamics task. In the following sections, we will also use the notion of ``forward solver'' to indicate the beam dynamics task.
 This forms a robust and general framework for massively parallel
   multi-objective optimization.
 Currently the framework offers one concrete optimization algorithm, an
@@ -211,15 +183,15 @@ The framework discussed here, incorporates the following three contributions:
         approximating Pareto fronts in high dimensional spaces,
   \item design and implementation of a modular framework that is simple to use
         and deploy on large scale computational resources, and
-  \item demonstrating the usefulness of the proposed framework on a real world
-        application in the domain of particle accelerators,
+  \item demonstration of the usefulness of the proposed framework on a real world
+        application in the domain of particle accelerators. This is done
         with the optimization problem set as 
         the high charge photoinjector at the Argonne Wakefield Accelerator (AWA). 
 \end{enumerate}
 
 The next section introduces the notation of multi-objective optimization
 theory and describes the first implemented optimizer.
-In Section~\ref{sec:framework} the implementation of the framework is discussed.
+In Section~\ref{sec:framework}, the implementation of the framework is discussed.
 We introduce the employed forward-solver in Section~\ref{sec:forward-solver}.
 A validation and a proof of concept application in the beam dynamics problems 
 mentioned above is discussed in Section~\ref{sec:experiments}.
@@ -285,11 +257,7 @@ In general, a generic evolutionary algorithm consists of the following
 
 \begin{figure}
     \centering
-    \scalebox{1}{
-    \begin{tikzpicture}[scale=0.8, transform shape, text=black]
-    \input{figures/ga_explained_big.tex}
-    \end{tikzpicture}
-	}
+    \includegraphics[width=0.6\textwidth]{figures/ga_explained_big}
   \caption{Schematic view of interplay between selector and variator. The
   selector ranks all individuals in the population according to fitness and
   subsequently the variator uses the fittest individuals to produces new
@@ -430,13 +398,7 @@ The framework is divided in three exchangeable components, as shown in
 %
 \begin{figure}
   \centering
-  \scalebox{0.85}{
-  \begin{tikzpicture}[text=black]
-  \input{figures/opt-framework-layout.tex}
-  \end{tikzpicture}
-}
-  
-
+  \includegraphics[width=0.7\linewidth]{figures/opt-framework-layout}
   \caption{Schematic view of messages passed within the network between the
     three roles.
   The dashed cyan path describes a request (job $j_1$) sent from $O_i$ to the
@@ -694,7 +656,7 @@ Using information about the interconnection network topology and the
 The framework contains a wrapper implementing the API mentioned in
   Listing 3 for using \textsc{OPAL} \cite{opal} as the forward solver.
 \textsc{OPAL} provides different trackers for cyclotrons and linear
-  accelerators with satisfactory parallel performance. % \cite{akir:09}.
+  accelerators with satisfactory parallel performance. 
 
 With access to the \textsc{OPAL} forward solver the framework is able to
   tackle a multitude of optimization problems arising in the domain of
@@ -903,9 +865,6 @@ The authors thank the AWA team for contributing to the
 %#endif
 %\end{code}
 
-
-
-\bibliographystyle{abbrv}
 \bibliography{paper}
 
 \end{document}
