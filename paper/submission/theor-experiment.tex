@@ -26,8 +26,7 @@ Figure~\ref{fig:pisa_bench} and the corresponding hypervolume values in
 The reference Pareto front is clearly very well approximated.
 It took a total of 1100 function evaluations to perform this computation.
 The hypervolume of the reference solution ($0.6575$) for our benchmark was
-  computed by sampling the solution provided in~\cite{hbwh:05}.
-
+ computed by sampling the solution provided in~\cite{hbwh:05}.
 \begin{figure}
   \centering
     \includegraphics[width=0.6\linewidth]{figures/valid_front}
@@ -37,7 +36,6 @@ The hypervolume of the reference solution ($0.6575$) for our benchmark was
            individuals.}
   \label{fig:pisa_bench}
 \end{figure}
-
 \begin{table}%[h!]
 \begin{center}
   \caption{Convergence of benchmark problem with errors relative to
@@ -57,7 +55,6 @@ The hypervolume of the reference solution ($0.6575$) for our benchmark was
   \end{tabular}
 \end{center}
 \end{table}
-
 Table~\ref{tbl:bench_rms_error} shows satisfactory
   convergence to the sampled reference Pareto front after 1000 (plus the
   additional 100 evaluations for the initial population) function evaluations.
@@ -65,17 +62,17 @@ Table~\ref{tbl:bench_rms_error} shows satisfactory
 
 
 \subsection{AWA Photoinjector Optimization} \label{awaproblem}
-Next the optimization framework is applied to a high charge beam line
+Next the optimization framework is applied to the high charge beam line
  at the Argonne Wakefield Accelerator (AWA) facility. 
 The goal of this optimization is to produce beams of electrons that meet 
-design specifications; this includes number of particles (charge), energy, and particle distribution (characterized by beam sizes and energy spread).
+design specifications; this includes number of particles (charge), energy, 
+and particle distribution (characterized by beam sizes and energy spread).
 As shown in Fig.~\ref{awa-linac}, the installed portion of the the 
 beam line consists of an rf photocathode gun, 
 two solenoids, and six linear accelerating cavities
 followed by four quadrupoles and a stripline kicker. 
-The charge of interest, 40 nC, is needed for Two Beam 
-Acceleration (TBA) 
-experiments performed at AWA \cite{gai_power_jing_2012,JING201872}, 
+The charge of interest, 40 nC, is needed for two beam acceleration (TBA) 
+experiments performed at the AWA~\cite{gai_power_jing_2012,JING201872}, 
 which motivates this work. 
 Prior experimental results were limited by beam size when the beam passed through small aperture 
 wakefield structures located downstream. 
@@ -171,10 +168,8 @@ Fig.~\ref{tstep}.  Mid fidelity simulations used steps of  $dT=\num{1E-12}$ ever
 The average run time of each simulation with the adjusted time steps was 1.6~minutes.
 In comparison, the mid fidelity simulation ran for 18~minutes.
 Note, a smaller time step, \num{1E-13}, is always used in the gun where the 
-beam has low energy and changing rapidly.
-%A summary of the parameters used is listed in Table \ref{fidelity}. 
-
-\begin{figure}%[h]
+beam has low energy and is changing rapidly.
+\begin{figure}
 	\centering
 	\includegraphics[width=0.8\linewidth]{figures/timestep_comparison_paper}
 	\caption{Comparison of different fidelity models (dT stands for time step).}
@@ -265,7 +260,7 @@ the hyper parameters in ex-4 were chosen as the default values for subsequent ru
 
 \subsubsection{TBA Optimization Problem}
 With computational and hyper parameters set, 
-the full optimization problem of interest is explored.
+the optimization problem of interest is explored.
 The objectives (beam sizes and energy spread) are calculated at 
 $s_3=19.4$~m, located downstream of the septum, see Fig.~\ref{awa-tba}. 
 Given the longitudinal location of $s_3$ (unless otherwise noted), 
@@ -290,7 +285,12 @@ minimize the transverse ($rms_{x,y}$) beam size and transverse momentum ($rms_{p
 at the location of interest in the beam line ($s_3$, see Fig.~\ref{awa-tba}). 
 Minimizing the beam size at this location is essential to 
 to preventing loss of particles by scraping; 
-which ensures better transmission through the wakefield structures downstream. 
+which ensures better transmission through the wakefield structures downstream.
+These structures are called Power Extractor and Transfer Structure (PETS), 
+and will be located after the septum and quadrupoles in Fig.~\ref{awa-tba}.
+This device is putting the tightest constraints on the beam parameters.  
+The aperture diameter is \SI{17.6}{mm} and the bunch length should be below \SI{2}{mm}
+to facilitate large power extraction~\cite{PETSeq}.   
 Less divergence in the beam (lower transverse momentum spread) 
 reduces growth of transverse beam size after the focal point (location of min beam size).
 This reduces halo by ensuring the beam is not over focused through a hard waist.
@@ -303,7 +303,6 @@ This helps reduce the transverse beam size growth in bending elements.
 A small bunch length ($rms_s$) is also critical to the goals of 
 TBA experiments. The power generated in the wakefield structures 
 designed for TBA is related to the bunch length \cite{JING201872,PETSeq}.
-
 Eqs.~\ref{eq:awa:c1} to \ref{eq:awa:c3} 
 define three constraints used to guide the algorithm.
 However, it is important to not over-constrain the problem, which would prevent
@@ -311,23 +310,20 @@ the algorithm from converging.
 The difference constraint, Eq.~\ref{eq:awa:c3}, is used to favor nearly round beams.
 This prevents one dimension from becoming disproportionately large compared to the other.
 At the AWA, there is some room in the beam pipe to allow the y dimension to grow, but round beams are preferred.
-
 Equations (\ref{eq:awa:firstconstr}) to
 (\ref{eq:awa:lastdvar}) define the charge, gun voltage, linac voltages, 
 laser radius, gun phase, and linac cavity phases (in that order). 
-These are parameters in the simulation 
-that must be defined, but do not vary during the optimization.
-The AWA design variables, objectives, and constraints in the OPAL input file as shown in
-the repository.
-%\vspace{0.2cm}
+These are parameters in the simulation that must be defined, but do not vary during the optimization.
+For setup of the AWA design variables, objectives, and constraints in the OPAL input file, 
+refer to the the repository above.
 
 
 Design variables include the currents in two gun solenoids (IBF and IM), 
 and four quadrupole strengths (KQ1-KQ4). The objectives include
 beam size (transverse and longitudinal), transverse momentum, and energy spread as
 defined in Eqs. (\ref{eq:awa:p1}) to (\ref{eq:awa:p4}). 
-The location at the entrance of the kicker is $s_1=16.45$~meters, 
-and the objectives are optimized at location $s_3=19.4$~meters. 
+The location at the entrance of the kicker is $s_1=16.45$~(m), 
+and the objectives are optimized at location $s_3=19.4$~(m). 
 This is the entrance to the fifth quad in the beam line. 
 This location is where the beam should be captured and focused through subsequent elements.
 
@@ -347,15 +343,14 @@ allows for very large optimization jobs, like the AWA case.
 Typical runs for this paper used 41 nodes, which corresponds to 2624 KNL cores 
 and a generation size of 328 individuals.
 
-
 With the time steps and hyper parameters set by the work in Section \ref{awa:subsection:test}, 
-the full optimization problem described in \ref{awaproblem} was run for 200 generations.
+the optimization problem described in \ref{awaproblem} was run for 200 generations.
 The initial number of individuals was fixed at 656, 
 and the minimum number individuals in later generations was fixed at 328. 
 These numbers were in part based on the architecture of the KNL's. 
 Since each simulation takes 8 cores, and there are 64 cores per KNL node, 
 a large population size that would fit evenly on these resources was chosen. 
-Again, the location of optimization is $s_3=19.4$ [m]. 
+Again, the location of optimization is $s_3=19.4$~(m). 
 \begin{figure}
 	\begin{center}		
 		\includegraphics[width=0.65\textwidth]{figures/paperedit_pareto_front_Q5_xy_vs_pxpy}
@@ -373,33 +368,33 @@ include the y dimension in the optimization. Early optimization tests showed the
 can easily grow out of control if it is not included in the objectives.
 Those results are not shown here due to the unfeasible nature of the solutions 
 (i.e. $rms_y$ larger than the beam pipe).
-In the case of bunch length, there are not many options to choose from.
-
-
+In the case of bunch length, there are not many options to choose from, as the phase was not varied.
 With these observations in mind, several beam parameters corresponding to
 options on the Pareto Front in Fig.~\ref{fig:pareto1} were plotted and compared. 
 A select result is shown in Fig.~\ref{fig:stat}.  
-The maximum beam sizes are well below the beam pipe aperture limits as shown in Fig.~\ref{fig:stat}.
-The solution is nearly round, which will increase changes of keeping the beam nearly round
+The maximum beam sizes are well below the beam pipe aperture limits, also shown in Fig.~\ref{fig:stat}.
+The solution is nearly round, which will increase chances of keeping the beam nearly round
 as it travels to the last triplet in Fig.~\ref{awa-tba}.
 Overall this solution is satisfactory, and meets all requirements for the new TBA beamline at the AWA.
-A Power Extractor and Transfer Structure (PETS) will be located after the septum and quadrupoles in Fig.~\ref{awa-tba}.
-This device is putting the tightest constraints on the beam parameters.  
-The aperture diameter is \SI{17.6}{mm}, and bunch length should be below \SI{2}{mm}
-to facilitate large power extraction~\cite{PETSeq}.  
 
-The optimization results shown here were used in part to meet all TBA requirements. 
+The TBA line under construction includes a kicker and septum combination to route one bunch train to its own PETS, 
+while the other bunch train is undeflected and goes to a different PETS.  
+The optimization results shown here start at the gun and go through to the first quadrupole after the septum ($s_3=19.4$~(m)).  
+These results were used as the basis for the full solution up to the PETS~\cite{neveuthesis}.
 After adjustments to include 3D rf field maps and CSR in the dipoles~\cite{neveuthesis}, 
-the max beamsizes at the PETS location were below \SI{10}{mm} with a bunch length of $rms_z=\SI{1.6}{mm}$. 
-Although the simulation results at the PETS location cannot yet be verified, since the beamline is not yet completely installed, 
-some checks have been possible for the partially completed beamline.  
-Simulations of the partial beamline have been done.
-For example, beam images were taken on the YAG screen located downstream of the kicker and 
-the extracted beam sizes at different kicker angles compared to simulation~\cite{neveuthesis}.  
-When it becomes possible to test the complete simulation solution, it is expected that there will not be perfect agreement with simulation;
-for example there may be errors in the fields of beamline elements.  However, the simulation can be a tool to track down the source of
-discrepancies, such as understanding the effect of the gun field on the beam symmetry.  
-More importantly, the optimization results should provide significant improvement in efficiency for achieving a good operational regime.
+the maximum beam sizes at the PETS location were below 10mm with a bunch length of rmsz = 1.6mm.  
+Although the simulation results at the PETS location cannot yet be verified, 
+since the beamline is not yet completely installed, some checks have been possible for the partially completed beamline. 
+For example, beam images were taken on the YAG screen located downstream of the kicker, 
+and it was found that the extracted beam sizes at different kicker angles 
+were in good agreement with simulation results~\cite{neveuthesis}. 
+When it becomes possible to test the complete simulation solution, 
+it is expected that there will not be perfect agreement with simulation; 
+for example there may be errors in the fields of beamline elements. 
+However, the simulation can be a tool to track down the source of discrepancies, 
+such as understanding the effect of the gun field on the beam symmetry. 
+More importantly, the optimization results should provide significant improvement 
+in efficiency for achieving a good operational regime.
 
 \begin{figure}
 	\includegraphics[width=0.65\textwidth]{figures/xy-max-min-sigma-paper}
