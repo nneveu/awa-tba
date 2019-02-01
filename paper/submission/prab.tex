@@ -414,20 +414,8 @@ The \textsc{Pilot} component acts as a bridge between the optimizer and
   requests and results between the \textsc{Optimizer} and the
   \textsc{Simulation} modules.
 The framework was implemented in \texttt{C++}, utilizing features like template
-  parameters to specify the composition of the framework (shown in Listing 1).
-
-%\noindent\begin{minipage}{0.48\textwidth}
-%\noindent
-\begin{code}[Assembling the optimizer \\ from components]
-typedef InputFileParser	Input_t;
-typedef PisaVariator	Opt_t;
-typedef OpalSimulation	Sim_t;
-
-typedef Pilot< Input_t, Opt_t, Sim_t > Pilot_t;
-\end{code}
-%\end{minipage}
-The framework provides ``default'' implementations that can be controlled via
-  command line options.
+parameters to specify the composition of the framework.
+``Default'' implementations are provided that can be controlled via command line options.
 Due to its modular design, all components can be completely customized.
 
 Every available MPI process will take up one of the three available roles (see
@@ -562,32 +550,13 @@ In this stage, the AST can be evaluated bottom-up and the desired result is
 
 To improve the expressive power of objectives and constraints, a
   simple mechanism to define and call custom functions in expressions was introduced.
-Using simple functors, e.g. as the one shown in Listing 4, to compute an
+Using simple functors, to compute an
   average over a set of data points, enriches expressions with custom
   functions.
 Custom function implementations overload the \texttt{()} parenthesis operator.
 The function arguments specified in the corresponding expression are stored in
   a \texttt{std::vector} of Boost variants~\cite{boost2} that can be
   booleans, strings or floating point values.
-
-\begin{code}[Simple Average Functor]
-struct avg {
-
-    double operator()(
-      client::function::arguments_t args) const {
-
-        double limit = boost::get<double>(args[0]);
-        std::string filename =
-          boost::get<std::string>(args[1]);
-
-        double sum = 0.0;
-        for(int i = 0; i < limit; i++)
-            sum += getDataFromFile(filename, i);
-
-        return sum / limit;
-    }
-};
-\end{code}
 
 All custom functions are registered with expression objects.
 This is necessary to ensure that expressions know how they can resolve
@@ -712,14 +681,14 @@ Once installation is complete,
 the results shown here will guide future experiments at the AWA.
 
 In contrast to approaches that are tightly coupled to the optimization
-  algorithm, the range of possible applications is much wider.
+algorithm, the range of possible applications is much wider.
 Even in cases where the mathematical model of the forward solver is not known
-  exactly, fixed or on the real time measurements can be used to guide the
-  search for the Pareto optimal solutions.
-Finally, combining the presented multi-objective optimization framework with
-  a physicist long standing experience in the field provides a solid basis
-  for better understanding and improving the decision making process in the
-  design and operation of particle accelerators.
+exactly, fixed or on the real time measurements can be used to guide the
+search for the Pareto optimal solutions.
+Finally, combining a multi-objective optimization framework such as 
+the one presented with practical experience in the field should expedite 
+the decision making process in the design and operation of particle 
+accelerators.
 
  
 
