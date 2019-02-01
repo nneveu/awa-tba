@@ -19,6 +19,7 @@
 \usepackage{graphicx,xcolor,enumitem}
 \usepackage{booktabs}
 
+
 \lstnewenvironment{code}[1][]
 { \vspace{0.3cm}\footnotesize{\textsc{Code Listing \thelstmain: #1}}
   \hspace{0.1cm} \hrulefill
@@ -118,13 +119,13 @@ Achieving the required performance in the design, commissioning, and operation
 Despite the success of on-line models in some facilities~\cite{xiaobiao}, 
 and various model dependent and model independent tuning and optimization techniques, 
 empirical tuning by operators is a common method used at many research facilities.
-When the beam dynamics is non-linear, as is the case with space charge, 
+When the beam dynamics is nonlinear, as is the case with space charge, 
 simple and fast models are applicable only in a very restricted manner. 
-When it comes to multi-objective optimization, the situation is even more complicated.
+This further complicates any mult-objective optimization by complicating the model. 
 In order to be able to reliably identify optimal configurations of
   accelerators, we solve large multi-objective design optimization
   problems to automate the investigation for an optimal set of tuning parameters.
-  This approach has been used in the past with much success~\cite{hofler13,bazarov05,yrss:09,jefferson,gull1,gull2}.
+  This approach has been used in the past with much success~\cite{hofler13,bazarov05,yrss:09,jefferson,gull1,gull2,marija}.
 The difference here being the implementation and application to a 
 problem at the Argonne Wakefield Accelerator Facility (AWA).
 
@@ -134,7 +135,7 @@ accelerator research experiments to take place.  Not only do the
 physical machine components change, the beam characteristics also vary
 considerably to meet different needs.  The facility operates at both low
 and high charge (up to 100 nC), and at high charge strong nonlinearities
-require a full 3D space charge approach in simulations for modeling.  
+require a full 3D space charge approach in simulations.  
 Finding optics solutions in this regime, especially when
 there are additional constraints such as the small aperture two-beam
 accelerating structures, is challenging even without the quick
@@ -185,7 +186,7 @@ The framework discussed here, incorporates the following three contributions:
   \item demonstration of the usefulness of the proposed framework on a real world
         application in the domain of particle accelerators. This is done
         with the optimization problem set as 
-        the high charge photoinjector at the Argonne Wakefield Accelerator (AWA). 
+        the high charge photoinjector at the AWA. 
 \end{enumerate}
 
 The next section introduces the notation of multi-objective optimization
@@ -216,7 +217,7 @@ where $\bf f$ denotes the objectives (\ref{eq:moop:obj}),
   $\bf g$ the constraints (\ref{eq:moop:constr}),
   and $\bf x$ the design variables (\ref{eq:moop:dvar}).
 Often, conflicting objectives are encountered, and this complicates the concept of
-  optimality. \textit{Pareto optimality} is often used in such situations [].
+  optimality. \textit{Pareto optimality} is often used in such situations.
 The set of Pareto optimal points forms the Pareto front or
   surface.
 All points on this surface are considered to be Pareto optimal.
@@ -273,7 +274,7 @@ Figure~\ref{fig:varsel} schematically depicts the connection of the
 The process starts with an initially random population of individuals, each
   individual with a unique set of genes and corresponding fitness,
   representing one location in the search space.
-In a next step the population is processed by the selector
+In the next step, the population is processed by the selector
   determining the $k$ fittest individuals according to their fitness values.
 While the $k$ fittest individuals are passed to the variator, the
   remaining $n-k$ individuals are eliminated from the population.
@@ -329,7 +330,7 @@ Additionally, various crossover and mutation policies are available for tuning
 
 Simulation based multi-objective optimization problems are omnipresent in
   research and industry.
-The simulation and optimization problems arising in such problems are in
+These simulation and optimization problems are in
   general very big and computationally demanding.
 This motivated us to design a massively parallel general purpose framework.
 The key traits of such a design can be summarized as:
@@ -350,7 +351,7 @@ Several similar frameworks, e.g.~\cite{fide:09,lems:09,lbjt:07,dnld:06}, have
   been proposed.
 Commonly these frameworks are tightly coupled to an optimization algorithm,
   e.g.\ only providing evolutionary algorithms as optimizers.
-Users can merely specify optimization problems, but cannot change the
+Users can specify optimization problems, but cannot change the
   optimization algorithm.
 Our framework follows a more general approach, providing a user-friendly way
   to introduce new or choose from existing built-in multi-objective
@@ -358,7 +359,7 @@ Our framework follows a more general approach, providing a user-friendly way
 Tailoring the optimization algorithm to the optimization problem at hand is
   an important feature due to the many different characteristics of
   optimization problems that should be handled by such a general framework.
-As an example, it is shown how \textsc{Pisa} \cite{pisa}, an existing evolutionary
+As an example, it is shown how \textsc{Pisa}~\cite{pisa}, an existing evolutionary
   algorithm library, was integrated with ease.
 Similarly, other multi-objective algorithms could be incorporated and
   used to solve optimization problems.
@@ -435,7 +436,7 @@ Every available MPI process will take up one of the three available roles (see
   \textsc{Optimizer} roles.
 Both, the \textsc{Worker} and the \textsc{Optimizer} can consist of multiple
   MPI processes to exploit parallelism.
-As shown in Fig.~\ref{fig:opt-framework-layout} the \textsc{Pilot} is used
+As shown in Fig.~\ref{fig:opt-framework-layout}, the \textsc{Pilot} is used
   to coordinate all ``information requests'' between the \textsc{Optimizer}
   and the \textsc{Worker}.
 An information request is a job that consists of a set of design variables
@@ -447,8 +448,8 @@ Once the \textsc{Worker} has computed and evaluated the request its results
   are returned to the \textsc{Optimizer} that originally requested the
   information.
 
-After a process gets appointed a role it starts a polling loop asynchronously
-  checking for appropriate incoming requests.
+After a process gets appointed a role, it starts a polling loop to asynchronously
+  check for appropriate incoming requests.
 To that end a \textsc{Poller} interface helper class has been introduced.
 The \textsc{Poller} interface consists of an infinite loop that checks
   periodically for new MPI messages.
@@ -493,15 +494,15 @@ Hooks can be implemented as empty methods, but the \texttt{onMessage}
   implementation should reflect the optimization part of the protocol for
   handling events from the \textsc{Pilot}.
 A special set of communicator groups serves as communication channels to the
-  \textsc{Pilot} and its job queue and if existing to processes supporting the
+  \textsc{Pilot}, its job queue, and processes supporting the
   \textsc{Optimizer} component.
 
 
 \subsection{Implementing a Forward Solver}
 
-In most cases forward solver implementations are simple wrappers to run
+In most cases, forward solver implementations are simple wrappers to run
   an existing ``external'' simulation code using a set of design variables as
-  input. In case of the OPAL integration, basically the \texttt{main} function is
+  input. In the case of the OPAL integration, the \texttt{main} function is
   playing the role of the ``forward solver''. To underline the general nature of our approach, 
   in a similar project, the described methods are used for cavity shape optimisation based on \cite{ARBENZ2008381}. 
 As for the \textsc{Optimizer} component there exists a base class, labeled
@@ -518,33 +519,26 @@ virtual void collectResults() = 0;
 virtual reqVarContainer_t getResults() = 0;
 \end{code}
 
-First, upon receiving a new job, the \texttt{Worker} will call the
-  \texttt{run} method on the \textsc{Simulation} implementation.
-This expects the \textsc{Simulation} implementation to run the simulation in a
-  \textit{blocking} fashion, meaning the method call blocks and does not return
-  until the simulation has terminated.
+First, upon receiving a new job, the \texttt{Worker} will call the \texttt{run} 
+method on the \textsc{Simulation} implementation.
+This expects the \textsc{Simulation} implementation to run the simulation in a 
+\textit{blocking} fashion, meaning the method call blocks and does not return
+until the simulation has terminated.
 Subsequently, the \texttt{Worker} calls \texttt{collectResults}, where the
-  \textsc{Simulation} prepares the result data, e.g. parsing output files,
-  and stores the requested information in a \texttt{reqVarContainer\_t} data
-  structure.
-Finally, the results obtained with \texttt{getResults} are sent to the
-  \textsc{Pilot}.
-As before, the serialized data is exchanged using MPI point-to-point
-  communication using a specific set of communicators.
+\textsc{Simulation} prepares the result data, e.g. parsing output files,
+and stores the requested information in a \texttt{reqVarContainer\_t} data structure.
+Finally, the results obtained with \texttt{getResults} are sent to the \textsc{Pilot}. 
+As before, the serialized data is exchanged using MPI point-to-point communication using a specific set of communicators.
 
 
 \subsection{Specifying the Optimization Problem}
 
-We aimed at an easy and expressive way for users to specify multi-objective
-  optimization problems.
-Following the principle of keeping metadata (optimization and simulation
-  input data) together, we decided to embed the optimization problem
-  specification in the simulation input file by prefixing it with special
-  characters, e.g. as annotations prefixed with a special character.
-In some cases it might not be possible to annotate the simulation input file.
-By providing an extra input file parser, optimization problems can be read
-  from stand-alone files.
-
+We aimed at an easy and expressive way for users to specify multi-objective optimization problems.
+Following the principle of keeping metadata (optimization and simulation input data) together, 
+we decided to embed the optimization problem specification in the simulation input file by 
+prefixing it with special characters, e.g. as annotations prefixed with a special character.
+In some cases, it might not be possible to annotate the simulation input file.
+By providing an extra input file parser, optimization problems can be read from stand-alone files.
 To allow arbitrary constraints and objective expressions, such as
 %
 %{0.2cm}
@@ -555,21 +549,20 @@ To allow arbitrary constraints and objective expressions, such as
 %\vspace{0.2cm}
 %
 \noindent
-  An expression parser using Boost Spirit~\cite{boost} was implemented.
+An expression parser using Boost Spirit~\cite{boost} was implemented.
 In addition to the parser, we need an evaluator able to evaluate an expression,
-  given a parse tree and variable assignments to an actual value.
+given a parse tree and variable assignments to an actual value.
 Expressions arising in multi-objective optimization problems usually evaluate
-  to booleans or floating point values.
-The parse tree, also denoted abstract syntax tree (AST), is constructed
-  recursively while an expression is parsed.
-Upon evaluation, all unknown variables are replaced with values, either
-  obtained from simulation results or provided by other subtrees in the AST.
+to booleans or floating point values.
+The parse tree, also denoted abstract syntax tree (AST), is constructed recursively while an expression is parsed.
+Upon evaluation, all unknown variables are replaced with values, 
+either obtained from simulation results or provided by other subtrees in the AST.
 In this stage, the AST can be evaluated bottom-up and the desired result is
   returned after processing the root of the tree.
 
 To improve the expressive power of objectives and constraints, a
   simple mechanism to define and call custom functions in expressions was introduced.
-Using simple functors, e.g. as the one shown in Listing 4 to compute an
+Using simple functors, e.g. as the one shown in Listing 4, to compute an
   average over a set of data points, enriches expressions with custom
   functions.
 Custom function implementations overload the \texttt{()} parenthesis operator.
@@ -634,30 +627,28 @@ One major disadvantage of the master/slave implementation model is the fast
   saturation of the network links surrounding the master node.
 In \cite{bctg:09} authors observe an exponential increase in hot-spot latency
   with increasing number of workers that are attached to one master process.
-Clearly, the limiting factor is the number of outgoing links of a node in the
-  network topology and already for a few workers the links surrounding a
-  master process are subject to congestions.
+The limiting factor is the number of outgoing links of a node in the
+  network topology. For a few workers, the links surrounding a
+  master process are subject to congestion.
 This effect is amplified further by large message sizes.
 
 To that end we implemented a solution propagation based on rumor networks 
 (see \cite{bgps:06,ayss:09}) using only one-sided communication.
 This limits the number of messages sent over the already heavily used links
-  surrounding the master node and at the same time helps to prevent the use of
-  global communication.
-Using information about the interconnection network topology and the
-  application communication graph the task of assigning roles helps to further
-  improve the parallel performance.
+surrounding the master node and helps to prevent the use of
+global communication. Using information about the interconnection network topology and the
+application communication graph, the task of assigning roles helps to further
+improve the parallel performance.
 
 
 
 \section{FORWARD SOLVER} \label{sec:forward-solver}
 
 The framework contains a wrapper implementing the API mentioned in
-  Listing 3 for using \textsc{OPAL} \cite{opal} as the forward solver.
+  Listing 3 for using \textsc{OPAL}~\cite{opal} as the forward solver.
 \textsc{OPAL} provides different trackers for cyclotrons and linear
   accelerators with satisfactory parallel performance. 
-
-With access to the \textsc{OPAL} forward solver the framework is able to
+With access to the \textsc{OPAL} forward solver, the framework is able to
   tackle a multitude of optimization problems arising in the domain of
   particle accelerators.
   The framework is also integrated into \textsc{OPAL} so that users can 
@@ -668,14 +659,13 @@ With access to the \textsc{OPAL} forward solver the framework is able to
 % By abiding to the API from Listing 3 it becomes trivial to add new forward
 % solvers to the framework (see Appendix A).
 
-If the objectives and constraints are simple arithmetical expressions, the
-  \texttt{FunctionEvaluator} simulator can be used.
-Using functors and the default expression primitives already powerful
-  multi-objective optimization problems can be specified, i.e.\ the benchmark
-  problem presented in \cite{hbwh:05}:
+If the objectives and constraints are simple arithmetical expressions, 
+the \texttt{FunctionEvaluator} simulator can be used.
+Using functors and the default expression primitives, 
+multi-objective optimization problems can be specified, 
+i.e.\ the benchmark problem presented in \cite{hbwh:05}:
 %
 
-%\begin{strip}
 	\begin{widetext}
 		\begin{align} \label{eqn:bench}
 		\text{min} & \left[ 1 - \exp \left( -1 \left(

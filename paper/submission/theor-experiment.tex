@@ -1,7 +1,7 @@
 \section{EXPERIMENTS} \label{sec:experiments}
 
-In this section a numerical results of the validation benchmark and
-  optimization of a photoinjector operated in the space charge dominated regime is presented.
+In this section numerical results of the validation benchmark and optimization 
+of a photoinjector operated in the space charge dominated regime is presented.
 
 \subsection{Optimizer Validation}
 
@@ -14,16 +14,15 @@ In this section a numerical results of the validation benchmark and
   \label{fig:hypervolume}
 \end{figure}
 
-To ensure that the optimizer works correctly the benchmark
+To ensure that the optimizer works correctly, the benchmark
   problem (\ref{eqn:bench}) was solved.
-To that end, we use a metric for comparing the quality of a Pareto
-  front.
+To that end, we use a metric for comparing the quality of a Pareto front.
 Given a point in the Pareto set, we compute the $m$ dimensional volume (for
   $m$ objectives) of the dominated space, relative to a chosen origin.
 This is visualized for $2$ objectives in Fig.~\ref{fig:hypervolume}.
 For further information and details of the implementation see~\cite{whbb:12}.
 Figure~\ref{fig:pisa_bench} and the corresponding hypervolume values in
-  Table~\ref{tbl:bench_rms_error}, show expected convergence.
+  Table~\ref{tbl:bench_rms_error} show expected convergence.
 The reference Pareto front is clearly very well approximated.
 It took a total of 1100 function evaluations to perform this computation.
 The hypervolume of the reference solution ($0.6575$) for our benchmark was
@@ -45,16 +44,16 @@ The hypervolume of the reference solution ($0.6575$) for our benchmark was
     hypervolume of sampled reference solution.}
   \label{tbl:bench_rms_error}
   \begin{tabular}{c|c|c}
-    \hline\noalign{\smallskip}
+	\cline{1-3}
     tot.\ function  & hypervolume & relative error\\
     evaluations    & & \\
-    \noalign{\smallskip}\hline\noalign{\smallskip}
+	\cline{1-3}
     100  &  0.859753 & $3.076 \times 10^{-1}$ \\
     200  &  0.784943 & $1.938 \times 10^{-1}$ \\
     500  &  0.685183 & $4.210 \times 10^{-2}$ \\
     900  &  0.661898 & $6.689 \times 10^{-3}$ \\
     1100 &  0.657615 & $1.749 \times 10^{-4}$ \\
-    \noalign{\smallskip}\hline
+	\cline{1-3}
   \end{tabular}
 \end{center}
 \end{table}
@@ -137,23 +136,22 @@ with a small time step, the number of particles was fixed at 10,000.
 Next several time steps were explored, see Table~\ref{timestep}.
 The largest steps were too big to resolve the beam parameters accurately.
 See low fidelity plot in Fig.~\ref{tstep} for $dT=$\num{5E-11} results.  
-
 \begin{table}%[h!]
 	\begin{center}
 		\caption{Checkmarks (\cmark) indicate desired beam parameters are resolved at that time step. 
 			An (\xmark) indicates the time step is too large, and results are nonphysical.}
 		\label{timestep}
 		\begin{tabular*}{0.48\textwidth}{c|c|c|c}
-			\hline\noalign{\smallskip}
+	\cline{1-4}
 			Time Step, dT (s) \quad & Linac & Drift & Quadrupoles \\
-			\noalign{\smallskip}\hline\noalign{\smallskip}
+	\cline{1-4}
 			$5 \times10^{-10}$  & \xmark & \xmark & \xmark \\
 			$1 \times10^{-10}$  & \xmark & \xmark & \xmark \\
 			$5 \times10^{-11}$  & \xmark & \xmark & \xmark \\
 			$1 \times10^{-11}$  & \cmark & \cmark & \xmark \\
 			$5 \times10^{-12}$  & \cmark & \cmark & \xmark \\
 			$1 \times10^{-12}$  & \cmark & \cmark & \cmark \\
-			\noalign{\smallskip}\hline
+	\cline{1-4}
 		\end{tabular*}
 	\end{center}
 \end{table}
@@ -178,7 +176,7 @@ beam has low energy and changing rapidly.
 
 \begin{figure}%[h]
 	\centering
-	\includegraphics[width=\linewidth]{figures/timestep_comparison_paper}
+	\includegraphics[width=0.8\linewidth]{figures/timestep_comparison_paper}
 	\caption{Comparison of different fidelity models (dT stands for time step).}
 	\label{tstep}
 \end{figure}
@@ -198,23 +196,24 @@ and whether there was a time to solution difference.
 From here on, we will reference each experiment as ex-1, ex-2, ex-3, and ex-4
 as shown in Table \ref{extable}. 
 \begin{table}%[h!]
-	\begin{center}
-		\caption{Input Parameters for initial twenty four hour AWA optimization experiments. 
-			The gene mutation probability was equal to the mutation probability (not shown) in all four experiments. 
-			The max number of individuals per generation was~80.}
-		\label{extable}
-		\begin{tabular*}{0.48\textwidth}{l c|c|c}
-			& Gene Mutation \qquad& Recombination \qquad& Number of completed\vspace{-0.75em}\\
-			& Probability \qquad& Probability \qquad&  generations \\
-			\midrule
-			ex-1 &  0.1  & 0.9  &  96 \\
-			ex-2 &  0.3  & 0.7  &  81 \\
-			ex-3 &  0.8  & 0.2  &  53 \\
-			ex-4 &  0.01 & 0.09 &  95 \\
-		\end{tabular*}
-	\end{center}
+\begin{center}
+\caption{Input Parameters for initial twenty four hour AWA optimization experiments. 
+The gene mutation probability was equal to the mutation probability (not shown) in all four experiments. 
+The max number of individuals per generation was~80.}
+\label{extable}
+\begin{tabular}{c|c|c|c}
+\cline{1-4}
+& Gene Mutation \qquad& Recombination \qquad & Number of completed \vspace{-0.75em}\\
+Experiment & Probability & Probability &  generations \\ 
+\cline{1-4}
+ex-1 &  0.1  & 0.9  &  96 \\
+ex-2 &  0.3  & 0.7  &  81 \\
+ex-3 &  0.8  & 0.2  &  53 \\
+ex-4 &  0.01 & 0.09 &  95 \\ 
+\cline{1-4}
+\end{tabular}
+\end{center}
 \end{table}
-
 
 The maximum number of individuals per generation was fixed at 80. 
 This number was chosen based on the node architecture, and the 
@@ -413,10 +412,10 @@ More importantly, the optimization results should provide significant improvemen
 	\begin{center}
 		\caption{Input Parameters for the optimized solution shown in Figures~\ref{fig:pareto1} and \ref{fig:stat}.}
 		\label{tab:designopt}   
-		\begin{tabular}{lcc}
-			\toprule
+		\begin{tabular}{l|c|c}
+			\cline{1-3}
 			\textbf{Design Variable} \qquad \qquad & \textbf{Unit}	\quad&  \textbf{Value}  \\ 
-			\midrule
+			\cline{1-3}
 			{Buck Focusing Solenoid} \qquad \qquad & amps	\quad & 478 \\
 			Matching Solenoid &	amps	& 197	  \\
 			Quadrupole 1& T-m		& -0.8	\\ 
@@ -424,7 +423,7 @@ More importantly, the optimization results should provide significant improvemen
 			Quadrupole 3 & T-m		& 0.8	\\
 			Quadrupole 4 & T-m		& -1.0	\\ 
 			Bunch Length & mm 		& 1.5	\\
-			\bottomrule
+			\cline{1-3}
 		\end{tabular}
 	\end{center}
 \end{table}
