@@ -1,0 +1,267 @@
+\documentclass{article}
+\usepackage{latexsym}
+\usepackage{color}
+\setlength{\parskip}{3mm}
+\setlength{\parindent}{0pt}
+\usepackage[margin=1in]{geometry}
+
+\newcommand{\TODO}[1]{\color{green}\noindent[{\bf TODO: #1}]\color{black}}
+\newcommand{\atline}[1]{\color{red} Lines: #1\color{blue}}
+\begin{document}
+\title {Paper  \#ZW10157}
+\author {N. Neveu, et. al}
+
+\maketitle
+Dear reviewer and editors,
+
+Thank you for the additional comments.
+We have moved all code implementation details to appendices.
+In addition, further revisions have been made as suggested.
+We hope to show we value the constructive criticism provided.
+The details can be found in the following pages.
+
+With the best regards,  \\[3mm]
+ 
+Nicole Neveu, et. al
+
+\pagebreak
+
+{\bf REFEREE B (Remarks to Author), Version 2}
+
+
+My thanks, also, to the authors for updating the cited references.
+When blocks of references are provided, conventionally, they are
+listed chronologically to properly recognize the contributions of
+pioneers, and the authors should reorder their citations to follow
+this convention. 
+
+{\bf Our response:} {\color{blue} The references have been 
+	reordered chronologically, to recognize contribution order.}
+
+For the Evolutionary Algorithm/Genetic Algorithm
+(EA/GA)-based systems used in accelerator physics, I would ask them to
+reconsider their choice to omit references by C. Gong and Y.C. Chao as
+that optimization package allows users to define problems that use
+multiple simulation programs in parallel and in series with various
+interdependencies and execution times and manages all the complexity
+for the user. Based on my understanding of the authors' system, this
+is a common feature of both. The goal of publication is to introduce
+new work to the community and to also recognize similar contributions
+of others for comparison purposes.
+
+{\bf Our response:} {\color{blue} The following references provided in the 
+	referees first comments were added to the updated manuscript: 
+
+Y.C. Chao et al. "TRIUMF-VECC Electron Linac Beam Dynamics
+Optimization," ICAP09, San Francisco, 2009, THPSC012
+
+C. Gong and Y.C. Chao, "The TRIUMF Optimization Platform and
+Application to the E-LINAC Injector", ICAP2012, Rostock-Warnemunde,
+Germany, 2012, TUABI1
+
+C. Gong, A Novel Optimization Platform and Its Applications to the
+TRIUMF Energy Recovery Linac, Ph.D. thesis, The University of
+Columbia, October 2015
+
+C. Gong and Y.C. Chao, "The TRIUMF Optimization Platform and
+Application to the E-LINAC Injector", ICAP2015, Shanghai, China, 2015,
+THCWC4}
+
+
+
+I recognize the authors moved some of the source code listings to a
+GitHub repository (may not comply with PRAB publishing practices as
+PRAB provides Supplemental Materials storage and access on its web
+site for each paper providing Supplemental Materials). 
+
+{\bf Our response:} {\color{blue} The github link was removed,
+	and Appendix B was added to provide an example OPAL 
+	optimization input file.}
+
+
+
+
+I stand by my
+initial assessment and believe more can be summarized with details
+moved to Appendices or Supplemental Materials without diminishing the
+authors' accomplishments. It is true that ``computing and algorithms''
+are listed under PRAB's scope, but keeping the quite detailed
+explanations of the implementation and software listings risks losing
+readers interested in optimization systems in general. It would
+behoove the authors to note that both reviewers commented on this in
+different ways and that the recommendations were made with the goal of
+increasing readership and readability. The authors' choice to ignore
+the advice is shortsighted as it is possible to describe the
+complexity and novel features of the system to readers who are and are
+not adept computer programmers.
+
+As an aside to the authors, I believe ``computing and algorithms''
+were originally included in PRAB's scope to allow publications
+discussing novel or new software requirements or
+implementation details as they relate to applications specific to the
+accelerator physics community such as field solvers, beam dynamics
+codes, beam diagnostic data analysis, distributed control system
+designs and communication protocols, etc. Some examples that do so
+without detailed software implementation discussions include for
+distributed processing for EA/GAs Bazarov and Sinclair's 2005 paper
+and for methods for simulating coherent synchrotron radiation
+Borland's 2001 and Agoh and Yokoya's 2004 papers. The ``rumor
+network'' for message passing the authors employed may fall in the
+category of new or novel for its use in accelerator physics
+applications, but master/slave, C$++$ classes, inheritance, and
+functors do not. As suggested in my initial review, much of the latter
+can be summarized with the details moved to an Appendix or
+Supplemental Materials. Readers who are truly interested in that level
+of detail will go to the Appendices or Supplemental Materials. I
+recommend to the authors a question that managers often have to ask
+themselves: Is it more important to be right or effective? Do you want
+to be right on a technicality about ``computing and algorithms,'' or
+do you want to be effective in reaching as many readers as possible?
+
+Sundry proofreading corrections listed by section.
+
+I.
+
+paragraph 3
+NSGA-II is mentioned but not cited.
+
+II. A.
+
+paragraph 4
+By calling the selector --> Calling the selector
+
+paragraph 4
+also present in GPT's [ref] optimization system --> also
+present in Cornell's [2005 PRSTAB] and GPT's [ref] optimization
+systems
+(Note to the authors: Cornell's implementation in APISA pre-dates ALL
+of GPT's work with EA/GA's.)
+
+III. A.
+
+paragraph 2
+search algorithm to get stuck --> search algorithm getting
+stuck
+
+III. B.
+
+paragraph 3
+checking for idle WORKER --> checking for idle WORKERs
+
+Fig. 3 caption
+$r_k$ --> $r_1$
+
+Fig. 3 caption
+The work $W_j$ are beam dynamics simulation within OPAL.
+--> $W_j$ performs beam dynamics simulations within OPAL.
+
+III. C.
+
+paragraph 1
+shown in Listing 2 --> shown in Listing 1
+
+III. D.
+
+paragraph 1
+The author's use of ``approach'' is ambiguous because it could be
+interpreted as applying EA/GA multi-objective optimization to cavity
+geometries since the emphasis of the paper is on providing a flexible
+interface to EA/GAs or approach could mean the framework's software
+design which is what, I think, they meant to convey. The authors
+should make clear which ``approach'' they want the reader to consider.
+A suggested change is:
+
+general nature of our approach --> general nature of our
+framework's software design
+
+paragraph 1
+the API in Listing 3 --> the API in Listing 2
+
+paragraph 1
+for those three --> for three
+
+III. E.
+
+paragraph 1
+An expression parser --> an expression parser
+(Note to authors: ``an expression parser'' is a continuation of the
+sentence started before the code example introduced as an example.)
+
+paragraph 3
+As shown in Listing 5 --> As shown in Listing 3
+
+IV.
+
+paragraph 1
+in Listing 3 --> in Listing 1
+
+V. B. 2
+
+paragraph 2
+, and the to prevent --> and to prevent
+
+Table III description, paragraph 2, and paragraph 3
+twenty four --> twenty-four
+
+paragraph 3
+but from Fig. 9, but this is --> but from Fig. 9, this is
+
+paragraph 3
+15 less --> 15 fewer
+
+V. B. 3
+paragraph 2 (reported as corrected but is not in the version provided
+to reviewers)
+to to --> to
+
+V. B. 4
+Fig. 11 Vertical axis units are missing.
+
+
+
+
+{\bf REFEREE B (Remarks to Author), Version 1}
+
+
+
+
+\vspace{1em}
+
+
+That said, a general-purpose optimization system is a useful addition
+to the design tools for accelerators. The way to entice prospective
+users through PRAB is to introduce the system with a very brief
+general overview and then focus on the results obtained using the
+system. The detailed discussion of the design and implementation with
+code snippets should be provided as Supplemental Material. PRAB is not
+a computer journal. Salient implementation or design points if
+necessary can be summarized in short Appendices; the main discussion
+of the paper should be the optimization results not the details of the
+implementation and design. 
+
+subsections B-F:
+Replace with a brief overview and put the details in Supplemental
+Material
+
+{\bf Our response: } {\color{blue} This section has been shortened. However we would like to 
+leave the existing description, in order to drive home the fact that the framework can be 
+easily extended with other optimization algorithms.}
+
+Section VI: 
+Code and input file details should be in Supplemental Material
+
+Section V, subsection B:
+Code and input file details should be in Supplemental Material
+
+{\bf Our response:} {\color{blue} The code examples in sections VI-V have been removed from the updated manuscript. 
+	A sentence and link to the repository have been provided. Interested parties can refer to the repository.}
+
+
+
+ \end{document}
+ 
+
+
+
+
+
