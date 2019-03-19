@@ -457,7 +457,7 @@ Every \textsc{Poller} terminates the loop upon receiving a special MPI tag.
 \subsection{Implementing an Optimizer}
 
 All \textsc{Optimizer} implementations have to respect the API shown in
-Listing 2.
+Listing 1.
 
 %\noindent\begin{minipage}{0.48\textwidth}
 \begin{code}[Optimizer API]
@@ -493,14 +493,14 @@ A special set of communicator groups serves as communication channels to the
 In most cases, forward solver implementations are simple wrappers to run
   an existing ``external'' simulation code using a set of design variables as
   input. In the case of the OPAL integration, the \texttt{main} function is
-  playing the role of the ``forward solver''. To underline the general nature of our approach, 
+  playing the role of the ``forward solver''. To underline the general nature of our framework's software design, 
   in a similar project, the described methods are used for cavity shape optimisation based on \cite{ARBENZ2008381}. 
 As for the \textsc{Optimizer} component there exists a base class, labeled
   \texttt{Simulation} as common basis for all \textsc{Simulation}
   implementations.
 In addition, this component also inherits from the \texttt{Worker} class,
   already implementing the polling protocol for default worker types.
-As shown in the API in Listing 3, the \texttt{Worker} class expects an
+As shown in the API in Listing 2, the \texttt{Worker} class expects an
   implementation to provide implementations for three methods.
 
 \begin{code}[Simulation API]
@@ -539,7 +539,7 @@ To allow arbitrary constraints and objective expressions, such as
 %\vspace{0.2cm}
 %
 \noindent
-An expression parser using Boost Spirit~\cite{boost} was implemented.
+an expression parser using Boost Spirit~\cite{boost} was implemented.
 In addition to the parser, we need an evaluator able to evaluate an expression,
 given a parse tree and variable assignments to an actual value.
 Expressions arising in multi-objective optimization problems usually evaluate
@@ -563,7 +563,7 @@ The function arguments specified in the corresponding expression are stored in
 All custom functions are registered with expression objects.
 This is necessary to ensure that expressions know how they can resolve
   function calls in their AST.
-As shown in Listing 5 this is done by creating a collection of Boost
+As shown in Listing 3 this is done by creating a collection of Boost
   functions~\cite{boost3} corresponding to the
   available custom functions in expressions and passing this to the
   \textsc{Pilot}.
@@ -616,7 +616,7 @@ improve the parallel performance.
 \section{FORWARD SOLVER} \label{sec:forward-solver}
 
 The framework contains a wrapper implementing the API mentioned in
-  Listing 3 for using \textsc{OPAL}~\cite{opal} as the forward solver.
+  Listing 1 for using \textsc{OPAL}~\cite{opal} as the forward solver.
 \textsc{OPAL} provides different trackers for cyclotrons and linear
   accelerators with satisfactory parallel performance. 
 With access to the \textsc{OPAL} forward solver, the framework is able to
@@ -701,7 +701,7 @@ The authors thank the AWA team for contributing to the
 
 
 
-\section{Example Optimization File}
+\section{Example Optimization File}\label{ap:inputfile}
 
 This examples serves to show how a user can 
 set up a multiobjective optimization run 

@@ -117,7 +117,7 @@ the first four quadrupoles strengths.
 This problem encompasses high dimensionality 
 and nonlinear effects such as space charge. 
 Using this model it was possible to find good solutions that meet the 
-operational goals for the new beamline.  One of these solutions is 
+operational goals for the new beamline. One of these solutions is 
 presented in the next section.
 
 
@@ -192,7 +192,7 @@ From here on, we will reference each experiment as ex-1, ex-2, ex-3, and ex-4
 as shown in Table \ref{extable}. 
 \begin{table}%[h!]
 \begin{center}
-\caption{Input Parameters for initial twenty four hour AWA optimization experiments. 
+\caption{Input Parameters for initial twenty-four hour AWA optimization experiments. 
 The gene mutation probability was equal to the mutation probability (not shown) in all four experiments. 
 The max number of individuals per generation was~80.}
 \label{extable}
@@ -211,27 +211,28 @@ ex-4 &  0.01 & 0.09 &  95 \\
 \end{table}
 
 The maximum number of individuals per generation was fixed at 80. 
-This number was chosen based on the node architecture, and the 
+This number was chosen based on the node architecture, and  
 to prevent a prohibitive computational cost.  
-Each experiment was allowed to run for twenty four hours, with 
+Each experiment was allowed to run for twenty-four hours, with 
 a maximum generation limit of 100. 
 We reduced the six objectives to four, 
 and shortened the simulation time by moving the objectives further 
 upstream to $s_1$ and $s_2$, the locations before and after the kicker, 
 see Fig.~\ref{awa-tba}.  
 The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)$, $\text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
-The OPAL input file for these cases and all subsequent optimization runs in this paper, 
-can be found at in following repository: \url{https://github.com/nneveu/awa-tba}.
+An example OPAL input file, used to perform the optimization in ex-1, 
+can be found in Supplemental Material at [URL will be inserted by publisher].
+All other optimization runs in the paper use this input file format.
 
 After collection of the data for all four experiments, several metrics
-were compared, including number of generations completed in twenty four hours and
+were compared, including number of generations completed in twenty-four hours and
 Pareto fronts at $s_1$ and $s_2$, see Fig.~\ref{awa-linac}.
 From Table \ref{extable}, we clearly see ex-3 is significantly 
 slower, as it evaluated only 53 generations 
 compared to the experiment with the maximum number, ex-1 at 96 generations.
 Perhaps this trade off would be acceptable if the Pareto front was significantly 
-improved, but from Fig. \ref{expareto}, but this is not the case.
-Similar arguments can be made for ex-2, which evaluated about 15 less generations.
+improved, but from Fig. \ref{expareto}, this is not the case.
+Similar arguments can be made for ex-2, which evaluated about 15 fewer generations.
 The Pareto fronts at $s_2$, are nearly identical. It is expected
 this trend would continue given more time. 
 When looking at the Pareto front at $s_1$, only ex-4 has a slightly 
