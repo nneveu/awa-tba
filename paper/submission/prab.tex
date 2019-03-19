@@ -171,7 +171,7 @@ A ``pilot'' coordinates all efforts between the optimization algorithm and the
 This forms a robust and general framework for massively parallel
   multi-objective optimization.
 Currently the framework offers one concrete optimization algorithm, an
-  evolutionary algorithm employing a \textsc{NSGA-II} selector \cite{pisa}.
+  evolutionary algorithm employing a \textsc{NSGA-II} selector~\cite{dpam:02,pisa}.
 Normally, simulation based approaches are plagued by the trade off between
   level of detail and time to solution.
 This problem is addressed later in Section~(\ref{awa:subsection:test}) by using forward solvers with different time and
@@ -296,7 +296,7 @@ As shown in Fig.~\ref{fig:varsel}, the selector is in charge of ordering a
   currently in the population.
 The performance of a selector depends on the number of objectives and the
   surface of the search space.
-So far, the NSGA-II selector \cite{dpam:02} has been used and exhibits satisfactory
+So far, the NSGA-II selector~\cite{dpam:02} has been used and exhibits satisfactory
   convergence performance.
 
 The task of the variator is to generate offspring and ensure diversity in the
@@ -314,11 +314,12 @@ To counteract this effect, the selector is already called when two individuals
   generations and evaluating the performance of individuals.
 New offspring will be generated and MPI processes can immediately return to
   work on the next fitness evaluation.
-By calling the selector more frequently (already after two offspring
+Calling the selector more frequently (already after two offspring
   individuals have been evaluated) results in better populations since bad
   solutions are rejected earlier.
 On the other hand, calling the selector more often is computationally more
-  expensive. Note this capability is also present in GPT's~\cite{gpt} optimization system. 
+  expensive. Note this capability is also present in Cornell's~\cite{bazarov05} 
+  and GPT's~\cite{gpt} optimization system. 
 
 The variator implementation uses the master/slave architecture, presented in
   the next section, to run as many function evaluations as possible in parallel.
@@ -372,7 +373,7 @@ The authors propose a plug-in based framework employing an island
   parallelization model, where multiple populations are evaluated concurrently
   and independently up to a point where some number of individuals of the
   population are exchanged.
-This is especially useful to prevent the search algorithm to get stuck in
+This is especially useful to prevent the search algorithm getting stuck in
   a local minimum.
 A set of default plug-ins for genetic operators, selectors and other
   components of the algorithms are provided by their framework.
@@ -403,9 +404,9 @@ The framework is divided in three exchangeable components, as shown in
   \caption{Schematic view of messages passed within the network between the
     three roles.
   The dashed cyan path describes a request (job $j_1$) sent from $O_i$ to the
-  \textsc{Pilot} being handled by $W_j$. Subsequently the result $r_k$ is
-  returned to the requesting \textsc{Optimizer} ($O_i$). The work $W_j$ are beam dynamics 
-  simulation within OPAL.}
+  \textsc{Pilot} being handled by $W_j$. Subsequently the result $r_1$ is
+  returned to the requesting \textsc{Optimizer} ($O_i$). $W_j$ are beam dynamics 
+  simulations within OPAL.}
   \label{fig:opt-framework-layout}
 \end{figure}
 
@@ -431,7 +432,7 @@ As shown in Fig.~\ref{fig:opt-framework-layout}, the \textsc{Pilot} is used
 An information request is a job that consists of a set of design variables
   (e.g.~the genes of an individual) and a type of information it requests
   (e.g.~function evaluation or derivative).
-The \textsc{Pilot} keeps checking for idle \textsc{Worker} and assigns jobs
+The \textsc{Pilot} keeps checking for idle \textsc{Worker}s and assigns jobs
   in the queue to any free \textsc{Worker}.
 Once the \textsc{Worker} has computed and evaluated the request its results
   are returned to the \textsc{Optimizer} that originally requested the
@@ -624,10 +625,6 @@ With access to the \textsc{OPAL} forward solver, the framework is able to
   The framework is also integrated into \textsc{OPAL} so that users can 
   define optimization problems within an input file, requiring no 
   additional knowledge or installation of the API to use it.
-
-% AA: this is too much for Phys Rev. AB  
-% By abiding to the API from Listing 3 it becomes trivial to add new forward
-% solvers to the framework (see Appendix A).
 
 If the objectives and constraints are simple arithmetical expressions, 
 the \texttt{FunctionEvaluator} simulator can be used.
