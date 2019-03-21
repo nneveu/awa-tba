@@ -108,7 +108,6 @@ The framework is divided in three exchangeable components, as shown in
   simulations within OPAL.}
   \label{fig:opt-framework-layout}
 \end{figure}
-
 %
 The \textsc{Pilot} component acts as a bridge between the optimizer and
   forward solvers, providing the necessary functionality to handle passing
@@ -136,6 +135,16 @@ The \textsc{Pilot} keeps checking for idle \textsc{Worker}s and assigns jobs
 Once the \textsc{Worker} has computed and evaluated the request its results
   are returned to the \textsc{Optimizer} that originally requested the
   information.
+%
+\begin{figure}%[h!]
+	\center
+	\includegraphics[width=0.5\textwidth]{opt-framework_code}
+	\caption{Multi-objective framework: the pilot (master) solves the
+		optimization problem specified in the input file by coordinating optimizer
+		algorithms and workers running forward solves.}
+	\label{fig:framenetwork}
+\end{figure}
+  
 
 After a process gets appointed a role, it starts a polling loop to asynchronously
   check for appropriate incoming requests.
@@ -329,25 +338,8 @@ If the objectives and constraints are simple arithmetical expressions,
 the \texttt{FunctionEvaluator} simulator can be used.
 Using functors and the default expression primitives, 
 multi-objective optimization problems can be specified, 
-i.e.\ the benchmark problem presented in \cite{hbwh:05}:
-%
-
-	\begin{widetext}
-		\begin{align} \label{eqn:bench}
-		\text{min} & \left[ 1 - \exp \left( -1 \left(
-		\left(x_1 - \frac{1}{\sqrt{3}} \right)^2 +
-		\left(x_2 - \frac{1}{\sqrt{3}} \right)^2 +
-		\left(x_3 - \frac{1}{\sqrt{3}} \right)^2 \right)\right), \right. \\
-		\vspace{3em} 
-		& \left. 1 - \exp \left( -1 \left(
-		\left(x_1 + \frac{1}{\sqrt{3}} \right)^2 +
-		\left(x_2 + \frac{1}{\sqrt{3}} \right)^2 +
-		\left(x_3 + \frac{1}{\sqrt{3}} \right)^2 \right)\right) \right]^T \nonumber \\
-		\vspace{3em} \nonumber \\
-		\text{s.t.} \quad & \quad -1 \le x_i \le 1, \quad i=1,2,3 \nonumber
-		\text{.} \nonumber
-		\end{align}
-	\end{widetext}
+such as the benchmark problem presented in~\cite{hbwh:05}, 
+which was used for validation in Section IV, subsection A of the paper.
 
 
 
@@ -356,9 +348,54 @@ i.e.\ the benchmark problem presented in \cite{hbwh:05}:
 This examples serves to show how a user can 
 set up a multiobjective optimization run 
 within an OPAL input file. 
+The code that follows was used to perform ex-1 in 
+Section IV, subsection B of the paper. 
+The template file referenced as \verb|optLinac_40nC.tmpl| contained the 
+element definitions for the AWA beam line. 
 
-The code that follows was used to perfrom ex-1 in Section~\ref{sec:experiments}.
-
+\begin{verbatim}
+	OPTION, ECHO=FALSE;
+	OPTION, INFO=TRUE;
+	
+	TITLE, STRING="ANL Optimisation";
+	
+	dv0: DVAR, VARIABLE="IBF",    LOWERBOUND=200.0, UPPERBOUND=500.0;
+	dv1: DVAR, VARIABLE="IM",     LOWERBOUND=170.0, UPPERBOUND=260.0;
+	dv2: DVAR, VARIABLE="GPHASE", LOWERBOUND=-30.0, UPPERBOUND=0.0;
+	dv3: DVAR, VARIABLE="FWHM",   LOWERBOUND=1.5,   UPPERBOUND=10.0;
+	
+	// Quad values
+	dv4: DVAR, VARIABLE="KQ1", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv5: DVAR, VARIABLE="KQ2", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv6: DVAR, VARIABLE="KQ3", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	dv7: DVAR, VARIABLE="KQ4", LOWERBOUND=-8.0, UPPERBOUND=8.0;
+	
+	rmss1:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',16.5))";
+	emitx1: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',16.5))";
+	rmss2:  OBJECTIVE,EXPR="fabs(statVariableAt('rms_s',18.5))";
+	emitx2: OBJECTIVE,EXPR="fabs(statVariableAt('emit_x',18.5))";
+	c1: CONSTRAINT, EXPR="fabs(statVariableAt('rms_x',16.5))<1.0e-1";
+	c2: CONSTRAINT, EXPR="fabs(statVariableAt('rms_y',16.5))<1.0e-1";
+	
+	OPTIMIZE, INPUT="tmpl/optLinac_40nC.tmpl",
+	OUTPUT="optLinac_40nC",
+	OUTDIR="results",
+	OBJECTIVES = {rmss1, emitx1, rmss2, emitx2},
+	DVARS = {dv0, dv1, dv2, dv3, dv4, dv5, dv6, dv7},
+	CONSTRAINTS = {c1, c2},
+	INITIALPOPULATION=80,
+	MAXGENERATIONS=100,
+	NUM_MASTERS=1,
+	NUM_COWORKERS=8,
+	SIMTMPDIR="tmp",
+	TEMPLATEDIR="tmpl",
+	FIELDMAPDIR="fieldmaps",
+	NUM_IND_GEN=80,
+	GENE_MUTATION_PROBABILITY=0.1,
+	MUTATION_PROBABILITY=0.1,
+	RECOMBINATION_PROBABILITY=0.9;
+	QUIT;
+\end{verbatim}
 
 
 \bibliography{paper}

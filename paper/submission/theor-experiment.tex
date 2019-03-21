@@ -4,29 +4,46 @@ In this section numerical results of the validation benchmark and optimization
 of a photoinjector operated in the space charge dominated regime is presented.
 
 \subsection{Optimizer Validation}
-
-\begin{figure}
-    \centering
-      \includegraphics[width=0.4\linewidth]{hypervolume}
-  \caption{The hypervolume for a two-objective optimization problem
-  corresponds to the shaded area formed by the dashed rectangles spanned by
-  all points on the Pareto front and an arbitrary selected origin $p_o$.}
-  \label{fig:hypervolume}
-\end{figure}
-
-To ensure that the optimizer works correctly, the benchmark
-  problem (\ref{eqn:bench}) was solved.
+To ensure that the optimizer works correctly, the benchmark problem presented in~\cite{hbwh:05}, 
+  \begin{widetext}
+  	\begin{align} \label{eqn:bench}
+  	\text{min} & \left[ 1 - \exp \left( -1 \left(
+  	\left(x_1 - \frac{1}{\sqrt{3}} \right)^2 +
+  	\left(x_2 - \frac{1}{\sqrt{3}} \right)^2 +
+  	\left(x_3 - \frac{1}{\sqrt{3}} \right)^2 \right)\right), \right. \\
+  	\vspace{3em} 
+  	& \left. 1 - \exp \left( -1 \left(
+  	\left(x_1 + \frac{1}{\sqrt{3}} \right)^2 +
+  	\left(x_2 + \frac{1}{\sqrt{3}} \right)^2 +
+  	\left(x_3 + \frac{1}{\sqrt{3}} \right)^2 \right)\right) \right]^T \nonumber \\
+  	\vspace{3em} \nonumber \\
+  	\text{s.t.} \quad & \quad -1 \le x_i \le 1, \quad i=1,2,3 \nonumber
+  	\text{.} \nonumber
+  	\end{align}
+  \end{widetext}
+was solved with the framework.  
 To that end, we use a metric for comparing the quality of a Pareto front.
 Given a point in the Pareto set, we compute the $m$ dimensional volume (for
   $m$ objectives) of the dominated space, relative to a chosen origin.
 This is visualized for $2$ objectives in Fig.~\ref{fig:hypervolume}.
 For further information and details of the implementation see~\cite{whbb:12}.
-Figure~\ref{fig:pisa_bench} and the corresponding hypervolume values in
-  Table~\ref{tbl:bench_rms_error} show expected convergence.
-The reference Pareto front is clearly very well approximated.
+Figure~\ref{fig:pisa_bench}, and the corresponding hypervolume values in
+Table~\ref{tbl:bench_rms_error}, show expected convergence.
+The reference Pareto front is well approximated.
 It took a total of 1100 function evaluations to perform this computation.
 The hypervolume of the reference solution ($0.6575$) for our benchmark was
  computed by sampling the solution provided in~\cite{hbwh:05}.
+ Table~\ref{tbl:bench_rms_error} shows satisfactory
+ convergence to the sampled reference Pareto front after 1000 (plus the
+ additional 100 evaluations for the initial population) function evaluations.
+ \begin{figure}
+ 	\centering
+ 	\includegraphics[width=0.4\linewidth]{hypervolume}
+ 	\caption{The hypervolume for a two-objective optimization problem
+ 		corresponds to the shaded area formed by the dashed rectangles spanned by
+ 		all points on the Pareto front and an arbitrary selected origin $p_o$.}
+ 	\label{fig:hypervolume}
+ \end{figure}
 \begin{figure}
   \centering
     \includegraphics[width=0.6\linewidth]{valid_front}
@@ -55,9 +72,7 @@ The hypervolume of the reference solution ($0.6575$) for our benchmark was
   \end{tabular}
 \end{center}
 \end{table}
-Table~\ref{tbl:bench_rms_error} shows satisfactory
-  convergence to the sampled reference Pareto front after 1000 (plus the
-  additional 100 evaluations for the initial population) function evaluations.
+
 
 
 
@@ -71,7 +86,7 @@ As shown in Fig.~\ref{awa-linac}, the installed portion of the the
 beam line consists of an rf photocathode gun, 
 two solenoids, and six linear accelerating cavities
 followed by four quadrupoles and a stripline kicker. 
-The charge of interest, 40 nC, is needed for two beam acceleration (TBA) 
+The charge of interest, \SI{40}{nC}, is needed for two beam acceleration (TBA) 
 experiments performed at the AWA~\cite{gai_power_jing_2012,JING201872}, 
 which motivates this work. 
 Prior experimental results were limited by beam size when the beam passed through small aperture 
@@ -195,6 +210,7 @@ as shown in Table \ref{extable}.
 \caption{Input Parameters for initial twenty-four hour AWA optimization experiments. 
 The gene mutation probability was equal to the mutation probability (not shown) in all four experiments. 
 The max number of individuals per generation was~80.}
+\vspace{1em}
 \label{extable}
 \begin{tabular}{c|c|c|c}
 \cline{1-4}
@@ -222,7 +238,7 @@ see Fig.~\ref{awa-tba}.
 The objectives include: $\varepsilon_{x}\left(s = s_1\right)\text{, } \varepsilon_{x}\left(s = s_2\right)$, $\text{rms}_{s}\left(s = s_1\right)\text{, and }  \text{rms}_{s}\left(s = s_2\right)$. 
 An example OPAL input file, used to perform the optimization in ex-1, 
 can be found in Supplemental Material at [URL will be inserted by publisher].
-All other optimization runs in the paper use this input file format.
+All other optimization runs in the paper follow this template.
 
 After collection of the data for all four experiments, several metrics
 were compared, including number of generations completed in twenty-four hours and
@@ -407,7 +423,8 @@ in efficiency for achieving a good operational regime.
 \begin{table}%[h!]
 	\begin{center}
 		\caption{Input Parameters for the optimized solution shown in Figures~\ref{fig:pareto1} and \ref{fig:stat}.}
-		\label{tab:designopt}   
+		\label{tab:designopt}  
+		\vspace{1em} 
 		\begin{tabular}{l|c|c}
 			\cline{1-3}
 			\textbf{Design Variable} \qquad \qquad & \textbf{Unit}	\quad&  \textbf{Value}  \\ 

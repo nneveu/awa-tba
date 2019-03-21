@@ -193,10 +193,10 @@ The framework used here, incorporates the following three contributions:
 
 The next section introduces the notation of multi-objective optimization
 theory and describes the first implemented optimizer.
-In Section~\ref{sec:framework}, the implementation of the framework is discussed.
-We introduce the employed forward-solver in Section~\ref{sec:forward-solver}.
 A validation and a proof of concept application in the beam dynamics problems 
 mentioned above is discussed in Section~\ref{sec:experiments}.
+The implementation of the framework and forward-solver is 
+discussed in Supplemental Material at [URL will be inserted by publisher].
 
 
 \section{MULTI-OBJECTIVE OPTIMIZATION} \label{sec:optimization}
@@ -346,7 +346,6 @@ The key traits of such a design can be summarized as:
   \item run efficiently in parallel on current large-scale high-end clusters
         and supercomputers.
 \end{itemize}
-%
 
 \subsection{Related Work}
 
@@ -367,7 +366,7 @@ As an example, it is shown how \textsc{Pisa}~\cite{pisa}, an existing evolutiona
 Similarly, other multi-objective algorithms could be incorporated and
   used to solve optimization problems.
 
-The framework presented in \cite{lems:09} resembles our implementation the
+The framework presented in~\cite{lems:09} resembles our implementation the
   most, aside from their tight coupling with an evolutionary algorithm
   optimization strategy.
 The authors propose a plug-in based framework employing an island
@@ -379,7 +378,7 @@ This is especially useful to prevent the search algorithm getting stuck in
 A set of default plug-ins for genetic operators, selectors and other
   components of the algorithms are provided by their framework.
 User-based plug-ins can be incorporated into the framework by implementing a
-  simple set of functions.
+  simple set of functions (See Supplemental Material).
 
 Additionally, as with simulation based multi-objective optimization, we can
   exploit the fact that both the optimizer and simulation part of the process
